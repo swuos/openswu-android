@@ -10,16 +10,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-
 import com.swuos.ALLFragment.library.libsearchs.search.adapter.RecycleAdapterSearch;
-import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchBookItem;
+import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchResult;
 import com.swuos.ALLFragment.library.libsearchs.search.presenter.ILibSearchPresenter;
 import com.swuos.ALLFragment.library.libsearchs.search.presenter.LibSearchPresenterCompl;
+import com.swuos.ALLFragment.library.libsearchs.search.view.EndLessOnScrollListener;
 import com.swuos.ALLFragment.library.libsearchs.search.view.ILibSearchView;
 import com.swuos.swuassistant.BaseActivity;
 import com.swuos.swuassistant.R;
-
-import java.util.List;
 
 
 /**
@@ -33,6 +31,7 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
     private Toolbar toolbar;
     private RecycleAdapterSearch recycleAdapterSearch;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private EndLessOnScrollListener endLessOnScrollListener;
 
 
     @Override
@@ -55,11 +54,20 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
         searchView.requestFocus();
 
         swipeRefreshLayout.setOnRefreshListener(this);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recycleAdapterSearch = new RecycleAdapterSearch(this);
+        recyclerView.setAdapter(recycleAdapterSearch);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        endLessOnScrollListener = new EndLessOnScrollListener(linearLayoutManager, recycleAdapterSearch) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                libSearchPresenter.SearchMore(currentPage);
+            }
+        };
+        recyclerView.addOnScrollListener(endLessOnScrollListener);
 
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
-        //        recyclerView.addItemDecoration(new MyItemDecoration(this));
+
     }
 
     private void bindview() {
@@ -71,11 +79,17 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
     }
 
     @Override
-    public void ShowResult(List<SearchBookItem> searchBookItemList) {
+    public void ShowResult(SearchResult searchResult) {
         swipeRefreshLayout.setRefreshing(false);
-        recycleAdapterSearch = new RecycleAdapterSearch(this, searchBookItemList);
         recycleAdapterSearch.setOnRecyclerItemClickListener(this);
         recyclerView.setAdapter(recycleAdapterSearch);
+        recycleAdapterSearch.firstAdd(searchResult);
+        recycleAdapterSearch.notifyDataSetChanged();
+    }
+
+    @Override
+    public void ShowMore(SearchResult searchResult) {
+        recycleAdapterSearch.addMore(searchResult);
         recycleAdapterSearch.notifyDataSetChanged();
     }
 
@@ -89,7 +103,9 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
     public boolean onQueryTextSubmit(String query) {
         swipeRefreshLayout.setRefreshing(true);
 
+        endLessOnScrollListener.clean();
         if (!TextUtils.isEmpty(query)) {
+            recycleAdapterSearch.clear();
             libSearchPresenter.cancelSearch();
             libSearchPresenter.firstSearch(query);
         }
@@ -107,6 +123,7 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
     public void onRefresh() {
         String query = searchView.getQuery().toString();
         if (!TextUtils.isEmpty(query)) {
+            recycleAdapterSearch.clear();
             libSearchPresenter.cancelSearch();
             libSearchPresenter.firstSearch(query);
         }
@@ -117,4 +134,6 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
         Toast.makeText(this, libSearchPresenter.getSearchBookItemList().get(position).getBookName(), Toast.LENGTH_SHORT).show();
 
     }
+
+
 }

@@ -3,6 +3,7 @@ package com.swuos.ALLFragment.library.libsearchs.search.model.parse;
 
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.BookStoreInfo;
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchBookItem;
+import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchResult;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,10 +18,13 @@ import java.util.List;
  * Created by 张孟尧 on 2016/9/3.
  */
 public class LibParse {
-    public static List<SearchBookItem> getSearchList(String resulthtml) {
+    public static SearchResult getSearchList(String resulthtml) {
+        SearchResult searchResult=new SearchResult();
         List<SearchBookItem> searchBookItemList = new ArrayList<>();
         Document document = Jsoup.parse(resulthtml);
-
+        String sizetemp=document.getElementsByAttributeValue("id", "LblpageInfor").get(0).text();
+        int size= Integer.parseInt(sizetemp.substring(6,sizetemp.indexOf(" 耗时")));
+        searchResult.setBookSize(size);
         Elements elements = document.getElementsByAttributeValue("bordercolor", "#76BCD6");
         Elements ll = elements.get(0).getElementsByAttributeValueEnding("id", "LabeBookName");
         for (Element pp : ll) {
@@ -37,7 +41,8 @@ public class LibParse {
             searchBookItem.setBookNumber(rr.get(5).text());
             searchBookItemList.add(searchBookItem);
         }
-        return searchBookItemList;
+        searchResult.setSearchbookItemList(searchBookItemList);
+        return searchResult;
     }
 
     public static List<BookStoreInfo> getBookDetail(String resulthtml) {

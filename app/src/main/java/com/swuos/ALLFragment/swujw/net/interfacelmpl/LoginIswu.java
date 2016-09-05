@@ -1,7 +1,9 @@
-package com.swuos.net.interfacelmpl;
+package com.swuos.ALLFragment.swujw.net.interfacelmpl;
 
 
-import com.swuos.net.jsona.LoginJson;
+
+
+import com.swuos.ALLFragment.swujw.net.jsona.LoginJson;
 
 import retrofit2.http.*;
 import rx.Observable;

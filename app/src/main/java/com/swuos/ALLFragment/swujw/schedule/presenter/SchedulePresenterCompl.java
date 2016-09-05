@@ -5,12 +5,13 @@ import android.content.SharedPreferences;
 import android.util.Base64;
 
 import com.google.gson.Gson;
+
 import com.swuos.ALLFragment.swujw.TotalInfos;
+import com.swuos.ALLFragment.swujw.net.api.SwuApi;
+import com.swuos.ALLFragment.swujw.net.jsona.LoginJson;
 import com.swuos.ALLFragment.swujw.schedule.model.Schedule;
 import com.swuos.ALLFragment.swujw.schedule.model.ScheduleData;
 import com.swuos.ALLFragment.swujw.schedule.view.IScheduleView;
-import com.swuos.net.api.SwuApi;
-import com.swuos.net.jsona.LoginJson;
 import com.swuos.swuassistant.Constant;
 import com.swuos.util.SALog;
 
@@ -133,7 +134,7 @@ public class SchedulePresenterCompl implements ISchedulePresenter {
         //            }
         //        });
 
-        SwuApi.jwSchedule().getSchedule(totalInfos.getSwuID(), xnm, xqm).flatMap(new Func1<String, Observable<?>>() {
+  SwuApi.jwSchedule().getSchedule(totalInfos.getSwuID(), xnm, xqm).flatMap(new Func1<String, Observable<?>>() {
             @Override
             public Observable<?> call(String s) {
                 if (s.contains("登录超时"))

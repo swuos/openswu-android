@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+
 import com.swuos.ALLFragment.swujw.TotalInfos;
 import com.swuos.ALLFragment.swujw.schedule.model.CurrentWeek;
 import com.swuos.ALLFragment.swujw.schedule.model.ScheduleData;

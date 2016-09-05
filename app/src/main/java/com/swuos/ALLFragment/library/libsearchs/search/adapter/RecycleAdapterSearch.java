@@ -9,10 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchBookItem;
+import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchResult;
 import com.swuos.swuassistant.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,16 +22,15 @@ import java.util.List;
  */
 public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<SearchBookItem> searchBookItemList;
+    private List<SearchBookItem> searchBookItemList = new ArrayList<>();
     private OnRecyclerItemClickedListener listener;
-    private boolean mOpenLoadMore = true;
+    private boolean mOpenLoadMore = false;
+    private int allBookSize;
     private int FOOTER_VIEW = 1;
     private int ITEM_VIEW = 0;
 
-    public RecycleAdapterSearch(Context context, List<SearchBookItem> searchBookItemList) {
+    public RecycleAdapterSearch(Context context) {
         this.context = context;
-        this.searchBookItemList = searchBookItemList;
-        this.mOpenLoadMore = mOpenLoadMore;
     }
 
     @Override
@@ -62,6 +62,12 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
         } else if (holder instanceof FooterViewHolder) {
+            if (!mOpenLoadMore) {
+                holder.itemView.setVisibility(View.INVISIBLE);
+            } else
+                holder.itemView.setVisibility(View.VISIBLE);
+
+
         }
     }
 
@@ -88,6 +94,34 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
     private boolean isFooterView(int position) {
         return position + 1 == getItemCount();
+    }
+
+    public void firstAdd(SearchResult searchResult) {
+        allBookSize = searchResult.getBookSize();
+
+        this.searchBookItemList.clear();
+        searchBookItemList.addAll(searchResult.getSearchbookItemList());
+        if (searchBookItemList.size() < allBookSize) {
+            mOpenLoadMore = true;
+        } else {mOpenLoadMore = false;}
+
+        notifyDataSetChanged();
+    }
+public void clear()
+{
+    searchBookItemList.clear();
+    mOpenLoadMore=false;
+}
+    public void addMore(SearchResult searchResult) {
+        if (searchBookItemList.size() < allBookSize) {
+            mOpenLoadMore = true;
+        } else {mOpenLoadMore = false;}
+        searchBookItemList.addAll(searchResult.getSearchbookItemList());
+        notifyDataSetChanged();
+    }
+
+    public boolean ismOpenLoadMore() {
+        return mOpenLoadMore;
     }
 
     public interface OnRecyclerItemClickedListener {

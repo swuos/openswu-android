@@ -1,7 +1,10 @@
 package com.swuos.ALLFragment.swujw.grade.model;
 
 import com.google.gson.Gson;
+
 import com.swuos.ALLFragment.swujw.TotalInfos;
+import com.swuos.ALLFragment.swujw.grade.model.GradeItem;
+import com.swuos.ALLFragment.swujw.grade.model.GradesData;
 import com.swuos.net.OkhttpNet;
 import com.swuos.swuassistant.Constant;
 

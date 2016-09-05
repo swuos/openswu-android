@@ -10,11 +10,12 @@ import java.util.List;
  */
 
 public interface ILibSearchPresenter {
-    void SearchMore(String bookName);
+    void SearchMore(int currentPage);
 
     void firstSearch(String bookName);
 
     void cancelSearch();
+
 
     List<SearchBookItem> getSearchBookItemList();
 }

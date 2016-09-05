@@ -16,16 +16,19 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.swuos.ALLFragment.BaseFragment;
+
+import com.swuos.ALLFragment.swujw.schedule.adapter.ScheduleViewpagerAdapter;
 import com.swuos.ALLFragment.swujw.schedule.model.CurrentWeek;
 import com.swuos.ALLFragment.swujw.schedule.presenter.ISchedulePresenter;
 import com.swuos.ALLFragment.swujw.schedule.presenter.SchedulePresenterCompl;
 import com.swuos.ALLFragment.swujw.schedule.view.IScheduleView;
-import com.swuos.ALLFragment.swujw.schedule.adapter.ScheduleViewpagerAdapter;
 import com.swuos.swuassistant.R;
 import com.swuos.util.SALog;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 /**
  * Created by 张孟尧 on 2016/2/29.
