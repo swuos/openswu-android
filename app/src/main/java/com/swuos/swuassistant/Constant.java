@@ -135,6 +135,30 @@ public class Constant {
     public static final String libraryCollectingAddress = "http://202.202.121.10/xndxrfidweb/TSDW/GotoFlash.aspx?szBarCode=";
 
 
+    public static final int LIB_LOGIN_SUCCESS = 1;
+    public static final int LIB_LOGIN_INVALID_PD = 2;
+    public static final int LIB_LOGIN_INVALID_ID = 3;
+    public static final int LIB_LOGIN_FAILED = 4;
+    public static final String LIB_LOGIN_RESULT_CONTENT = "login_result_content";
+    public static final String LIB_LOGIN_RESULT_FLAG = "login_result_flag";
+
+    public static final String LIB_NO = "LblNo";  //内部编号
+    public static final String LIB_CARD_NO = "LblCardNO";  //借书证号
+    public static final String LIB_READER_BAR = "LblCarcCode";  //读者条码
+    public static final String LIB_READER_NAME = "LblreaderName"; //姓名
+    public static final String LIB_READER_SEX = "LblReaderSex";  //性别
+    public static final String LIB_READER_UNIT = "LblReaderUnit"; //单位
+    public static final String LIB_DEBT = "LblQfk"; //欠罚款
+    public static final String LIB_PAY = "LblQpK"; //欠赔款
+    public static final String LIB_BORROW_COUNT = "LblBrooyCount"; //已外借
+
+
+    public static final String LIB_BOOK_LATEST_OP_TIME = "latestOpTime"; //最近一次操作时间
+    public static final String LIB_BOOK_LATEST_OP_KIND = "latestOpKind"; //最近一次操作种类
+    public static final String LIB_BOOK_FIRST_OP_TIME = "firstOpTime"; //第一次操作时间
+    public static final String LIB_BOOK_FIRST_OP_KIND = "firstOpKind"; //第一次操作种类
+
+
     public static final int[] background = {R.color.colorclass1, R.color.colorclass2, R.color.colorclass3, R.color.colorclass4, R.color.colorclass5, R.color.colorclass6};
     public static final String[] SCHEDULE_WEEK_TITLE = {"整学期", "第一周", "第二周", "第三周", "第四周", "第五周", "第六周", "第七周", "第八周", "第九周", "第十周", "第十一周", "第十二周", "第十三周", "第十四周", "第十五周", "第十六周", "第十七周", "第十八周", "第十九周", "第二十周"};
     public static final String[] STARTIME = {"8:00", "8:50", "9:40", "10:40", "11:30", "12:30", "13:50", "14:30", "15:20", "16:10", "17:00", "19:00", "19:50", "20:40"};

@@ -1,9 +1,13 @@
 package com.swuos.ALLFragment.library.lib.presenter;
 
 
-import com.swuos.ALLFragment.library.lib.model.BookItem;
-import com.swuos.ALLFragment.library.lib.utils.LibMainTools;
+import android.os.Bundle;
+
+import com.swuos.ALLFragment.library.lib.model.BookBean2;
+import com.swuos.ALLFragment.library.lib.utils.LibTools;
 import com.swuos.ALLFragment.library.lib.views.ILibView;
+import com.swuos.swuassistant.Constant;
+import com.swuos.util.SALog;
 
 import java.util.List;
 
@@ -13,20 +17,30 @@ import java.util.List;
  */
 public class LibPresenterImp implements ILibPresenter {
     private ILibView iLibView;
-    private LibMainTools libMainTools;
-    private boolean isLogined = false;
     public static final int FAILED = 0;
     public static final int SUCCEED = 1;
+
+    private int flag;
 
     public LibPresenterImp(ILibView iLibView) {
         this.iLibView = iLibView;
 
     }
 
-    public boolean getUserInfos(String name, String pd) {
-        libMainTools = new LibMainTools(name, pd);
-        isLogined= libMainTools.getUserInfo();
-        return isLogined;
+    public int getUserInfos(String id, String pd) {
+        Bundle bundle = LibTools.libLogin(id, pd);
+        flag = bundle.getInt(Constant.LIB_LOGIN_RESULT_FLAG);
+
+        if (flag == Constant.LIB_LOGIN_SUCCESS) {
+
+        } else if (flag == Constant.LIB_LOGIN_FAILED) {
+
+        } else if (flag == Constant.LIB_LOGIN_INVALID_ID) {
+
+        } else if (flag == Constant.LIB_LOGIN_INVALID_PD) {
+
+        }
+        return flag;
     }
 
     @Override
@@ -41,15 +55,37 @@ public class LibPresenterImp implements ILibPresenter {
 
     @Override
     public void updateBookItems() {
-        if (!isLogined) {
-            iLibView.onUpdateBookItems(FAILED, null);
-        } else {
-            List<BookItem> bookHistory = libMainTools.getBookHistory();
+        if (flag == Constant.LIB_LOGIN_SUCCESS) {
+            SALog.d("kklog", "updateBookItems flag==LibTools.LIB_LOGIN_SUCCESS");
+//            if(html.isEmpty() || html==null || html.equals("")){
+//                SALog.d("kklog", "updateBookItems html is empty");
+//            }else{
+//                SALog.d("kklog", "updateBookItems html not empty");
+//                SALog.d("kklog", "updateBookItems html ===>"+html);
+//            }
+
+//            List<BookBean2> bookHistory = ParserInfo.parserBorrowHtml(html);
+            List<BookBean2> bookHistory = LibTools.getBorrowInfo();
+            if (bookHistory.isEmpty()) {
+                SALog.d("kklog", "updateBookItems flag==LibTools.LIB_LOGIN_SUCCESS isEmpty");
+            }else{
+                SALog.d("kklog", "updateBookItems flag==LibTools.LIB_LOGIN_SUCCESS not empty");
+            }
+            if (bookHistory==null) {
+                SALog.d("kklog", "updateBookItems flag==LibTools.LIB_LOGIN_SUCCESS null");
+            }else{
+                SALog.d("kklog", "updateBookItems flag==LibTools.LIB_LOGIN_SUCCESS not null");
+            }
             if (bookHistory == null || bookHistory.isEmpty()) {
+                SALog.d("kklog", "updateBookItems flag==LibTools.LIB_LOGIN_SUCCESS if");
                 iLibView.onUpdateBookItems(FAILED, null);
             } else {
+                SALog.d("kklog", "updateBookItems flag==LibTools.LIB_LOGIN_SUCCESS else");
                 iLibView.onUpdateBookItems(SUCCEED, bookHistory);
             }
+        } else {
+            SALog.d("kklog", "updateBookItems else");
+            iLibView.onUpdateBookItems(FAILED, null);
         }
     }
 

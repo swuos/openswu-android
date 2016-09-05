@@ -20,11 +20,14 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.swuos.ALLFragment.card.MyItemDecoration;
+import com.swuos.ALLFragment.library.lib.MyItemDecoration;
 import com.swuos.ALLFragment.library.lib.adapters.RecyclerAdapterLibMain;
-import com.swuos.ALLFragment.library.lib.model.BookItem;
+import com.swuos.ALLFragment.library.lib.model.BookBean2;
 import com.swuos.ALLFragment.library.lib.presenter.ILibPresenter;
 import com.swuos.ALLFragment.library.lib.presenter.LibPresenterImp;
+import com.swuos.ALLFragment.library.lib.utils.LibTools;
+import com.swuos.ALLFragment.library.lib.utils.ParserInfo;
+import com.swuos.swuassistant.Constant;
 import com.swuos.swuassistant.R;
 import com.swuos.util.SALog;
 
@@ -42,7 +45,7 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
     private SwipeRefreshLayout swipeRefreshLayout;
     private ILibPresenter iLibPresenter;
     private ProgressDialog progressDialog;
-    private List<BookItem> bookItems;
+    private List<BookBean2> bookBeen;
     private String userName;
     private String passwd;
     private boolean isLogin = false;
@@ -58,7 +61,7 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
                     iLibPresenter.setProgressDialogVisible(View.GONE);
                     iLibPresenter.setErrorLayoutVisible(View.GONE);
                     Toast.makeText(getContext(), "获取数据成功！！", Toast.LENGTH_SHORT).show();
-                    recyclerAdapter = new RecyclerAdapterLibMain(getContext(), bookItems);
+                    recyclerAdapter = new RecyclerAdapterLibMain(getContext(), bookBeen);
                     recyclerView.setAdapter(recyclerAdapter);
                     recyclerAdapter.notifyDataSetChanged();
                     recyclerAdapter.setRecyclerItemClickedListener(LibFragment.this);
@@ -83,15 +86,18 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         SALog.d("kklog", "onCreateView");
-        View view = inflater.inflate(R.layout.lib_fragment, container, false);
+        final View view = inflater.inflate(R.layout.lib_fragment, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewLibMain);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLibMain);
         linearLayoutError = (LinearLayout) view.findViewById(R.id.linearLayoutLibError);
         iLibPresenter = new LibPresenterImp(this);
         initDialog();
         sharedPreferences = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        userName = sharedPreferences.getString("userName", "nothing");
-        passwd = sharedPreferences.getString("password", "nothing");
+        userName = sharedPreferences.getString("swuID", "nothing");
+        passwd="1234567890";
+//        passwd = sharedPreferences.getString("password", "nothing");
+//        userName="222014321210029";
+        SALog.d("kklog","onCreateView() userName==>"+userName);
         if (userName.equals("nothing") || passwd.equals("nothing")) { //表示未登录
             iLibPresenter.setTipDialogVisible(View.VISIBLE);
             iLibPresenter.setErrorLayoutVisible(View.VISIBLE);
@@ -101,15 +107,14 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    boolean userInfos = ((LibPresenterImp) iLibPresenter).getUserInfos(userName, passwd);
-                    if (userInfos) {
+                    int  flag = ((LibPresenterImp) iLibPresenter).getUserInfos(userName, passwd);
+                    if (flag== Constant.LIB_LOGIN_SUCCESS) {
                         iLibPresenter.updateBookItems();
                     } else {
                         mHandler.sendEmptyMessage(2);
                     }
                 }
             }).start();
-
         }
         return view;
     }
@@ -137,6 +142,8 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("加载中...");
         linearLayoutError.setOnClickListener(this);
+
+
         if (isLogin) {
             iLibPresenter.setProgressDialogVisible(View.VISIBLE);
             iLibPresenter.setErrorLayoutVisible(View.GONE);
@@ -147,6 +154,7 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
                 .color.holo_red_light, android.R.color.holo_orange_light, android.R.color
                 .holo_green_light);
         swipeRefreshLayout.setOnRefreshListener(this);
+
     }
 
     @Override
@@ -177,13 +185,13 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
     }
 
     @Override
-    public void onUpdateBookItems(int code, List<BookItem> bookItems) {
+    public void onUpdateBookItems(int code, List<BookBean2> bookItems) {
         if (code == LibPresenterImp.FAILED) {
             SALog.d("kklog", "code == LibPresenterImp.FAILED");
             mHandler.sendEmptyMessage(2);
         } else if (code == LibPresenterImp.SUCCEED) {
             SALog.d("kklog", "code == LibPresenterImp.SUCCEED");
-            this.bookItems = bookItems;
+            this.bookBeen = bookItems;
             mHandler.sendEmptyMessage(1);
         }
     }
@@ -207,18 +215,43 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
     }
 
     @Override
-    public void onClicked(View v, int position) {
+    public void onClicked(int vId, int position) {
         Toast.makeText(getContext(), "position==>" + position, Toast.LENGTH_SHORT).show();
+        dialog = new MaterialDialog.Builder(getActivity())
+                .title("借阅详情")
+                .content(ParserInfo.makeDialogText(bookBeen.get(position)))
+                .positiveText("确定")
+                .cancelable(true)
+                .positiveColor(Color.parseColor("#48b360"))
+                .build();
+        dialog.getActionButton(DialogAction.POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iLibPresenter.setTipDialogVisible(View.GONE);
+            }
+        });
+        if(vId==R.id.linearLayoutRecyclerItem){
+            dialog.show();
+//            Toast.makeText(getContext(), "You can Renew!", Toast.LENGTH_SHORT).show();
+        }else if(vId==R.id.btnRecyclerLibRenew){
+//            if(ParserInfo.checkIfCanRenew(bookBeen.get(position))){
+//                Toast.makeText(getContext(), "You can Renew!", Toast.LENGTH_SHORT).show();
+//            }else{
+//                Toast.makeText(getContext(), "You had already Renewed this book!", Toast.LENGTH_SHORT).show();
+//            }
+        }
     }
 
     @Override
     public void onRefresh() {
+        userName = sharedPreferences.getString("swuID", "nothing");
+        passwd="1234567890";
         if (isLogin) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    boolean userInfos = ((LibPresenterImp) iLibPresenter).getUserInfos(userName, passwd);
-                    if (userInfos) {
+                    int flag = ((LibPresenterImp) iLibPresenter).getUserInfos(userName, passwd);
+                    if (flag==Constant.LIB_LOGIN_SUCCESS) {
                         iLibPresenter.updateBookItems();
                         mHandler.sendEmptyMessage(1);
                     } else {
@@ -234,9 +267,9 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
         switch (v.getId()) {
             case R.id.linearLayoutLibError:
                 iLibPresenter.setProgressDialogVisible(View.VISIBLE);
-                userName =sharedPreferences.getString("userName", "nothing");
-                passwd = sharedPreferences.getString("password", "nothing");
-                if (userName.equals("nothing") || passwd.equals("nothing")) {
+                userName = sharedPreferences.getString("swuID", "nothing");
+                passwd = "1234567890";
+                if (userName.equals("nothing")) {
                     isLogin = false;
                     iLibPresenter.setProgressDialogVisible(View.GONE);
                     iLibPresenter.setTipDialogVisible(View.VISIBLE);
@@ -244,8 +277,8 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            boolean userInfos = ((LibPresenterImp) iLibPresenter).getUserInfos(userName, passwd);
-                            if (userInfos) {
+                            int flag = ((LibPresenterImp) iLibPresenter).getUserInfos(userName, passwd);
+                            if (flag==Constant.LIB_LOGIN_SUCCESS) {
                                 iLibPresenter.updateBookItems();
                             } else {
                                 mHandler.sendEmptyMessage(2);

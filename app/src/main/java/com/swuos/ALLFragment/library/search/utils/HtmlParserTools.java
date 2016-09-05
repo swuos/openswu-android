@@ -2,9 +2,9 @@ package com.swuos.ALLFragment.library.search.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.swuos.ALLFragment.library.lib.model.BookInfo;
 import com.swuos.ALLFragment.library.search.model.BookCell;
 import com.swuos.ALLFragment.library.search.model.BookDetail;
+import com.swuos.ALLFragment.library.search.model.BookInfo;
 import com.swuos.ALLFragment.library.search.model.BookInfoSearch;
 import com.swuos.ALLFragment.library.search.model.LibHoldInfo;
 import com.swuos.util.SALog;

@@ -59,6 +59,9 @@
         <activity android:name="com.swuos.ALLFragment.library.search.views.SearchAtyImp"/>
         <activity android:name="com.swuos.ALLFragment.library.search.views.BookDetailViewAty"/>
 
+        <activity android:name="com.swuos.ALLFragment.library.lib.views.PersonViewAty"
+            android:theme="@style/AppTheme.NoActionBarPerson"/>
+
         <service android:name="com.swuos.Service.ClassAlarmService"/>
         <service android:name="com.swuos.Service.ScheduleNotificationService"/>
         <service android:name="com.swuos.Service.WifiNotificationService"></service>

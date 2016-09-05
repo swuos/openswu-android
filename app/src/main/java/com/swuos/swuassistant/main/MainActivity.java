@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.swuos.ALLFragment.FragmentControl;
+import com.swuos.ALLFragment.library.lib.views.PersonViewAty;
 import com.swuos.ALLFragment.library.search.views.SearchAtyImp;
 import com.swuos.ALLFragment.swujw.TotalInfos;
 import com.swuos.swuassistant.BaseActivity;
@@ -142,8 +143,10 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (isFragmentLibSelected) {
             menu.findItem(R.id.search).setVisible(true);
+            menu.findItem(R.id.libPersonInfo).setVisible(true);
         } else {
             menu.findItem(R.id.search).setVisible(false);
+            menu.findItem(R.id.libPersonInfo).setVisible(false);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -162,6 +165,9 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
                 break;
             case R.id.search:
                 startActivity(new Intent(this, SearchAtyImp.class));
+                break;
+            case R.id.libPersonInfo:
+                startActivity(new Intent(this, PersonViewAty.class));
                 break;
         }
 

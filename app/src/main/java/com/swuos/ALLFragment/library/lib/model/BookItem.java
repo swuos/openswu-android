@@ -1,8 +1,8 @@
 package com.swuos.ALLFragment.library.lib.model;
 
 /**
- * Created by youngkaaa on 2016/5/27.
- * Email:  645326280@qq.com
+ * Created by : youngkaaa on 2016/9/5.
+ * Contact me : 645326280@qq.com
  */
 public class BookItem {
     private String bookName;

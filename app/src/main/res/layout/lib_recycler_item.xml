@@ -6,6 +6,8 @@
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginTop="4dp"
+    android:gravity="center"
+    android:id="@+id/linearLayoutRecyclerItem"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -20,7 +22,16 @@
             android:layout_height="wrap_content"
             android:paddingRight="8dp"
             android:layout_marginTop="4dp"
+            android:textStyle="bold"
             android:text="C++ Primer Plus (第六版) 中文版" />
+
+        <TextView
+            android:id="@+id/textViewRecyclerBarCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:text="条形码 : B1185661" />
 
         <TextView
             android:id="@+id/textViewRecyclerLibTime"
@@ -28,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="8dp"
+            android:textSize="12sp"
             android:text="2016.5.5 - 2023.23.2" />
     </LinearLayout>
 

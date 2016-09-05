@@ -1,6 +1,11 @@
 package com.swuos.ALLFragment.library.lib.model;
 
 /**
+ * Created by : youngkaaa on 2016/9/5.
+ * Contact me : 645326280@qq.com
+ */
+
+/**
  * Created by ASUS on 2016/3/12.
  */
 public class BookInfo {
@@ -48,4 +53,5 @@ public class BookInfo {
     public void setDateBack(String dateBack) {
         this.dateBack = dateBack;
     }
+
 }
