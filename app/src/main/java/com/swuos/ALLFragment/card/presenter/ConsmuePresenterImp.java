@@ -1,5 +1,8 @@
-package com.swuos.ALLFragment.card;
+package com.swuos.ALLFragment.card.presenter;
 
+
+import com.swuos.ALLFragment.card.model.ConsumeInfo;
+import com.swuos.ALLFragment.card.view.IConsumeView;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package com.swuos.ALLFragment.card;
+package com.swuos.ALLFragment.card.view;
 
 
-import com.swuos.ALLFragment.card.EcardInfo;
+import com.swuos.ALLFragment.card.model.EcardInfo;
 
 import java.util.List;
 

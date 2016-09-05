@@ -1,4 +1,4 @@
-package com.swuos.ALLFragment.card;
+package com.swuos.ALLFragment.card.presenter;
 
 /**
  * Created by codekk on 2016/5/13.

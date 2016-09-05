@@ -70,18 +70,18 @@ public class ParserInfo {
     }
 
     public static String getBorrowInfo(int index) {
-        String borrowUri = "http://202.202.121.3/netweb/HisdoryList.aspx?PageNo="+index;
+        String borrowUri = "http://202.202.121.3/netweb/HisdoryList.aspx?PageNo=" + index;
 
-        SALog.d("kklog","getBorrowInfo borrowUri===>"+borrowUri);
+        SALog.d("kklog", "getBorrowInfo borrowUri===>" + borrowUri);
         requestBody = new FormBody.Builder().build();
         String s = okhttpNet.doPost(borrowUri, requestBody);
-        SALog.d("kklog", "getBorrowInfo() s===>"+s);
+        SALog.d("kklog", "getBorrowInfo() s===>" + s);
         return s;
     }
 
     public static List<String> parserHomePageHtml(String html) {
         Bundle bundle = new Bundle();
-        List<String> vals=new ArrayList<>();
+        List<String> vals = new ArrayList<>();
         vals.add(matchHomePageItem(html, Constant.LIB_NO));
         vals.add(matchHomePageItem(html, Constant.LIB_CARD_NO));
         vals.add(matchHomePageItem(html, Constant.LIB_READER_BAR));
@@ -93,7 +93,6 @@ public class ParserInfo {
         vals.add(matchHomePageItem(html, Constant.LIB_BORROW_COUNT));
         return vals;
     }
-
 
 
     public static List<BookBean2> parserBorrowHtml(String html) {
@@ -110,7 +109,7 @@ public class ParserInfo {
         }
         if (bookBeen.isEmpty()) {
             SALog.d("kklog", "parserBorrowHtml bookBeen isEmpty");
-        }else{
+        } else {
             SALog.d("kklog", "parserBorrowHtml bookBeen not empty");
         }
         SALog.d("kklog", "################# parserBorrowHtml() end####################");
@@ -132,25 +131,26 @@ public class ParserInfo {
         return result;
     }
 
-    public static Bundle makeBorrowInfoToBundle(BookBean2 bookBean2){
-        String latestOpTime=bookBean2.getOpTimes().get(0);
-        String firstOpTime=bookBean2.getOpTimes().get(bookBean2.getOpTimes().size()-1);
-        String latestOpKind=bookBean2.getOpKinds().get(0);
-        String firstOpKind=bookBean2.getOpKinds().get(bookBean2.getOpKinds().size()-1);
-        Bundle bundle=new Bundle();
-        bundle.putString(Constant.LIB_BOOK_LATEST_OP_TIME,latestOpTime);
-        bundle.putString(Constant.LIB_BOOK_LATEST_OP_KIND,latestOpKind);
-        bundle.putString(Constant.LIB_BOOK_FIRST_OP_TIME,firstOpTime);
-        bundle.putString(Constant.LIB_BOOK_FIRST_OP_KIND,firstOpKind);
+    public static Bundle makeBorrowInfoToBundle(BookBean2 bookBean2) {
+        String latestOpTime = bookBean2.getOpTimes().get(0);
+        String firstOpTime = bookBean2.getOpTimes().get(bookBean2.getOpTimes().size() - 1);
+        String latestOpKind = bookBean2.getOpKinds().get(0);
+        String firstOpKind = bookBean2.getOpKinds().get(bookBean2.getOpKinds().size() - 1);
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.LIB_BOOK_LATEST_OP_TIME, latestOpTime);
+        bundle.putString(Constant.LIB_BOOK_LATEST_OP_KIND, latestOpKind);
+        bundle.putString(Constant.LIB_BOOK_FIRST_OP_TIME, firstOpTime);
+        bundle.putString(Constant.LIB_BOOK_FIRST_OP_KIND, firstOpKind);
         return bundle;
     }
 
-    public static boolean checkIfCanRenew(BookBean2 bookBean2){
+    public static boolean checkIfCanRenew(BookBean2 bookBean2) {
         List<String> opKinds = bookBean2.getOpKinds();
-        if(opKinds.contains("续借")){
+        if (opKinds.contains("续借")) {
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
 
 
@@ -189,14 +189,14 @@ public class ParserInfo {
             BookBean2 bookBean2 = new BookBean2();
             List<String> opTimes = new ArrayList<>();
             List<String> opKinds = new ArrayList<>();
-            if(checkBookExist(bookBeen,bookBean1List.get(i).getLoginId())){
+            if (checkBookExist(bookBeen, bookBean1List.get(i).getLoginId())) {
                 continue;
             }
 //            if (hasJudged.contains(i)) {
 //                break;
 //            }
             for (int j = i; j < bookBean1List.size(); j++) {
-                if (bookBean1List.get(i).getLoginId().equals(bookBean1List.get(j).getLoginId()) ) {
+                if (bookBean1List.get(i).getLoginId().equals(bookBean1List.get(j).getLoginId())) {
                     bookBean2.setBookName(bookBean1List.get(j).getBookName());
                     bookBean2.setLoginId(bookBean1List.get(j).getLoginId());
                     bookBean2.setBarCode(bookBean1List.get(j).getBarCode());
@@ -221,7 +221,7 @@ public class ParserInfo {
 //        }
         if (bookBeen.isEmpty()) {
             SALog.d("kklog", "makeBookBeen bookBeen isEmpty");
-        }else{
+        } else {
             SALog.d("kklog", "makeBookBeen bookBeen not empty");
         }
         return bookBeen;
@@ -229,8 +229,8 @@ public class ParserInfo {
 
     private static boolean checkBookExist(List<BookBean2> bookBeen, String loginId) {
 
-        for(BookBean2 bookBean2:bookBeen){
-            if(bookBean2.getLoginId().equals(loginId)){
+        for (BookBean2 bookBean2 : bookBeen) {
+            if (bookBean2.getLoginId().equals(loginId)) {
                 return true;    //already existed!
             }
         }
@@ -297,26 +297,26 @@ public class ParserInfo {
 
     }
 
-    public static String makeDialogText(BookBean2 bookBean2){
-        StringBuilder builder=new StringBuilder();
+    public static String makeDialogText(BookBean2 bookBean2) {
+        StringBuilder builder = new StringBuilder();
         List<String> opKinds = bookBean2.getOpKinds();
         List<String> opTimes = bookBean2.getOpTimes();
-        int blankCount=0;
+        int blankCount = 0;
         builder.append("                              \n");
-        for(int i=0;i<opKinds.size();i++){
+        for (int i = 0; i < opKinds.size(); i++) {
             builder.append("  ");
-            blankCount=18-opTimes.get(i).length();
-            for(int j=blankCount;j>=0;j--){
+            blankCount = 18 - opTimes.get(i).length();
+            for (int j = blankCount; j >= 0; j--) {
                 builder.append(" ");
             }
             builder.append(opTimes.get(i));
 
-            for(int j=20-opTimes.get(i).length();j>=0;j--){
+            for (int j = 20 - opTimes.get(i).length(); j >= 0; j--) {
                 builder.append(" ");
             }
 
-            builder.append(opKinds.get(i)+"\n");
-            for(int j=blankCount;j>=0;j--){
+            builder.append(opKinds.get(i) + "\n");
+            for (int j = blankCount; j >= 0; j--) {
                 builder.append(" ");
             }
         }

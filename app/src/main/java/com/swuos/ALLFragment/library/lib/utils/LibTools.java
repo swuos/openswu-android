@@ -44,7 +44,6 @@ public class LibTools {
         }
     }
 
-
     private static String readLibTable(int flag) {
         Bundle bundle = null;
         if (flag == Constant.LIB_LOGIN_SUCCESS) {

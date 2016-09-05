@@ -51,7 +51,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name="com.swuos.ALLFragment.card.ConsumeActivityImp"
+            android:name="com.swuos.ALLFragment.card.view.ConsumeActivityImp"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name="com.swuos.ALLFragment.swujw.schedule.SchedulDetialActivity"

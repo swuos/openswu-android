@@ -20,6 +20,7 @@ public class LibPresenterImp implements ILibPresenter {
     public static final int FAILED = 0;
     public static final int SUCCEED = 1;
 
+
     private int flag;
 
     public LibPresenterImp(ILibView iLibView) {

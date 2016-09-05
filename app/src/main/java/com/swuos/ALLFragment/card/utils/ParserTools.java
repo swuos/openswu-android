@@ -1,6 +1,8 @@
-package com.swuos.ALLFragment.card;
+package com.swuos.ALLFragment.card.utils;
 
 
+import com.swuos.ALLFragment.card.model.ConsumeInfo;
+import com.swuos.ALLFragment.card.model.EcardInfo;
 import com.swuos.util.SALog;
 
 import org.jsoup.Jsoup;
