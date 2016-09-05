@@ -1,4 +1,4 @@
-package com.swuos.ALLFragment.card;
+package com.swuos.ALLFragment.card.view;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,7 +27,11 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.swuos.ALLFragment.BaseFragment;
-import com.swuos.swuassistant.BaseActivity;
+import com.swuos.ALLFragment.card.presenter.EcardPresenterImp;
+import com.swuos.ALLFragment.card.presenter.IEcardPresenter;
+import com.swuos.ALLFragment.card.utils.MyItemDecoration;
+import com.swuos.ALLFragment.card.adapter.RecyclerAdapterEcardInfo;
+import com.swuos.ALLFragment.card.model.EcardInfo;
 import com.swuos.swuassistant.R;
 import com.swuos.util.SALog;
 

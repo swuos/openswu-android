@@ -94,10 +94,10 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
         initDialog();
         sharedPreferences = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         userName = sharedPreferences.getString("swuID", "nothing");
-        passwd="1234567890";
+        passwd = "1234567890";
 //        passwd = sharedPreferences.getString("password", "nothing");
 //        userName="222014321210029";
-        SALog.d("kklog","onCreateView() userName==>"+userName);
+        SALog.d("kklog", "onCreateView() userName==>" + userName);
         if (userName.equals("nothing") || passwd.equals("nothing")) { //表示未登录
             iLibPresenter.setTipDialogVisible(View.VISIBLE);
             iLibPresenter.setErrorLayoutVisible(View.VISIBLE);
@@ -107,8 +107,8 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    int  flag = ((LibPresenterImp) iLibPresenter).getUserInfos(userName, passwd);
-                    if (flag== Constant.LIB_LOGIN_SUCCESS) {
+                    int flag = ((LibPresenterImp) iLibPresenter).getUserInfos(userName, passwd);
+                    if (flag == Constant.LIB_LOGIN_SUCCESS) {
                         iLibPresenter.updateBookItems();
                     } else {
                         mHandler.sendEmptyMessage(2);
@@ -216,7 +216,6 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
 
     @Override
     public void onClicked(int vId, int position) {
-        Toast.makeText(getContext(), "position==>" + position, Toast.LENGTH_SHORT).show();
         dialog = new MaterialDialog.Builder(getActivity())
                 .title("借阅详情")
                 .content(ParserInfo.makeDialogText(bookBeen.get(position)))
@@ -230,28 +229,31 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
                 iLibPresenter.setTipDialogVisible(View.GONE);
             }
         });
-        if(vId==R.id.linearLayoutRecyclerItem){
+        if (vId == R.id.linearLayoutRecyclerItem) {
             dialog.show();
+            SALog.d("kklog", "onClicked vId==R.id.linearLayoutRecyclerItem");
 //            Toast.makeText(getContext(), "You can Renew!", Toast.LENGTH_SHORT).show();
-        }else if(vId==R.id.btnRecyclerLibRenew){
-//            if(ParserInfo.checkIfCanRenew(bookBeen.get(position))){
+        } else if (vId == R.id.btnRecyclerLibRenew) {
+            if (ParserInfo.checkIfCanRenew(bookBeen.get(position))) {
+                SALog.d("kklog", "onClicked can renew!");
 //                Toast.makeText(getContext(), "You can Renew!", Toast.LENGTH_SHORT).show();
-//            }else{
+            } else {
+                SALog.d("kklog", "onClicked had already Renewed！");
 //                Toast.makeText(getContext(), "You had already Renewed this book!", Toast.LENGTH_SHORT).show();
-//            }
+            }
         }
     }
 
     @Override
     public void onRefresh() {
         userName = sharedPreferences.getString("swuID", "nothing");
-        passwd="1234567890";
+        passwd = "1234567890";
         if (isLogin) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     int flag = ((LibPresenterImp) iLibPresenter).getUserInfos(userName, passwd);
-                    if (flag==Constant.LIB_LOGIN_SUCCESS) {
+                    if (flag == Constant.LIB_LOGIN_SUCCESS) {
                         iLibPresenter.updateBookItems();
                         mHandler.sendEmptyMessage(1);
                     } else {
@@ -278,7 +280,7 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
                         @Override
                         public void run() {
                             int flag = ((LibPresenterImp) iLibPresenter).getUserInfos(userName, passwd);
-                            if (flag==Constant.LIB_LOGIN_SUCCESS) {
+                            if (flag == Constant.LIB_LOGIN_SUCCESS) {
                                 iLibPresenter.updateBookItems();
                             } else {
                                 mHandler.sendEmptyMessage(2);

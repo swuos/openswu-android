@@ -1,4 +1,4 @@
-package com.swuos.ALLFragment.card;
+package com.swuos.ALLFragment.card.view;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
@@ -9,17 +9,19 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
+import com.swuos.ALLFragment.card.presenter.ConsmuePresenterImp;
+import com.swuos.ALLFragment.card.utils.MyItemDecoration;
+import com.swuos.ALLFragment.card.adapter.RecyclerAdapterConsume;
+import com.swuos.ALLFragment.card.model.ConsumeInfo;
 import com.swuos.swuassistant.BaseActivity;
 import com.swuos.swuassistant.R;
 

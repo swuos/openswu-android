@@ -1,8 +1,11 @@
-package com.swuos.ALLFragment.card;
+package com.swuos.ALLFragment.card.presenter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.swuos.ALLFragment.card.utils.EcardTools;
+import com.swuos.ALLFragment.card.model.EcardInfo;
+import com.swuos.ALLFragment.card.view.IEcardView;
 import com.swuos.ALLFragment.swujw.TotalInfos;
 import com.swuos.util.SALog;
 

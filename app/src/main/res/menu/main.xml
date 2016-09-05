@@ -16,13 +16,13 @@
     <!--/>-->
 
     <item android:id="@+id/search"
-          android:icon="@drawable/lib_search"
+          android:icon="@drawable/ic_action_search"
           android:title="搜索"
           app:showAsAction="always"/>
 
     <item android:id="@+id/libPersonInfo"
-        android:icon="@drawable/lib_person"
-        android:title="个人信息"
-        app:showAsAction="always"/>
+          android:icon="@drawable/ic_action_user"
+          android:title="个人信息"
+          app:showAsAction="always"/>
 
 </menu>

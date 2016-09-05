@@ -1,4 +1,4 @@
-package com.swuos.ALLFragment.card;
+package com.swuos.ALLFragment.card.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import com.swuos.ALLFragment.card.model.EcardInfo;
 import com.swuos.swuassistant.R;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.swuos.ALLFragment.card;
+package com.swuos.ALLFragment.card.utils;
 
 import android.content.Context;
 import android.content.res.TypedArray;

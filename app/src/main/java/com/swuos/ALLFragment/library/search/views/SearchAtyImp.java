@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.swuos.ALLFragment.card.MyItemDecoration;
+import com.swuos.ALLFragment.card.utils.MyItemDecoration;
 import com.swuos.ALLFragment.library.search.adapters.RecycleAdapterSearch;
 import com.swuos.ALLFragment.library.search.model.BookInfoSearch;
 import com.swuos.ALLFragment.library.search.presenter.ISearchPresenter;
@@ -27,7 +26,6 @@ import com.swuos.ALLFragment.library.search.presenter.SearchPresenterImp;
 import com.swuos.ALLFragment.library.search.utils.LibSearch;
 import com.swuos.swuassistant.BaseActivity;
 import com.swuos.swuassistant.R;
-import com.swuos.util.SALog;
 import com.swuos.util.tools.Tools;
 
 import java.util.List;

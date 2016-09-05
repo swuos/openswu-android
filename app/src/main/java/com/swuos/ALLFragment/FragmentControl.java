@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.swuos.ALLFragment.card.EcardFragmentImp;
+import com.swuos.ALLFragment.card.view.EcardFragmentImp;
 import com.swuos.ALLFragment.charge.ChargeFragment;
 import com.swuos.ALLFragment.find_lost.FindLostFragment;
 import com.swuos.ALLFragment.library.lib.views.LibFragment;

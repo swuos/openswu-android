@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.swuos.ALLFragment.FragmentControl;
 import com.swuos.ALLFragment.library.lib.views.PersonViewAty;
+import com.swuos.ALLFragment.library.libsearchs.search.SearchActity;
 import com.swuos.ALLFragment.library.search.views.SearchAtyImp;
 import com.swuos.ALLFragment.swujw.TotalInfos;
 import com.swuos.swuassistant.BaseActivity;
@@ -164,7 +165,7 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
                 SALog.d("MainActivity", "click_main");
                 break;
             case R.id.search:
-                startActivity(new Intent(this, SearchAtyImp.class));
+                startActivity(new Intent(this, SearchActity.class));
                 break;
             case R.id.libPersonInfo:
                 startActivity(new Intent(this, PersonViewAty.class));

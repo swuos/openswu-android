@@ -1,4 +1,4 @@
-package com.swuos.ALLFragment.card;
+package com.swuos.ALLFragment.card.model;
 
 import java.io.Serializable;
 
