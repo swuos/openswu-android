@@ -29,6 +29,11 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
     private int FOOTER_VIEW = 1;
     private int ITEM_VIEW = 0;
 
+    /**
+     * Instantiates a new Recycle adapter search.
+     *
+     * @param context the context
+     */
     public RecycleAdapterSearch(Context context) {
         this.context = context;
     }
@@ -62,6 +67,7 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
         } else if (holder instanceof FooterViewHolder) {
+            /**根据是否开启加载更多来决定是否显示加载动画*/
             if (!mOpenLoadMore) {
                 holder.itemView.setVisibility(View.INVISIBLE);
             } else
@@ -77,6 +83,11 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         return searchBookItemList.size() + 1;
     }
 
+    /**
+     * Sets on recycler item click listener.
+     *
+     * @param listener the listener
+     */
     public void setOnRecyclerItemClickListener(OnRecyclerItemClickedListener listener) {
         if (listener != null) {
             this.listener = listener;
@@ -92,10 +103,18 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
+    /**
+     * 判断是否到达底部
+     */
     private boolean isFooterView(int position) {
         return position + 1 == getItemCount();
     }
 
+    /**
+     * First add.
+     *
+     * @param searchResult the search result
+     */
     public void firstAdd(SearchResult searchResult) {
         allBookSize = searchResult.getBookSize();
 
@@ -107,12 +126,22 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         notifyDataSetChanged();
     }
-public void clear()
-{
-    searchBookItemList.clear();
-    mOpenLoadMore=false;
-}
+
+    /**
+     * Clear. 清除保存的所有内容,取消加载更多
+     */
+    public void clear() {
+        searchBookItemList.clear();
+        mOpenLoadMore = false;
+    }
+
+    /**
+     * Add more.在加载更多时调用这个方法
+     *
+     * @param searchResult the search result
+     */
     public void addMore(SearchResult searchResult) {
+        /**判断是否已经全部加载,否则开启加载更多*/
         if (searchBookItemList.size() < allBookSize) {
             mOpenLoadMore = true;
         } else {mOpenLoadMore = false;}
@@ -120,14 +149,31 @@ public void clear()
         notifyDataSetChanged();
     }
 
+    /**
+     * Ism open load more boolean.判断是否开启加载更多
+     *
+     * @return the boolean
+     */
     public boolean ismOpenLoadMore() {
         return mOpenLoadMore;
     }
 
+    /**
+     * The interface On recycler item clicked listener.
+     */
     public interface OnRecyclerItemClickedListener {
+        /**
+         * On item click.
+         *
+         * @param view     the view
+         * @param position the position
+         */
         void onItemClick(View view, int position);
     }
 
+    /**
+     * The type Search view hodler.
+     */
     public class SearchViewHodler extends RecyclerView.ViewHolder {
         private SimpleDraweeView bookImage;
         private AppCompatTextView textViewBookName;
@@ -139,6 +185,11 @@ public void clear()
         private View view;
 
 
+        /**
+         * Instantiates a new Search view hodler.
+         *
+         * @param itemView the item view
+         */
         public SearchViewHodler(View itemView) {
             super(itemView);
             bookImage = (SimpleDraweeView) itemView.findViewById(R.id.bookimage);
@@ -151,9 +202,17 @@ public void clear()
         }
     }
 
+    /**
+     * The type Footer view holder.
+     */
     public class FooterViewHolder extends RecyclerView.ViewHolder {
         private ProgressBar progressBar;
 
+        /**
+         * Instantiates a new Footer view holder.
+         *
+         * @param itemView the item view
+         */
         public FooterViewHolder(View itemView) {
             super(itemView);
             progressBar = (ProgressBar) itemView.findViewById(R.id.search_footer_progressBar);

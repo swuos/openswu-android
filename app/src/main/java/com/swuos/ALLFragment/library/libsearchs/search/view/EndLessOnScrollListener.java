@@ -55,6 +55,7 @@ public abstract class EndLessOnScrollListener extends RecyclerView.OnScrollListe
             loading = true;
         }
     }
+    /**在加载另外的搜索结果时清除状态*/
 public void  clean()
 {
     previousTotal=0;

@@ -23,7 +23,6 @@ import com.swuos.swuassistant.R;
 /**
  * Created by 张孟尧 on 2016/9/4.
  */
-
 public class SearchActity extends BaseActivity implements ILibSearchView, SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener, RecycleAdapterSearch.OnRecyclerItemClickedListener {
     private ILibSearchPresenter libSearchPresenter;
     private SearchView searchView;
