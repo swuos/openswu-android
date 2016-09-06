@@ -57,4 +57,15 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabLibPerson"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/lib_fab_person"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="28dp"
+        android:layout_marginRight="28dp"
+        android:transitionName="@string/fab_name"/>
+
 </RelativeLayout>
