@@ -27,6 +27,7 @@ import com.swuos.ALLFragment.library.lib.adapters.RecyclerAdapterPerson;
 import com.swuos.ALLFragment.library.lib.utils.LibTools;
 import com.swuos.ALLFragment.library.lib.utils.MetricUtils;
 import com.swuos.swuassistant.R;
+import com.swuos.util.SALog;
 
 import java.util.List;
 
@@ -86,6 +87,7 @@ public class PersonViewAty extends AppCompatActivity {
         }
 
         fabIcon = (FloatingActionButton) findViewById(R.id.fabPersonViewIcon);
+
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayoutLibPerson);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewPersonViewMain);
         recyclerView.addItemDecoration(new MyItemDecoration(this));
@@ -114,8 +116,12 @@ public class PersonViewAty extends AppCompatActivity {
                 }
                 lastYOffset = verticalOffset;
                 if (isUp && verticalOffset <= -120) {
+                    SALog.d("kklog","addOnOffsetChangedListener fabIcon.hide()");
+                    SALog.d("kklog","addOnOffsetChangedListener isUp verticalOffset==>"+verticalOffset);
                     fabIcon.hide();
-                } else if ((!isUp) && verticalOffset >= -20) {
+                } else if ((!isUp) && verticalOffset >= -30 && verticalOffset!=0) {
+                    SALog.d("kklog","addOnOffsetChangedListener !isUp verticalOffset==>"+verticalOffset);
+                    SALog.d("kklog","addOnOffsetChangedListener fabIcon.show()");
                     fabIcon.show();
                 }
             }
@@ -126,7 +132,7 @@ public class PersonViewAty extends AppCompatActivity {
 
         keys = LibTools.getPersonKeys();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        fabIcon.show();
     }
 
     private void startAni() {
@@ -147,7 +153,6 @@ public class PersonViewAty extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-
             return true;
         }
         return super.onOptionsItemSelected(item);

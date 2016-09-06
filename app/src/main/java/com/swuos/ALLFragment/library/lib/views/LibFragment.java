@@ -1,13 +1,16 @@
 package com.swuos.ALLFragment.library.lib.views;
 
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,7 +28,6 @@ import com.swuos.ALLFragment.library.lib.adapters.RecyclerAdapterLibMain;
 import com.swuos.ALLFragment.library.lib.model.BookBean2;
 import com.swuos.ALLFragment.library.lib.presenter.ILibPresenter;
 import com.swuos.ALLFragment.library.lib.presenter.LibPresenterImp;
-import com.swuos.ALLFragment.library.lib.utils.LibTools;
 import com.swuos.ALLFragment.library.lib.utils.ParserInfo;
 import com.swuos.swuassistant.Constant;
 import com.swuos.swuassistant.R;
@@ -52,6 +54,8 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
     private MaterialDialog dialog;
     private LinearLayout linearLayoutError;
     private SharedPreferences sharedPreferences;
+    private FloatingActionButton fabPersonView;
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -87,10 +91,14 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         SALog.d("kklog", "onCreateView");
         final View view = inflater.inflate(R.layout.lib_fragment, container, false);
+        fabPersonView= (FloatingActionButton) view.findViewById(R.id.fabLibPerson);
+        fabPersonView.setOnClickListener(this);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewLibMain);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLibMain);
         linearLayoutError = (LinearLayout) view.findViewById(R.id.linearLayoutLibError);
         iLibPresenter = new LibPresenterImp(this);
+
+
         initDialog();
         sharedPreferences = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         userName = sharedPreferences.getString("swuID", "nothing");
@@ -287,6 +295,18 @@ public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayou
                             }
                         }
                     }).start();
+                }
+                break;
+            case R.id.fabLibPerson:
+                Intent i = new Intent(getContext(), PersonViewAty.class);
+                String transitionName = getString(R.string.fab_name);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    ActivityOptions activityOptions=ActivityOptions.makeSceneTransitionAnimation(
+                           getActivity(),fabPersonView,transitionName);
+
+                    startActivity(i, activityOptions.toBundle());
+                }else{
+                    startActivity(i);
                 }
                 break;
         }

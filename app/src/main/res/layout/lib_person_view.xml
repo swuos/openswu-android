@@ -7,7 +7,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarLayoutLibPerson"
         android:layout_width="match_parent"
-        android:layout_height="296dp"
+        android:layout_height="316dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -31,9 +31,10 @@
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fabPersonViewIcon"
                 android:layout_gravity="center|bottom"
-                android:layout_marginBottom="68dp"
+                android:layout_marginBottom="75dp"
                 android:layout_width="68dp"
                 android:layout_height="68dp"
+                android:transitionName="@string/fab_name"
                 android:src="@drawable/library_fab_refresh" />
 
             <android.support.v7.widget.Toolbar
@@ -59,5 +60,6 @@
             android:layout_height="match_parent" />
 
     </android.support.v4.widget.NestedScrollView>
+
 
 </android.support.design.widget.CoordinatorLayout>

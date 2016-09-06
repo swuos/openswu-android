@@ -24,9 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.swuos.ALLFragment.FragmentControl;
-import com.swuos.ALLFragment.library.lib.views.PersonViewAty;
 import com.swuos.ALLFragment.library.libsearchs.search.SearchActity;
-import com.swuos.ALLFragment.library.search.views.SearchAtyImp;
 import com.swuos.ALLFragment.swujw.TotalInfos;
 import com.swuos.swuassistant.BaseActivity;
 import com.swuos.swuassistant.BaseApplication;
@@ -96,6 +94,7 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string
                 .navigation_drawer_close);
@@ -144,10 +143,8 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (isFragmentLibSelected) {
             menu.findItem(R.id.search).setVisible(true);
-            menu.findItem(R.id.libPersonInfo).setVisible(true);
         } else {
             menu.findItem(R.id.search).setVisible(false);
-            menu.findItem(R.id.libPersonInfo).setVisible(false);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -166,9 +163,6 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
                 break;
             case R.id.search:
                 startActivity(new Intent(this, SearchActity.class));
-                break;
-            case R.id.libPersonInfo:
-                startActivity(new Intent(this, PersonViewAty.class));
                 break;
         }
 
