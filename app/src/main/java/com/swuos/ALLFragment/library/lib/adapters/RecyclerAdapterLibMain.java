@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.swuos.ALLFragment.library.lib.model.BookBean2;
-import com.swuos.ALLFragment.library.lib.utils.LibTools;
 import com.swuos.ALLFragment.library.lib.utils.ParserInfo;
 import com.swuos.swuassistant.Constant;
 import com.swuos.swuassistant.R;
@@ -28,7 +27,7 @@ public class RecyclerAdapterLibMain extends RecyclerView.Adapter<RecyclerAdapter
     private Context mContext;
     private OnRecyclerItemClickedListener listener;
 
-    public interface OnRecyclerItemClickedListener{
+    public interface OnRecyclerItemClickedListener {
         void onClicked(int vId, int position);
     }
 
@@ -47,17 +46,23 @@ public class RecyclerAdapterLibMain extends RecyclerView.Adapter<RecyclerAdapter
     @Override
     public void onBindViewHolder(LibMainViewHolder holder, final int position) {
         holder.textViewBookName.setText(bookBeen2.get(position).getBookName());
-        Bundle bundle= ParserInfo.makeBorrowInfoToBundle(bookBeen2.get(position));
-        String latestOpTime=bundle.getString(Constant.LIB_BOOK_LATEST_OP_TIME);
-        String firstOpTime=bundle.getString(Constant.LIB_BOOK_FIRST_OP_TIME);
-        String latestOpKind=bundle.getString(Constant.LIB_BOOK_LATEST_OP_KIND);
-        String firstOpKind=bundle.getString(Constant.LIB_BOOK_FIRST_OP_KIND);
+        Bundle bundle = ParserInfo.makeBorrowInfoToBundle(bookBeen2.get(position));
+        String latestOpTime = bundle.getString(Constant.LIB_BOOK_LATEST_OP_TIME);
+        String firstOpTime = bundle.getString(Constant.LIB_BOOK_FIRST_OP_TIME);
+        String latestOpKind = bundle.getString(Constant.LIB_BOOK_LATEST_OP_KIND);
+        String firstOpKind = bundle.getString(Constant.LIB_BOOK_FIRST_OP_KIND);
 
-        holder.textViewBarCode.setText("条形码:"+bookBeen2.get(position).getBarCode());
+        holder.textViewBarCode.setText("条形码:" + bookBeen2.get(position).getBarCode());
 
         if (latestOpKind.equals("还书")) {
             holder.textViewBookTime.setText(firstOpTime + " - " + latestOpTime);
             holder.textViewBacked.setVisibility(View.VISIBLE);
+            holder.textViewBacked.setText("已还");
+            holder.buttonRenew.setVisibility(View.GONE);
+        } else if (latestOpKind.equals("预约")) {
+            holder.textViewBookTime.setText(firstOpTime + " - " + latestOpTime);
+            holder.textViewBacked.setVisibility(View.VISIBLE);
+            holder.textViewBacked.setText("预约");
             holder.buttonRenew.setVisibility(View.GONE);
         } else {
             holder.textViewBookTime.setText(firstOpTime + " - " + "now");
@@ -66,21 +71,21 @@ public class RecyclerAdapterLibMain extends RecyclerView.Adapter<RecyclerAdapter
             holder.buttonRenew.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onClicked(v.getId(),position);
+                    listener.onClicked(v.getId(), position);
                 }
             });
         }
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onClicked(view.getId(),position);
+                listener.onClicked(view.getId(), position);
             }
         });
     }
 
-    public void setRecyclerItemClickedListener(OnRecyclerItemClickedListener listener){
-        if(listener!=null){
-            this.listener=listener;
+    public void setRecyclerItemClickedListener(OnRecyclerItemClickedListener listener) {
+        if (listener != null) {
+            this.listener = listener;
         }
     }
 
@@ -100,7 +105,7 @@ public class RecyclerAdapterLibMain extends RecyclerView.Adapter<RecyclerAdapter
 
         public LibMainViewHolder(View itemView) {
             super(itemView);
-            linearLayout= (LinearLayout) itemView.findViewById(R.id.linearLayoutRecyclerItem);
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayoutRecyclerItem);
             textViewBookName = (TextView) itemView.findViewById(R.id.textViewRecyclerLibBookName);
             textViewBookTime = (TextView) itemView.findViewById(R.id.textViewRecyclerLibTime);
             textViewBarCode = (TextView) itemView.findViewById(R.id.textViewRecyclerBarCode);
