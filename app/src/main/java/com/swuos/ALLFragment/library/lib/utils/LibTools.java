@@ -1,9 +1,8 @@
 package com.swuos.ALLFragment.library.lib.utils;
 
-import android.content.Context;
 import android.os.Bundle;
 
-
+import com.swuos.ALLFragment.library.lib.model.BookBean1;
 import com.swuos.ALLFragment.library.lib.model.BookBean2;
 import com.swuos.swuassistant.Constant;
 import com.swuos.util.SALog;
@@ -19,6 +18,7 @@ public class LibTools {
     private static String s;
 
     private static List<BookBean2> bookBeens;
+    private static List<BookBean1> bookBean1s;
 
 
     public static Bundle libLogin(String id, String pd) {
@@ -58,15 +58,22 @@ public class LibTools {
     public static List<BookBean2> getBorrowInfo() {
         s = ParserInfo.getBorrowInfo();
         String totalPage = ParserInfo.getBorrowTotalPage(s);
-        bookBeens = ParserInfo.parserBorrowHtml(s);
+        bookBean1s = ParserInfo.matchBorrowItem(s);
+//        bookBeens = ParserInfo.parserBorrowHtml(s);
         for (int i = 2; i <= Integer.valueOf(totalPage); i++) {
             SALog.d("kklog", "getBorrowInfo i==>" + i);
             s = ParserInfo.getBorrowInfo(i);
-            List<BookBean2> bookBean2s = ParserInfo.parserBorrowHtml(s);
-            for (BookBean2 bean2 : bookBean2s) {
-                bookBeens.add(bean2);
+//            List<BookBean2> bookBean2s = ParserInfo.parserBorrowHtml(s);
+            List<BookBean1> bookBean1sTemp = ParserInfo.matchBorrowItem(s);
+//            for (BookBean2 bean2 : bookBean2s) {
+//                bookBeens.add(bean2);
+//            }
+            for (BookBean1 bean1 : bookBean1sTemp) {
+                bookBean1s.add(bean1);
             }
         }
+        bookBeens = ParserInfo.makeBookBeen(bookBean1s);
+
         return bookBeens;
     }
 

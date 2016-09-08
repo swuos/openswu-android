@@ -98,8 +98,6 @@ public class ParserInfo {
     public static List<BookBean2> parserBorrowHtml(String html) {
         SALog.d("kklog", "################# parserBorrowHtml() start####################");
         List<BookBean1> bookBeen = matchBorrowItem(html);
-
-
         for (BookBean1 bean : bookBeen) {
             SALog.d("kklog", "parserBorrowHtml() bean.getBookName()" + bean.getBookName());
             SALog.d("kklog", "parserBorrowHtml() bean.getLoginId()" + bean.getLoginId());
@@ -154,7 +152,7 @@ public class ParserInfo {
     }
 
 
-    private static List<BookBean1> matchBorrowItem(String html) {
+    public static List<BookBean1> matchBorrowItem(String html) {
         String bookRegex = "<td>(.+?)</td><td>(.+?)</td><td>(.+?)</td><td>(.+?)</td><td>(.+?)</td>";
         List<BookBean1> bookBeen = new ArrayList<>();
         BookBean1 bookBean1;
@@ -182,7 +180,7 @@ public class ParserInfo {
         return bookBeen;
     }
 
-    private static List<BookBean2> makeBookBeen(List<BookBean1> bookBean1List) {
+    public static List<BookBean2> makeBookBeen(List<BookBean1> bookBean1List) {
         List<BookBean2> bookBeen = new ArrayList<>();
         List<Integer> hasJudged = new ArrayList<>();
         for (int i = 0; i < bookBean1List.size(); i++) {
@@ -208,17 +206,17 @@ public class ParserInfo {
             bookBean2.setOpKinds(opKinds);
             bookBeen.add(bookBean2);
         }
-//        for (BookBean2 book : bookBeen) {
-//            SALog.d("kklog", "makeBookBeen book.getBookName()==>" + book.getBookName());
-//            SALog.d("kklog", "makeBookBeen book.getLoginId() ==>" + book.getLoginId());
-//            SALog.d("kklog", "makeBookBeen book.getBarCode() ==>" + book.getBarCode());
-//            for (String s : book.getOpKinds()) {
-//                SALog.d("kklog", "makeBookBeen book.getOpKinds()=>" + s);
-//            }
-//            for (String s : book.getOpTimes()) {
-//                SALog.d("kklog", "makeBookBeen book.getOpTimes()=>" + s);
-//            }
-//        }
+        for (BookBean2 book : bookBeen) {
+            SALog.d("kklog", "makeBookBeen book.getBookName()==>" + book.getBookName());
+            SALog.d("kklog", "makeBookBeen book.getLoginId() ==>" + book.getLoginId());
+            SALog.d("kklog", "makeBookBeen book.getBarCode() ==>" + book.getBarCode());
+            for (String s : book.getOpKinds()) {
+                SALog.d("kklog", "makeBookBeen book.getOpKinds()=>" + s);
+            }
+            for (String s : book.getOpTimes()) {
+                SALog.d("kklog", "makeBookBeen book.getOpTimes()=>" + s);
+            }
+        }
         if (bookBeen.isEmpty()) {
             SALog.d("kklog", "makeBookBeen bookBeen isEmpty");
         } else {
