@@ -1,9 +1,9 @@
-package com.swuos.ALLFragment.library.libsearchs.search.model.bean;
+package com.swuos.ALLFragment.library.libsearchs.bookdetail.model;
 
 /**
  * Created by 张孟尧 on 2016/9/4.
  */
-public class BookStoreInfo {
+public class BookLocationInfo {
 
     //    馆藏地址
     private String address;

@@ -16,6 +16,8 @@ public interface ILibSearchPresenter {
 
     void cancelSearch();
 
+    void checkoutSearch(int i);
+    int getCheckoutSearch();
 
     List<SearchBookItem> getSearchBookItemList();
 }

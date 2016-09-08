@@ -61,6 +61,7 @@
         <activity
             android:name="com.swuos.ALLFragment.library.libsearchs.search.SearchActity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name="com.swuos.ALLFragment.library.libsearchs.bookdetail.BookDetailActivity"/>
         <activity android:name="com.swuos.ALLFragment.library.lib.views.PersonViewAty"
             android:theme="@style/AppTheme.NoActionBarPerson"/>
 

@@ -3,6 +3,7 @@ package com.swuos.swuassistant;
 import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.swuos.util.CollapsingToolbarViewAttr;
 import com.swuos.util.NavigationViewAttr;
 
 import im.fir.sdk.FIR;
@@ -28,6 +29,7 @@ public class BaseApplication extends SkinBaseApplication {
         FIR.init(this);
         SkinConfig.setCanChangeStatusColor(true);
         SkinConfig.addSupportAttr("navigationViewMenu", new NavigationViewAttr());
+        SkinConfig.addSupportAttr("CollapsingToolbarLayoutcontent",new CollapsingToolbarViewAttr());
     }
 
 }

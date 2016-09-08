@@ -174,7 +174,7 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
     /**
      * The type Search view hodler.
      */
-    public class SearchViewHodler extends RecyclerView.ViewHolder {
+    private class SearchViewHodler extends RecyclerView.ViewHolder {
         private SimpleDraweeView bookImage;
         private AppCompatTextView textViewBookName;
         private AppCompatTextView textViewBookWriter;
@@ -205,7 +205,7 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
     /**
      * The type Footer view holder.
      */
-    public class FooterViewHolder extends RecyclerView.ViewHolder {
+    private class FooterViewHolder extends RecyclerView.ViewHolder {
         private ProgressBar progressBar;
 
         /**

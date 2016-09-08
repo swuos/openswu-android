@@ -34,6 +34,7 @@ public class LibSearchPresenterCompl implements ILibSearchPresenter {
     private String bookname;
     private Subscriber subscriber1;
     private Subscriber subscriber2;
+    private int checkoutSearch = 0;
 
     public LibSearchPresenterCompl(Context context, ILibSearchView iLibSearchView) {
         this.context = context;
@@ -194,6 +195,16 @@ public class LibSearchPresenterCompl implements ILibSearchPresenter {
         if (subscriber2 != null && subscriber2.isUnsubscribed()) {
             subscriber2.unsubscribe();
         }
+    }
+
+    @Override
+    public void checkoutSearch(int i) {
+        checkoutSearch = i;
+    }
+
+    @Override
+    public int getCheckoutSearch() {
+        return checkoutSearch;
     }
 
 

@@ -1,7 +1,7 @@
 package com.swuos.ALLFragment.library.libsearchs.search.model.parse;
 
 
-import com.swuos.ALLFragment.library.libsearchs.search.model.bean.BookStoreInfo;
+import com.swuos.ALLFragment.library.libsearchs.bookdetail.model.BookLocationInfo;
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchBookItem;
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchResult;
 
@@ -33,11 +33,11 @@ public class LibParse {
             Element ee = pp.parent().parent();
             Elements rr = ee.siblingElements();
             String suoShuHao = rr.get(0).text();
-            searchBookItem.setBookSuoshuhao(suoShuHao.substring(0, suoShuHao.indexOf("&nbsp")));
-            searchBookItem.setISBN(suoShuHao.substring(suoShuHao.indexOf("ISBN/ISSN：")));
+            searchBookItem.setBookSuoshuhao("索书号: "+suoShuHao.substring(4, suoShuHao.indexOf("&nbsp")));
+            searchBookItem.setISBN("I S B N: "+suoShuHao.substring(suoShuHao.indexOf("ISBN/ISSN：")+10));
             searchBookItem.setPublisher(rr.get(1).getElementsByAttributeValueEnding("id", "Label1").text());
-            searchBookItem.setSummary(rr.get(2).text());
-            searchBookItem.setWriter(rr.get(3).text());
+            searchBookItem.setSummary("摘    要: "+rr.get(2).text());
+            searchBookItem.setWriter("作    者: "+rr.get(3).text().replace("著",""));
             searchBookItem.setBookNumber(rr.get(5).text());
             searchBookItemList.add(searchBookItem);
         }
@@ -45,22 +45,22 @@ public class LibParse {
         return searchResult;
     }
 
-    public static List<BookStoreInfo> getBookDetail(String resulthtml) {
-        List<BookStoreInfo> bookStoreInfoList = new ArrayList<>();
+    public static List<BookLocationInfo> getBookDetail(String resulthtml) {
+        List<BookLocationInfo> bookLocationInfoList = new ArrayList<>();
         Document documen = Jsoup.parse(resulthtml);
         Elements elements = documen.getElementsByAttributeValue("id", "DataGrid1");
         Elements bro = elements.get(0).getElementsByTag("tbody").get(0).getElementsByTag("tr").get(0).siblingElements();
         for (Element cc : bro) {
-            BookStoreInfo bookStoreInfo = new BookStoreInfo();
+            BookLocationInfo bookLocationInfo = new BookLocationInfo();
 
             Elements dd = cc.getElementsByTag("td");
-            bookStoreInfo.setAddress(dd.get(2).text());
+            bookLocationInfo.setAddress(dd.get(2).text());
 
-            bookStoreInfo.setFrameState(dd.get(3).text());
-            bookStoreInfo.setShelf(dd.get(7).getElementsByTag("a").get(0).attr("href"));
-            bookStoreInfoList.add(bookStoreInfo);
+            bookLocationInfo.setFrameState(dd.get(3).text());
+            bookLocationInfo.setShelf(dd.get(7).getElementsByTag("a").get(0).attr("href"));
+            bookLocationInfoList.add(bookLocationInfo);
         }
-        return bookStoreInfoList;
+        return bookLocationInfoList;
     }
 
     public static String getBookLocation(String locationHtml) {
