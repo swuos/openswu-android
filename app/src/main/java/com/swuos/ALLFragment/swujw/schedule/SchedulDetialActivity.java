@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -38,7 +39,7 @@ public class SchedulDetialActivity extends AppCompatActivity {
         toolbar.setBackgroundColor(colors);
         setSupportActionBar(toolbar);
         this.setTitle("");
-        Drawable d = getResources().getDrawable(R.drawable.abc_ic_ab_back_material);
+        Drawable d = ContextCompat.getDrawable(this, R.drawable.back_material);
         toolbar.setNavigationIcon(d);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(colors);

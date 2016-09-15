@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +20,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
 import com.swuos.ALLFragment.library.lib.MyItemDecoration;
 import com.swuos.ALLFragment.library.lib.adapters.RecyclerAdapterPerson;
 import com.swuos.ALLFragment.library.lib.utils.LibTools;
 import com.swuos.ALLFragment.library.lib.utils.MetricUtils;
+import com.swuos.swuassistant.BaseActivity;
 import com.swuos.swuassistant.R;
 import com.swuos.util.SALog;
 
@@ -35,7 +34,7 @@ import java.util.List;
  * Created by : youngkaaa on 2016/9/4.
  * Contact me : 645326280@qq.com
  */
-public class PersonViewAty extends AppCompatActivity {
+public class PersonViewAty extends BaseActivity {
     private ImageView imageView;
     private RecyclerView recyclerView;
     private RecyclerAdapterPerson recyclerAdapter;
@@ -63,7 +62,7 @@ public class PersonViewAty extends AppCompatActivity {
     };
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lib_person_view);
 
@@ -77,7 +76,6 @@ public class PersonViewAty extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -89,6 +87,8 @@ public class PersonViewAty extends AppCompatActivity {
         fabIcon = (FloatingActionButton) findViewById(R.id.fabPersonViewIcon);
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayoutLibPerson);
+        dynamicAddView(collapsingToolbarLayout, "CollapsingToolbarLayoutcontent", R.color.colorPrimary);
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewPersonViewMain);
         recyclerView.addItemDecoration(new MyItemDecoration(this));
         recyclerView.setNestedScrollingEnabled(true);

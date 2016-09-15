@@ -10,6 +10,18 @@ public class BookLocationInfo {
     //    在架
     private String frameState;
 
+    public String getShelfUrl() {
+        return shelfUrl;
+    }
+
+    public void setShelfUrl(String shelfUrl) {
+        this.shelfUrl = shelfUrl;
+    }
+
+    //    架位
+    private String shelfUrl;
+    private String shelf;
+
     public String getShelf() {
         return shelf;
     }
@@ -17,10 +29,6 @@ public class BookLocationInfo {
     public void setShelf(String shelf) {
         this.shelf = shelf;
     }
-
-    //    架位
-    private String shelf;
-
 
     public String getAddress() {
         return address;

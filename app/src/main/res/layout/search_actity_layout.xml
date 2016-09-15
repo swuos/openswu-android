@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:skin="http://schemas.android.com/android/skin"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:background="@color/whitegrey"
-              android:fitsSystemWindows="true">
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
 
         <android.support.v7.widget.Toolbar
@@ -19,8 +25,9 @@
             android:layout_width="match_parent"
             android:background="@color/colorPrimary"
             android:layout_height="wrap_content"
-            skin:enble="true"
-            android:weightSum="1">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentInsetStartWithNavigation="0dp"
+            skin:enble="true">
 
             <android.support.v7.widget.SearchView
                 android:id="@+id/searchView"
@@ -37,6 +44,7 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
+            android:background="@color/whitegrey"
             android:id="@+id/search_result_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -47,3 +55,4 @@
 
 
 </LinearLayout>
+</android.support.v4.widget.DrawerLayout>

@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
     private Toolbar toolbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);

@@ -35,6 +35,7 @@ public class LibSearchPresenterCompl implements ILibSearchPresenter {
     private Subscriber subscriber1;
     private Subscriber subscriber2;
     private int checkoutSearch = 0;
+    private int allBookSize = 0;
 
     public LibSearchPresenterCompl(Context context, ILibSearchView iLibSearchView) {
         this.context = context;
@@ -92,7 +93,7 @@ public class LibSearchPresenterCompl implements ILibSearchPresenter {
         data.put("DrpHouse", "所有馆");
         data.put("__ASYNCPOST", "true");
         data.put("Button1", "开始检索");
-        LibApi.getLibSearchList().searchList(String.valueOf(currentPage)).flatMap(new Func1<String, Observable<SearchResult>>() {
+        LibApi.getLibSearchList().searchList(String.valueOf(currentPage)).concatMap(new Func1<String, Observable<SearchResult>>() {
             @Override
             public Observable<SearchResult> call(String s) {
                 if (s.contains("表名无效")) {

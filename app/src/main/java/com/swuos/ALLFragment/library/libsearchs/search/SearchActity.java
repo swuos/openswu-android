@@ -3,6 +3,7 @@ package com.swuos.ALLFragment.library.libsearchs.search;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,7 +40,7 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
     private AlertDialog alertDialog;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_actity_layout);
         libSearchPresenter = new LibSearchPresenterCompl(this, this);
@@ -49,7 +50,13 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
 
 
     private void initview() {
-        dynamicAddView(toolbar, "background", R.color.colorPrimary);
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         SearchView.SearchAutoComplete textView = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
         ImageView searchButtonImageView = (ImageView) searchView.findViewById(R.id.search_mag_icon);
         searchButtonImageView.setOnClickListener(this);
@@ -88,6 +95,8 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
         toolbar = (Toolbar) findViewById(R.id.search_toolbar);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.search_swipeRefresh);
         setSupportActionBar(toolbar);
+        dynamicAddView(toolbar, "background", R.color.colorPrimary);
+
     }
 
     @Override
@@ -144,12 +153,16 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
     @Override
     public void onItemClick(View view, int position) {
         Toast.makeText(this, libSearchPresenter.getSearchBookItemList().get(position).getBookName(), Toast.LENGTH_SHORT).show();
-        Intent inten=new Intent(this,BookDetailActivity.class);
-        inten.putExtra("bookname",libSearchPresenter.getSearchBookItemList().get(position).getBookName());
-        inten.putExtra("writer",libSearchPresenter.getSearchBookItemList().get(position).getWriter());
-        inten.putExtra("suoshuhao",libSearchPresenter.getSearchBookItemList().get(position).getBookSuoshuhao());
-        inten.putExtra("ISBN",libSearchPresenter.getSearchBookItemList().get(position).getISBN());
-        inten.putExtra("summary",libSearchPresenter.getSearchBookItemList().get(position).getSummary());
+        Intent inten = new Intent(this, BookDetailActivity.class);
+        inten.putExtra("bookname", libSearchPresenter.getSearchBookItemList().get(position).getBookName());
+        inten.putExtra("writer", libSearchPresenter.getSearchBookItemList().get(position).getWriter());
+        inten.putExtra("suoshuhao", libSearchPresenter.getSearchBookItemList().get(position).getBookSuoshuhao());
+        inten.putExtra("ISBN", libSearchPresenter.getSearchBookItemList().get(position).getISBN());
+        inten.putExtra("summary", libSearchPresenter.getSearchBookItemList().get(position).getSummary());
+        inten.putExtra("currentpage", endLessOnScrollListener.getCurrentPage());
+        inten.putExtra("bookCoverUrl", libSearchPresenter.getSearchBookItemList().get(position).getBookCoverUrl());
+        inten.putExtra("id", position % 15);
+        inten.putExtra("query", searchView.getQuery().toString());
         startActivity(inten);
     }
 
@@ -160,6 +173,7 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
         switch (id) {
             case R.id.search_mag_icon:
                 alertDialog.show();
+                break;
             default:
                 break;
         }

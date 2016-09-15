@@ -37,7 +37,7 @@ public abstract class EndLessOnScrollListener extends RecyclerView.OnScrollListe
         super.onScrolled(recyclerView, dx, dy);
 
         visibleItemCount = recyclerView.getChildCount();
-        totalItemCount = mLinearLayoutManager.getItemCount()-1;
+        totalItemCount = mLinearLayoutManager.getItemCount() - 1;
         firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
         if (loading) {
 
@@ -49,19 +49,25 @@ public abstract class EndLessOnScrollListener extends RecyclerView.OnScrollListe
             }
         }
         //这里需要好好理解
-        if (!loading && totalItemCount - visibleItemCount <= firstVisibleItem &&recycleAdapterSearch.ismOpenLoadMore()) {
+        if (!loading && totalItemCount - visibleItemCount <= firstVisibleItem && recycleAdapterSearch.ismOpenLoadMore()) {
             currentPage++;
             onLoadMore(currentPage);
             loading = true;
         }
     }
-    /**在加载另外的搜索结果时清除状态*/
-public void  clean()
-{
-    previousTotal=0;
-    currentPage=1;
-    loading=true;
-}
+
+    /**
+     * 在加载另外的搜索结果时清除状态
+     */
+    public void clean() {
+        previousTotal = 0;
+        currentPage = 1;
+        loading = true;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
 
     public abstract void onLoadMore(int currentPage);
 }

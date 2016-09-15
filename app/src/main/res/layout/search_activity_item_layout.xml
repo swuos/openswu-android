@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:fresco="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:layout_marginTop="1dp"
               android:background="@color/white"
               android:orientation="horizontal"
-              android:layout_marginTop="1dp"
               android:weightSum="100">
 
-    <com.facebook.drawee.view.SimpleDraweeView
+    <ImageView
         android:id="@+id/bookimage"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
-        android:layout_weight="30"
-        fresco:placeholderImage="@drawable/wifi"
+        android:src="@mipmap/book_cover"
         />
 
     <LinearLayout

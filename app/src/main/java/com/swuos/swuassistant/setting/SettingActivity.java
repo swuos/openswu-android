@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -20,7 +20,7 @@ import com.swuos.util.SALog;
  */
 public class SettingActivity extends BaseActivity {
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //透明导航栏
         //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -30,7 +30,7 @@ public class SettingActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         this.setTitle(R.string.action_settings);
         toolbar.setTitleTextColor(Color.WHITE);
-        Drawable d = getResources().getDrawable(R.drawable.abc_ic_ab_back_material);
+        Drawable d = ContextCompat.getDrawable(this, R.drawable.back_material);
         toolbar.setNavigationIcon(d);
         /*打开preferenceFragment*/
         SettingFragment settingFragment=new SettingFragment();

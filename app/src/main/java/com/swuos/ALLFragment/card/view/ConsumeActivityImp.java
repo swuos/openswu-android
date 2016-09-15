@@ -17,11 +17,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-
-import com.swuos.ALLFragment.card.presenter.ConsmuePresenterImp;
-import com.swuos.ALLFragment.card.utils.MyItemDecoration;
 import com.swuos.ALLFragment.card.adapter.RecyclerAdapterConsume;
 import com.swuos.ALLFragment.card.model.ConsumeInfo;
+import com.swuos.ALLFragment.card.presenter.ConsmuePresenterImp;
+import com.swuos.ALLFragment.card.utils.MyItemDecoration;
 import com.swuos.swuassistant.BaseActivity;
 import com.swuos.swuassistant.R;
 
@@ -73,7 +72,7 @@ public class ConsumeActivityImp extends BaseActivity implements IConsumeView, Sw
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.consmue_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBarConsume);

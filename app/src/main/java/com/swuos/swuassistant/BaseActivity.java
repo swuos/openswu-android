@@ -1,7 +1,6 @@
 package com.swuos.swuassistant;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 
 import solid.ren.skinlibrary.base.SkinBaseActivity;
 
@@ -10,7 +9,7 @@ import solid.ren.skinlibrary.base.SkinBaseActivity;
  */
 public class BaseActivity extends SkinBaseActivity {
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 }

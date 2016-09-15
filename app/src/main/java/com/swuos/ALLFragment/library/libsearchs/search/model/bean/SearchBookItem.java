@@ -25,6 +25,24 @@ public class SearchBookItem {
     private String frame;
     //    架位
     private String shelf;
+    private boolean BookCover = false;
+    private String bookCoverUrl;
+
+    public String getBookCoverUrl() {
+        return bookCoverUrl;
+    }
+
+    public void setBookCoverUrl(String bookCoverUrl) {
+        this.bookCoverUrl = bookCoverUrl;
+    }
+
+    public boolean isBookCover() {
+        return BookCover;
+    }
+
+    public void setBookCover(boolean BookCover) {
+        this.BookCover = BookCover;
+    }
 
     public String getShelf() {
         return shelf;

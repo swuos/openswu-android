@@ -6,9 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchBookItem;
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchResult;
 import com.swuos.swuassistant.R;
@@ -52,10 +53,16 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof SearchViewHodler) {
             ((SearchViewHodler) holder).textViewBookName.setText(searchBookItemList.get(position).getBookName());
-            //holder.bookImage.setImageURI(searchbookItemList.get(position));
+            Glide.with(context).
+                    load(searchBookItemList.get(position).getBookCoverUrl())
+                    .fitCenter()
+                    .placeholder(R.mipmap.book_cover)
+                    .error(R.mipmap.book_cover)
+                    .into(((SearchViewHodler) holder).bookImage);
+
             ((SearchViewHodler) holder).textViewBookNumber.setText(searchBookItemList.get(position).getBookNumber());
             ((SearchViewHodler) holder).textViewBookISBN.setText(searchBookItemList.get(position).getISBN());
             ((SearchViewHodler) holder).textViewBooksuoshuhao.setText(searchBookItemList.get(position).getBookSuoshuhao());
@@ -143,9 +150,10 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
     public void addMore(SearchResult searchResult) {
         /**判断是否已经全部加载,否则开启加载更多*/
         if (searchBookItemList.size() < allBookSize) {
-            mOpenLoadMore = true;
+            searchBookItemList.addAll(searchResult.getSearchbookItemList());
+            if (searchBookItemList.size() < allBookSize) {mOpenLoadMore = true;} else
+                mOpenLoadMore = false;
         } else {mOpenLoadMore = false;}
-        searchBookItemList.addAll(searchResult.getSearchbookItemList());
         notifyDataSetChanged();
     }
 
@@ -175,7 +183,7 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
      * The type Search view hodler.
      */
     private class SearchViewHodler extends RecyclerView.ViewHolder {
-        private SimpleDraweeView bookImage;
+        private ImageView bookImage;
         private AppCompatTextView textViewBookName;
         private AppCompatTextView textViewBookWriter;
         private AppCompatTextView textViewBooksuoshuhao;
@@ -192,7 +200,7 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
          */
         public SearchViewHodler(View itemView) {
             super(itemView);
-            bookImage = (SimpleDraweeView) itemView.findViewById(R.id.bookimage);
+            bookImage = (ImageView) itemView.findViewById(R.id.bookimage);
             textViewBookName = (AppCompatTextView) itemView.findViewById(R.id.search_item_bookname);
             textViewBookWriter = (AppCompatTextView) itemView.findViewById(R.id.search_item_bookwriter);
             textViewBooksuoshuhao = (AppCompatTextView) itemView.findViewById(R.id.search_item_booksuoshuhao);

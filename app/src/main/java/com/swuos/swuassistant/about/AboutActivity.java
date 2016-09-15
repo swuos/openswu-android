@@ -11,8 +11,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -60,7 +60,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
     };
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about_layout);
         /*设置toolbar*/
@@ -68,7 +68,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         setSupportActionBar(toolbar);
         this.setTitle("关于我们");
         toolbar.setTitleTextColor(Color.WHITE);
-        Drawable d = getResources().getDrawable(R.drawable.abc_ic_ab_back_material);
+        Drawable d = ContextCompat.getDrawable(this, R.drawable.back_material);
         toolbar.setNavigationIcon(d);
         initview();
         dynamicAddView(toolbar, "background", R.color.colorPrimary);

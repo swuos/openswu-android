@@ -1,5 +1,4 @@
-package com.swuos.ALLFragment.library.libsearchs.search.model.net;
-
+package com.swuos.ALLFragment.library.libsearchs.search.model.douabn;
 
 import com.swuos.swuassistant.Constant;
 
@@ -23,14 +22,10 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
- * Created by 张孟尧 on 2016/9/3.
+ * Created by 张孟尧 on 2016/9/10.
  */
-public class LibApi {
-
-    private static LibSearch libSearch;
-    private static LibSearchList libSearchList;
-    private static LibBookDetail libBookDetail;
-    private static BookLocation bookLocation;
+public class DoubanApi {
+    private static DoubanSearch doubanSearch;
     private static RxJavaCallAdapterFactory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
     private static ScalarsConverterFactory scalarsConverterFactory = ScalarsConverterFactory.create();
     private static HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
@@ -62,59 +57,19 @@ public class LibApi {
                     return request;
                 }
             })
-            .connectTimeout(Constant.LIBTIMEOUT, TimeUnit.MILLISECONDS)
-            .readTimeout(Constant.LIBTIMEOUT, TimeUnit.MILLISECONDS)
+            .readTimeout(Constant.TIMEOUT, TimeUnit.MILLISECONDS)
             .build();
 
-    public static LibSearch getLibSearch() {
-        if (libSearch == null) {
+    public static DoubanSearch getDoubanSearch() {
+        if (doubanSearch == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constant.LIBRARYSEARCH)
                     .client(okHttpClient)
+                    .baseUrl("https://book.douban.com/")
                     .addConverterFactory(scalarsConverterFactory)
                     .addCallAdapterFactory(rxJavaCallAdapterFactory)
                     .build();
-            libSearch = retrofit.create(LibSearch.class);
+            doubanSearch = retrofit.create(DoubanSearch.class);
         }
-        return libSearch;
-    }
-
-    public static LibSearchList getLibSearchList() {
-        if (libSearchList == null) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constant.LIBRARYSEARCH)
-                    .client(okHttpClient)
-                    .addConverterFactory(scalarsConverterFactory)
-                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
-                    .build();
-            libSearchList = retrofit.create(LibSearchList.class);
-        }
-        return libSearchList;
-    }
-
-    public static LibBookDetail getLibBookDetail() {
-        if (libBookDetail == null) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constant.LIBRARYSEARCH)
-                    .client(okHttpClient)
-                    .addConverterFactory(scalarsConverterFactory)
-                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
-                    .build();
-            libBookDetail = retrofit.create(LibBookDetail.class);
-        }
-        return libBookDetail;
-    }
-
-    public static BookLocation getBookLocation() {
-        if (bookLocation == null) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constant.LIBRARYSEARCH)
-                    .client(okHttpClient)
-                    .addConverterFactory(scalarsConverterFactory)
-                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
-                    .build();
-            bookLocation = retrofit.create(BookLocation.class);
-        }
-        return bookLocation;
+        return doubanSearch;
     }
 }
