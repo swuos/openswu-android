@@ -1,13 +1,6 @@
 package com.swuos.ALLFragment.wifi.presenter;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 
 import com.swuos.ALLFragment.swujw.TotalInfos;
@@ -28,22 +21,15 @@ import rx.schedulers.Schedulers;
 public class IWifiPresenetrCompl implements IWifiPresenter {
     IWifiFragmentView iWifiFragmentView;
     Context context;
-    String wifissid;
     private TotalInfos totalInfo = TotalInfos.getInstance();
-    private WifiStateBroad wifiStateBroad;
 
     public IWifiPresenetrCompl(IWifiFragmentView iWifiFragmentView, Context context) {
         this.iWifiFragmentView = iWifiFragmentView;
         this.context = context;
-        wifiStateBroad = new WifiStateBroad();
-        WifiManager wifiManager = (WifiManager) context
-                .getSystemService(Context.WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        wifissid = wifiInfo.getSSID();
     }
 
     @Override
-    public void login(final String username, final String password) {
+    public void login(final String username, final String password,final  String wifissid) {
         Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
@@ -63,7 +49,7 @@ public class IWifiPresenetrCompl implements IWifiPresenter {
     }
 
     @Override
-    public void logout(final String username, final String password) {
+    public void logout(final String username, final String password,final  String wifissid) {
         Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
@@ -84,7 +70,7 @@ public class IWifiPresenetrCompl implements IWifiPresenter {
     }
 
     @Override
-    public void timingLogout(final String username, final String password, final int delaytime) {
+    public void timingLogout(final String username, final String password, final int delaytime,final  String wifissid) {
         Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
@@ -112,48 +98,18 @@ public class IWifiPresenetrCompl implements IWifiPresenter {
 
     @Override
     public void initdata() {
-        IntentFilter filter = new IntentFilter();
+      /*  IntentFilter filter = new IntentFilter();
         filter.addAction(WifiManager.RSSI_CHANGED_ACTION);
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-        context.registerReceiver(wifiStateBroad, filter);
+        broadcastManager.registerReceiver(wifiStateBroad, filter);*/
     }
 
-    class WifiStateBroad extends BroadcastReceiver {
-        @Override
+    @Override
+    public void unregisterReceiver() {
 
-
-        public void onReceive(Context context, Intent intent) {
-
-            WifiManager wifiManager = (WifiManager) context
-                    .getSystemService(Context.WIFI_SERVICE);
-            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            wifissid = wifiInfo.getSSID();
-            int wifiState = wifiManager.getWifiState();
-            if (wifiState == WifiManager.WIFI_STATE_ENABLING) {
-                iWifiFragmentView.changeWifiState("正在打开WIFI");
-            } else if (wifiState == WifiManager.WIFI_STATE_ENABLED) {
-                iWifiFragmentView.changeWifiState("WIFI未连接");
-
-                ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                if (networkInfo != null && networkInfo.isConnected()) {
-                    if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                        //                        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-                        //                        String wifissid = wifiInfo.getSSID();
-                        iWifiFragmentView.changeWifiState(wifissid.replace("\"", ""));
-                    }
-                } else if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-                    if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-
-                        iWifiFragmentView.changeWifiState("正在连接 " + wifissid);
-                    }
-                }
-            } else if (wifiState == WifiManager.WIFI_STATE_DISABLED) {
-                iWifiFragmentView.changeWifiState("WIFI已关闭");
-            }
-
-        }
     }
+
+
 
 }

@@ -5,12 +5,11 @@ import android.content.SharedPreferences;
 import android.util.Base64;
 
 import com.google.gson.Gson;
-
 import com.swuos.ALLFragment.swujw.TotalInfos;
 import com.swuos.ALLFragment.swujw.net.api.SwuApi;
 import com.swuos.ALLFragment.swujw.net.jsona.LoginJson;
 import com.swuos.ALLFragment.swujw.schedule.model.Schedule;
-import com.swuos.ALLFragment.swujw.schedule.model.ScheduleData;
+import com.swuos.ALLFragment.swujw.schedule.model.ScheduleDatas;
 import com.swuos.ALLFragment.swujw.schedule.view.IScheduleView;
 import com.swuos.swuassistant.Constant;
 import com.swuos.util.SALog;
@@ -142,7 +141,7 @@ public class SchedulePresenterCompl implements ISchedulePresenter {
                 else {
                     totalInfos.setScheduleDataJson(s);
                     Gson gson = new Gson();
-                    totalInfos.setScheduleData(gson.fromJson(totalInfos.getScheduleDataJson(), ScheduleData.class));
+                    totalInfos.setScheduleData(gson.fromJson(totalInfos.getScheduleDataJson(), ScheduleDatas.class));
                     totalInfos.setScheduleItemList(Schedule.getScheduleList(totalInfos));
                         /*将获取的课程表json信息写入本地文件*/
                     editor.putString("scheduleDataJson", totalInfos.getScheduleDataJson());

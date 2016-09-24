@@ -21,6 +21,7 @@ import com.swuos.util.SALog;
  * Created by 张孟尧 on 2016/4/6.
  */
 public class FragmentControl {
+    private static final String STATE_SAVE_IS_SHOW = "STATE_SAVE_IS_SHOW";
     /*主界面布局*/
     private static MainPageFragment mainPageFragment;
     /*课程表界面布局*/
@@ -44,10 +45,10 @@ public class FragmentControl {
     }
 
     private static void hideFragments(FragmentTransaction fragmentTransaction) {
-        if (mainPageFragment != null) {
-            SALog.d("MainActity", "Hidemain");
-            fragmentTransaction.hide(mainPageFragment);
-        }
+//        if (mainPageFragment != null) {
+//            SALog.d("MainActity", "Hidemain");
+//            fragmentTransaction.hide(mainPageFragment);
+//        }
         if (gradesFragment != null) {
             SALog.d("MainActity", "HideGrades");
             fragmentTransaction.hide(gradesFragment);
@@ -75,6 +76,7 @@ public class FragmentControl {
 
         if (chargeFragment != null) {
             fragmentTransaction.hide(chargeFragment);
+            chargeFragment.setHidden(true);
         }
         if (findLostFragment != null) {
             fragmentTransaction.hide(findLostFragment);
@@ -82,7 +84,7 @@ public class FragmentControl {
 
     }
 
-    public  void fragmentSelection(int id) {
+    public void fragmentSelection(int id) {
         FragmentTransaction transaction;
         transaction = fragmentManager.beginTransaction();
 
@@ -116,7 +118,7 @@ public class FragmentControl {
 
                 if (libraryFragment == null) {
                     // 如果libraryFragrment为空，则创建一个并添加到界面上
-                    libraryFragment = new  LibFragment();
+                    libraryFragment = new LibFragment();
                     transaction.add(R.id.content, libraryFragment, Constant.FRAGMENTTAG[6]);
                 } else {
                     // 如果libraryFragrment不为空，则直接将它显示出来
@@ -139,6 +141,18 @@ public class FragmentControl {
                     // 如果studyMaterialsFragment不为空，则直接将它显示出来
                     transaction.show(cardfragment);
                 }
+                break;
+            case R.id.nav_charge:
+
+                if (chargeFragment == null) {
+                    // 如果chargeFragment为空，则创建一个并添加到界面上
+                    chargeFragment = new ChargeFragment();
+                    transaction.add(R.id.content, chargeFragment, Constant.FRAGMENTTAG[5]);
+                } else {
+                    // 如果chargeFragment不为空，则直接将它显示出来
+                    transaction.show(chargeFragment);
+                }
+
                 break;
             /*case R.id.nav_study_materials:
 
@@ -163,18 +177,7 @@ public class FragmentControl {
                     transaction.show(findLostFragment);
                 }
                 break;
-            case R.id.nav_charge:
-
-                if (chargeFragment == null) {
-                    // 如果chargeFragment为空，则创建一个并添加到界面上
-                    chargeFragment = new ChargeFragment();
-                    transaction.add(R.id.content, chargeFragment, Constant.FRAGMENTTAG[5]);
-                } else {
-                    // 如果chargeFragment不为空，则直接将它显示出来
-                    transaction.show(chargeFragment);
-                }
-
-                break;*/
+          */
             default:
                 break;
         }
@@ -216,27 +219,30 @@ public class FragmentControl {
     }
 
     public void fragmentStateCheck(Bundle saveInstanceState, FragmentManager fragmentManager, int fragmentPosition) {
-        if (saveInstanceState == null) {
-            //            initFragment(fragmentManager);
+      /*  if (saveInstanceState == null) {
             fragmentSelection(fragmentPosition);
             SALog.d("MainActity", "加载各个fragment");
-        } else {
-            SALog.d("MainActity", "saveInstanceState存在数据,重新加载fragment");
-            if (mainPageFragment != null) {
-                mainPageFragment = (MainPageFragment) fragmentManager.findFragmentByTag(Constant.FRAGMENTTAG[0]);
-
-                SALog.d("MainActity", "saveInstanceState存在数据,findMainPage");
-            }
+        } else*/ {
+//            SALog.d("MainActity", "saveInstanceState存在数据,重新加载fragment");
+            //            if (mainPageFragment != null) {
+            //                mainPageFragment = (MainPageFragment) fragmentManager.findFragmentByTag(Constant.FRAGMENTTAG[0]);
+            //
+            //                SALog.d("MainActity", "saveInstanceState存在数据,mindMainPage");
+            //            }
 
             if (scheduleFragment != null) {
                 scheduleFragment = (ScheduleFragment) fragmentManager.findFragmentByTag(Constant.FRAGMENTTAG[1]);
-                SALog.d("MainActity", "saveInstanceState存在数据,findSchedulFragment");
+                SALog.d("MainActity", "saveInstanceState存在数据,SchedulFragment");
             }
             if (gradesFragment != null) {
                 gradesFragment = (GradesFragment) fragmentManager.findFragmentByTag(Constant.FRAGMENTTAG[2]);
+                SALog.d("MainActity", "saveInstanceState存在数据,gradesFragment");
+
             }
             if (cardfragment != null) {
                 cardfragment = (EcardFragmentImp) fragmentManager.findFragmentByTag(Constant.FRAGMENTTAG[8]);
+                SALog.d("MainActity", "saveInstanceState存在数据,cardFragment");
+
             }
 
             if (studyMaterialsFragment != null) {
@@ -247,15 +253,20 @@ public class FragmentControl {
             }
             if (chargeFragment != null) {
                 chargeFragment = (ChargeFragment) fragmentManager.findFragmentByTag(Constant.FRAGMENTTAG[5]);
+                SALog.d("MainActity", "saveInstanceState存在数据,chargeFragment");
+
             }
             if (WifiFragment != null) {
                 WifiFragment = (WifiFragment) fragmentManager.findFragmentByTag(Constant.FRAGMENTTAG[7]);
+                SALog.d("MainActity", "saveInstanceState存在数据,wifiragment");
+
             }
             if (libraryFragment != null) {
                 libraryFragment = (LibFragment) fragmentManager.findFragmentByTag(Constant.FRAGMENTTAG[6]);
                 SALog.d("MainActity", "saveInstanceState存在数据,findLibraryFragment");
             }
-            fragmentSelection(fragmentPosition);
+//            fragmentSelection(saveInstanceState.getInt(STATE_SAVE_IS_SHOW));
         }
     }
+
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="xLineHeight" format="dimension|reference"/>
+    <attr name="xLineColor" format="color|reference"/>
+    <attr name="xTextSize" format="dimension|reference"/>
+    <attr name="xTextColor" format="color|reference"/>
+    <attr name="xTextPaddingtoXline" format="dimension|reference"/>
+    <attr name="xPointColor" format="color|reference"/>
+    <attr name="xPointRadius" format="dimension|reference"/>
+    <attr name="polylineWidth" format="dimension|reference"/>
+    <attr name="polylineColor" format="color|reference"/>
+    <attr name="polylineStyle">
+        <enum name="straight" value="0"/>
+        <enum name="curve" value="1"/>
+    </attr>
+    <attr name="polylinePointRadius" format="dimension|reference"/>
+    <attr name="polylinePointColor" format="color|reference"/>
+    <declare-styleable name="LineChartView">
+        <attr name="xLineHeight"/>
+        <attr name="xLineColor"/>
+        <attr name="xTextSize"/>
+        <attr name="xTextColor"/>
+        <attr name="xTextPaddingtoXline"/>
+        <attr name="xPointColor"/>
+        <attr name="xPointRadius"/>
+        <attr name="polylineWidth"/>
+        <attr name="polylineColor"/>
+        <attr name="polylineStyle"/>
+        <attr name="polylinePointRadius"/>
+        <attr name="polylinePointColor"/>
+    </declare-styleable>
+</resources>

@@ -21,6 +21,16 @@ public class ScheduleItem
     private String xqmc;
     /*上课周*/
     private String zcd;
+    private String zcdAll;
+
+    public String getZcdAll() {
+        return zcdAll;
+    }
+
+    public void setZcdAll(String zcdAll) {
+        this.zcdAll = zcdAll;
+    }
+
     /*星期几*/
     private int xqj;
     /*课时*/

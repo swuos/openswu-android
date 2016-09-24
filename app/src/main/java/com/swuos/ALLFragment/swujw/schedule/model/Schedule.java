@@ -32,9 +32,9 @@ public class Schedule {
         List<ScheduleItem> scheduleItemListSort = new ArrayList<>();
          /*构建gson数据来解析json数据*/
         Gson gson = new Gson();
-        totalInfo.setScheduleData(gson.fromJson(totalInfo.getScheduleDataJson(), ScheduleData.class));
-        ScheduleData scheduleData = totalInfo.getScheduleData();
-        ScheduleData.KbList kbList;
+        totalInfo.setScheduleData(gson.fromJson(totalInfo.getScheduleDataJson(), ScheduleDatas.class));
+        ScheduleDatas scheduleData = totalInfo.getScheduleData();
+        ScheduleDatas.KbListBean kbList;
         for (int i = 0; i < scheduleData.getKbList().size(); i++) {
 
             kbList = scheduleData.getKbList().get(i);
@@ -46,7 +46,7 @@ public class Schedule {
             scheduleItem.setJc(kbList.getJc());
             scheduleItem.setXqmc(kbList.getXqmc());
             scheduleItem.setZcd(kbList.getZcd());
-            String temp[] = kbList.getJcor().split("-");
+            String temp[] = kbList.getJcs().split("-");
             /*起始上课节*/
             scheduleItem.setStart(Integer.valueOf(temp[0]));
             /*结束上课节*/
@@ -61,26 +61,22 @@ public class Schedule {
             scheduleItem.setClassweek(week(scheduleItem.getZcd()));
             //            scheduleItem.setClassStartTime(Constant.STARTtIMEHOUR[scheduleItem.getStart()], Constant.STARTtIMEMIN[scheduleItem.getStart()]);
             scheduleItem.setStartTime(Constant.STARTtIMES[scheduleItem.getStart() - 1] * 1000 * 60 + (scheduleItem.getXqj() - 1) * Constant.ONE_DAY_TIME);
+
             int pos = 1;
             /*判断该课程已经存在*/
             for (int j = 0; j < scheduleItemListSort.size(); j++) {
                 ScheduleItem tempSchedule = scheduleItemListSort.get(j);
 
-                if (tempSchedule.getKcmc().equals(scheduleItem.getKcmc()) && tempSchedule.getXqjmc().equals(scheduleItem.getXqjmc()) && tempSchedule.getJc().equals(scheduleItem.getJc())) {
+                if (tempSchedule.getKcmc().equals(scheduleItem.getKcmc()) && tempSchedule.getXqjmc().equals(scheduleItem.getXqjmc()) /*&& tempSchedule.getJc().equals(scheduleItem.getJc())*/) {
                     scheduleItemListSort.get(j).setZcd(scheduleItemListSort.get(j).getZcd() + "," + scheduleItem.getZcd());
                     scheduleItemListSort.get(j).setClassweek(week(scheduleItemListSort.get(j).getZcd()));
                     /*总课表显示内容加上周*/
                     scheduleItemListSort.get(j).setTextShowAll(tempSchedule.getTextShow() + scheduleItem.getZcd());
-                    pos = 0;
-                    break;
+
                 }
             }
-            /*pos为1说明是新添加scheduleitem*/
-            if (pos == 1)
 
                 scheduleItemListSort.add(scheduleItem);
-            else
-                pos = 1;
         }
         return scheduleItemListSort;
     }

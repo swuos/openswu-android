@@ -43,6 +43,7 @@ import solid.ren.skinlibrary.loader.SkinManager;
 
 
 public class MainActivity extends BaseActivity implements IMainview, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+    private static final String STATE_SAVE_IS_SHOW = "STATE_SAVE_IS_SHOW";
     private static TotalInfos totalInfo = TotalInfos.getInstance();
     private static int fragmentPosition = R.id.nav_wifi;
     TextView nameTextView;
@@ -66,12 +67,24 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
         iMainPresenter.startServier();
         initView();
         initChangeskin();
+
         fragmentControl = new FragmentControl(getSupportFragmentManager());
-        fragmentControl.fragmentStateCheck(savedInstanceState, getSupportFragmentManager(), fragmentPosition);
+        if (savedInstanceState == null) {
+            fragmentControl.fragmentSelection(R.id.nav_wifi);
+            SALog.d("MainActivity", "\"savedInstanceState == null\"");
+        } else {
+            SALog.d("MainActivity", "\"savedInstanceState != null\"");
+            fragmentControl.fragmentStateCheck(savedInstanceState, getSupportFragmentManager(), R.id.nav_wifi);
+        }
         SALog.d("Mainactivity", "OnCreatview");
         SALog.d("Mainactivity", Tools.getSystemProperty("ro.miui.ui.version.name"));
         iMainPresenter.startUpdata();
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     /*获得某个活动的回复信息*/
@@ -203,6 +216,12 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
             case R.id.nav_wifi:
                 fragmentControl.fragmentSelection(id);
                 toolbar.setTitle(R.string.wifi);
+                fragmentPosition = id;
+                isFragmentLibSelected = false;
+                break;
+            case R.id.nav_charge:
+                fragmentControl.fragmentSelection(id);
+                toolbar.setTitle(R.string.charge_title);
                 fragmentPosition = id;
                 isFragmentLibSelected = false;
                 break;

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="building">
+        <item>橘园13舍</item>
+        <item>橘园12舍</item>
+        <item>橘园11舍</item>
+        <item>橘园10舍</item>
+        <item>橘园9舍</item>
+        <item>橘园8舍</item>
+        <item>橘园7舍</item>
+        <item>竹园2区1舍</item>
+        <item>竹园2区2舍</item>
+        <item>竹园2区3舍</item>
+        <item>竹园2区4舍</item>
+        <item>竹园2区5舍</item>
+        <item>竹园2区6舍</item>
+        <item>竹园1区A栋</item>
+        <item>竹园1区B栋</item>
+        <item>竹园1区C栋</item>
+        <item>竹园1区D栋</item>
+        <item>竹园1区E栋</item>
+        <item>竹园1区F栋</item>
+        <item>杏园A栋</item>
+        <item>杏园B栋</item>
+        <item>杏园C栋</item>
+        <item>杏园D栋</item>
+        <item>杏园E栋</item>
+        <item>杏园F栋</item>
+        <item>梅园1舍</item>
+        <item>梅园2舍</item>
+        <item>梅园3舍</item>
+        <item>梅园4舍</item>
+        <item>桃园1舍</item>
+        <item>桃园2舍</item>
+        <item>桃园3舍</item>
+        <item>桃园4舍</item>
+        <item>桃园5舍</item>
+        <item>桃园6舍</item>
+        <item>楠园1舍</item>
+        <item>楠园2舍</item>
+        <item>楠园3舍</item>
+        <item>楠园4舍</item>
+        <item>楠园5舍</item>
+        <item>楠园6舍</item>
+        <item>楠园7舍</item>
+        <item>楠园8舍</item>
+        <item>楠园9舍</item>
+        <item>楠园13舍</item>
+    </string-array>
+</resources>

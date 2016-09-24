@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.swuos.Service.WifiNotificationService;
@@ -16,9 +15,6 @@ import com.swuos.util.SALog;
 import com.swuos.util.tools.MToast;
 import com.swuos.util.wifi.WifiExit;
 import com.swuos.util.wifi.WifiLogin;
-
-import io.github.zhitaocai.toastcompat.MIUIToast;
-import io.github.zhitaocai.toastcompat.ToastCompat;
 
 /**
  * Created by 张孟尧 on 2016/5/16.
@@ -48,7 +44,7 @@ public class MwifiBroadcast extends BroadcastReceiver {
                 Intent stopIntent = new Intent(context, WifiNotificationService.class);
                 context.stopService(stopIntent);
                 SALog.d("setting", "关闭前台服务");
-                Log.d("wifi", "WIFI关闭");
+                SALog.d("wifi", "WIFI关闭");
             }
 
             if (wifistate == WifiManager.WIFI_STATE_ENABLED) {

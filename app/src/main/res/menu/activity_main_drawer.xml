@@ -30,10 +30,7 @@
         <!--android:id="@+id/nav_find_lost"-->
         <!--android:icon="@drawable/ic_action_bug"-->
         <!--android:title="失物找寻"/>-->
-        <!--<item-->
-        <!--android:id="@+id/nav_charge"-->
-        <!--android:icon="@drawable/ic_action_creditcard"-->
-        <!--android:title="水电费"/>-->
+
         <item
             android:id="@+id/nav_library"
             android:icon="@drawable/ic_action_book"
@@ -42,6 +39,10 @@
             android:id="@+id/nav_ecard"
             android:icon="@drawable/ic_action_document"
             android:title="一卡通"/>
+        <item
+            android:id="@+id/nav_charge"
+            android:icon="@drawable/ic_action_creditcard"
+            android:title="水电费"/>
 
 
     </group>

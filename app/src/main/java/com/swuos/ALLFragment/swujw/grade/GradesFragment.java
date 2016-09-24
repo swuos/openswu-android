@@ -2,7 +2,6 @@ package com.swuos.ALLFragment.swujw.grade;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -14,7 +13,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-
+import com.swuos.ALLFragment.BaseFragment;
 import com.swuos.ALLFragment.swujw.grade.adapter.GradeDetaiAdapter;
 import com.swuos.ALLFragment.swujw.grade.adapter.GradesAdapter;
 import com.swuos.ALLFragment.swujw.grade.model.GradeItem;
@@ -31,16 +30,16 @@ import java.util.List;
 /**
  * Created by 张孟尧 on 2016/2/29.
  */
-public class GradesFragment extends Fragment implements IGradeview, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class GradesFragment extends BaseFragment implements IGradeview, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private static JazzyListView listView;
+    private  JazzyListView listView;
     /*listview的适配器*/
-    private static GradesAdapter adapter = null;
+    private  GradesAdapter adapter = null;
     /*选择学年的下拉列表*/
-    private static Spinner spinnerXnm;
+    private  Spinner spinnerXnm;
     /*选择学期的下拉列表*/
-    private static Spinner spinnerXqm;
-    private static SwipeRefreshLayout swipeRefreshLayout;
+    private  Spinner spinnerXqm;
+    private  SwipeRefreshLayout swipeRefreshLayout;
 
 
     View gradesLayout;

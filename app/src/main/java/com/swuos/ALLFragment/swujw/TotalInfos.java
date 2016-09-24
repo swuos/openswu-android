@@ -1,7 +1,7 @@
 package com.swuos.ALLFragment.swujw;
 
 import com.swuos.ALLFragment.swujw.grade.model.GradesData;
-import com.swuos.ALLFragment.swujw.schedule.model.ScheduleData;
+import com.swuos.ALLFragment.swujw.schedule.model.ScheduleDatas;
 import com.swuos.ALLFragment.swujw.schedule.model.ScheduleItem;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class TotalInfos {
     /*密码*/
     private static String password = null;
     /*课程表*/
-    private static ScheduleData scheduleData = null;
+    private static ScheduleDatas scheduleDatas = null;
     /*课表表源json数据*/
     private static String scheduleDataJson = null;
     private static String gradesDataJson = null;
@@ -118,12 +118,12 @@ public class TotalInfos {
         this.gradesData = gradesData;
     }
 
-    public ScheduleData getScheduleData() {
-        return scheduleData;
+    public ScheduleDatas getScheduleData() {
+        return scheduleDatas;
     }
 
-    public void setScheduleData(ScheduleData scheduleData) {
-        this.scheduleData = scheduleData;
+    public void setScheduleData(ScheduleDatas scheduleData) {
+        this.scheduleDatas = scheduleData;
     }
 
 }

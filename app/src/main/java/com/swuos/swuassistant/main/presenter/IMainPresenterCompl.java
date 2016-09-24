@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.swuos.ALLFragment.swujw.TotalInfos;
@@ -18,6 +17,7 @@ import com.swuos.Service.WifiNotificationService;
 import com.swuos.swuassistant.BaseApplication;
 import com.swuos.swuassistant.Constant;
 import com.swuos.swuassistant.main.view.IMainview;
+import com.swuos.util.SALog;
 import com.swuos.util.updata.GetAppVersion;
 import com.swuos.util.updata.Updatajson;
 
@@ -86,7 +86,7 @@ public class IMainPresenterCompl implements IMainPresenter {
             FIR.checkForUpdateInFIR("ab63d4ce50e42ddbbc200d7c939a8da7", new VersionCheckCallback() {
                 @Override
                 public void onSuccess(String versionJson) {
-                    Log.i("fir", "check from fir.im success! " + "\n" + versionJson);
+                    SALog.d("fir", "check from fir.im success! " + "\n" + versionJson);
                     if (versionJson.contains("西大助手")) {
                         Gson gson = new Gson();
                         Updatajson updatajson = gson.fromJson(versionJson, Updatajson.class);
@@ -100,7 +100,7 @@ public class IMainPresenterCompl implements IMainPresenter {
 
                 @Override
                 public void onFail(Exception exception) {
-                    Log.i("fir", "check fir.im fail! " + "\n" + exception.getMessage());
+                    SALog.d("fir", "check fir.im fail! " + "\n" + exception.getMessage());
                 }
 
                 @Override

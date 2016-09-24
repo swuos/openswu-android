@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextPaint;
@@ -18,14 +17,14 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-
+import com.swuos.ALLFragment.BaseFragment;
 import com.swuos.ALLFragment.swujw.TotalInfos;
 import com.swuos.ALLFragment.swujw.schedule.model.CurrentWeek;
 import com.swuos.ALLFragment.swujw.schedule.model.ScheduleData;
 import com.swuos.ALLFragment.swujw.schedule.model.ScheduleItem;
 import com.swuos.swuassistant.Constant;
-import com.swuos.swuassistant.main.MainActivity;
 import com.swuos.swuassistant.R;
+import com.swuos.swuassistant.main.MainActivity;
 import com.swuos.util.SALog;
 
 import java.util.ArrayList;
@@ -34,11 +33,11 @@ import java.util.List;
 /**
  * Created by 张孟尧 on 2016/3/10.
  */
-public class ScheduleTableFragment extends Fragment implements View.OnTouchListener, View.OnClickListener {
+public class ScheduleTableFragment extends BaseFragment implements View.OnTouchListener, View.OnClickListener {
 
-    private static TotalInfos totalInfo = TotalInfos.getInstance();
-    private static SwipeRefreshLayout swipeRefreshLayout;
-    private static MainActivity mainActivity;
+    private  TotalInfos totalInfo = TotalInfos.getInstance();
+    private  SwipeRefreshLayout swipeRefreshLayout;
+    private  MainActivity mainActivity;
     private static int curretweek = -1;
     View scheduleTableLayout;
     /*课程表布局*/

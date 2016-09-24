@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +22,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.swuos.ALLFragment.BaseFragment;
 import com.swuos.ALLFragment.library.lib.MyItemDecoration;
 import com.swuos.ALLFragment.library.lib.adapters.RecyclerAdapterLibMain;
 import com.swuos.ALLFragment.library.lib.model.BookBean2;
@@ -39,7 +39,7 @@ import java.util.List;
  * Created by youngkaaa on 2016/5/27.
  * Email:  645326280@qq.com
  */
-public class LibFragment extends Fragment implements ILibView, SwipeRefreshLayout.OnRefreshListener, RecyclerAdapterLibMain.OnRecyclerItemClickedListener, View.OnClickListener {
+public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshLayout.OnRefreshListener, RecyclerAdapterLibMain.OnRecyclerItemClickedListener, View.OnClickListener {
     public static final String KEY_USER_NAME = "LibFragment_Name";
     public static final String KEY_USER_PD = "LibFragment_PASSWD";
     private RecyclerView recyclerView;

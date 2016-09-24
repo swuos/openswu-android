@@ -36,4 +36,7 @@
     <style name="TablayoutTextColor">
         <item name="android:textColor">@android:color/white</item>
     </style>
+    <style name="charg_button">
+        <item name="android:background" >@drawable/charg_button</item>
+    </style>
 </resources>
