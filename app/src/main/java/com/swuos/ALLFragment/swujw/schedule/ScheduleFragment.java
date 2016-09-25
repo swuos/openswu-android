@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.swuos.ALLFragment.BaseFragment;
-
 import com.swuos.ALLFragment.swujw.schedule.adapter.ScheduleViewpagerAdapter;
 import com.swuos.ALLFragment.swujw.schedule.model.CurrentWeek;
 import com.swuos.ALLFragment.swujw.schedule.presenter.ISchedulePresenter;
@@ -146,5 +145,11 @@ public class ScheduleFragment extends BaseFragment implements IScheduleView, Swi
     @Override
     public void showError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        schedule_layout = null;
     }
 }

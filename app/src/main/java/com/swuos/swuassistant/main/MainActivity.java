@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.util.ArrayMap;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -43,17 +44,18 @@ import solid.ren.skinlibrary.loader.SkinManager;
 
 
 public class MainActivity extends BaseActivity implements IMainview, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
-    private static final String STATE_SAVE_IS_SHOW = "STATE_SAVE_IS_SHOW";
-    private static TotalInfos totalInfo = TotalInfos.getInstance();
-    private static int fragmentPosition = R.id.nav_wifi;
+    private final String STATE_SAVE_IS_SHOW = "STATE_SAVE_IS_SHOW";
     TextView nameTextView;
     TextView swuIDTextView;
     IMainPresenter iMainPresenter;
     View headerView;
     NavigationView navigationView;
+    private TotalInfos totalInfo = TotalInfos.getInstance();
+    private int fragmentPosition = R.id.nav_wifi;
     private FragmentControl fragmentControl;
     private LocalBroadcastManager localBroadcastManager;
     private boolean isFragmentLibSelected = false;
+    private ArrayMap arrayMap = new ArrayMap();
     private Toolbar toolbar;
 
     @Override
@@ -71,12 +73,13 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
         fragmentControl = new FragmentControl(getSupportFragmentManager());
         if (savedInstanceState == null) {
             fragmentControl.fragmentSelection(R.id.nav_wifi);
-            SALog.d("MainActivity", "\"savedInstanceState == null\"");
+            arrayMap.put("wifiFragment", true);
+
+            SALog.d("FragmentControl", "savedInstanceState == null");
         } else {
-            SALog.d("MainActivity", "\"savedInstanceState != null\"");
+            SALog.d("FragmentControl", "savedInstanceState != null");
             fragmentControl.fragmentStateCheck(savedInstanceState, getSupportFragmentManager(), R.id.nav_wifi);
         }
-        SALog.d("Mainactivity", "OnCreatview");
         SALog.d("Mainactivity", Tools.getSystemProperty("ro.miui.ui.version.name"));
         iMainPresenter.startUpdata();
 
@@ -85,6 +88,25 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        if (arrayMap.get("scheduleFragment") != null) {
+            outState.putBoolean("scheduleFragment", true);
+        }
+        if (arrayMap.get("gradesFragment") != null) {
+            outState.putBoolean("gradesFragment", true);
+        }
+        if (arrayMap.get("cardfragment") != null) {
+            outState.putBoolean("cardfragment", true);
+        }
+        if (arrayMap.get("chargeFragment") != null) {
+            outState.putBoolean("chargeFragment", true);
+        }
+        if (arrayMap.get("wifiFragment") != null) {
+            outState.putBoolean("wifiFragment", true);
+        }
+        if (arrayMap.get("libraryFragment") != null) {
+            outState.putBoolean("libraryFragment", true);
+        }
+
     }
 
     /*获得某个活动的回复信息*/
@@ -190,36 +212,46 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_grades:
+                arrayMap.put("gradesFragment", true);
                 fragmentControl.fragmentSelection(id);
                 toolbar.setTitle(R.string.grades_title);
                 fragmentPosition = id;
                 isFragmentLibSelected = false;
                 break;
             case R.id.nav_schedule:
+                arrayMap.put("scheduleFragment", true);
+
                 fragmentControl.fragmentSelection(id);
                 toolbar.setTitle(R.string.schedule_title);
                 fragmentPosition = id;
                 isFragmentLibSelected = false;
                 break;
             case R.id.nav_library:
+                arrayMap.put("libraryFragment", true);
+
                 fragmentControl.fragmentSelection(id);
                 toolbar.setTitle(R.string.library_title);
                 fragmentPosition = id;
                 isFragmentLibSelected = true;
                 break;
             case R.id.nav_ecard:
+                arrayMap.put("cardfragment", true);
                 fragmentControl.fragmentSelection(id);
                 toolbar.setTitle(R.string.ecard_title);
                 fragmentPosition = id;
                 isFragmentLibSelected = false;
                 break;
             case R.id.nav_wifi:
+                arrayMap.put("wifiFragment", true);
+
                 fragmentControl.fragmentSelection(id);
                 toolbar.setTitle(R.string.wifi);
                 fragmentPosition = id;
                 isFragmentLibSelected = false;
                 break;
             case R.id.nav_charge:
+                arrayMap.put("chargeFragment", true);
+
                 fragmentControl.fragmentSelection(id);
                 toolbar.setTitle(R.string.charge_title);
                 fragmentPosition = id;

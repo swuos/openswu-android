@@ -2,7 +2,6 @@ package com.swuos.ALLFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
 
 import solid.ren.skinlibrary.base.SkinBaseFragment;
 
@@ -16,7 +15,7 @@ public class BaseFragment extends SkinBaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
+        /*if (savedInstanceState != null) {
             boolean isSupportHidden = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
 
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -26,7 +25,7 @@ public class BaseFragment extends SkinBaseFragment {
                 ft.show(this);
             }
             ft.commit();
-        }
+        }*/
     }
 
     @Override

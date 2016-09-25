@@ -55,7 +55,7 @@ public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshL
     private LinearLayout linearLayoutError;
     private SharedPreferences sharedPreferences;
     private FloatingActionButton fabPersonView;
-
+    private View view;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -90,7 +90,7 @@ public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshL
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         SALog.d("kklog", "onCreateView");
-        final View view = inflater.inflate(R.layout.lib_fragment, container, false);
+        view = inflater.inflate(R.layout.lib_fragment, container, false);
         fabPersonView= (FloatingActionButton) view.findViewById(R.id.fabLibPerson);
         fabPersonView.setOnClickListener(this);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewLibMain);
@@ -310,5 +310,11 @@ public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshL
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        view = null;
     }
 }

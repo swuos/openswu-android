@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -77,7 +78,7 @@ public class ConsumeActivityImp extends BaseActivity implements IConsumeView, Sw
         setContentView(R.layout.consmue_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBarConsume);
         toolbar.setTitle("消费记录");
-        toolbar.setTitleTextColor(getColor(R.color.white));
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
         setSupportActionBar(toolbar);
         dynamicAddView(toolbar, "background", R.color.colorPrimary);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

@@ -68,6 +68,13 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        SALog.d("WifiFragment", "onDestroyView");
+        view = null;
+    }
+
     private void initview() {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.wifi_SwipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R
@@ -203,7 +210,7 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
 
 
         public void onReceive(Context context, Intent intent) {
-            SALog.d("WifiStateReciver", intent.getAction());
+//            SALog.d("WifiStateReciver", intent.getAction());
             WifiManager wifiManager = (WifiManager) context
                     .getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -211,11 +218,11 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
             int wifiState = wifiManager.getWifiState();
             switch (wifiState) {
                 case WifiManager.WIFI_STATE_ENABLING:
-                    SALog.d("WifiStateReciver", "WIFI_STATE_ENABLING");
+//                    SALog.d("WifiStateReciver", "WIFI_STATE_ENABLING");
                     changeWifiState("正在打开WIFI");
                     break;
                 case WifiManager.WIFI_STATE_ENABLED:
-                    SALog.d("WifiStateReciver", "WIFI_STATE_ENABLED");
+//                    SALog.d("WifiStateReciver", "WIFI_STATE_ENABLED");
                     changeWifiState("WIFI已打开");
                     ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                     NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -232,7 +239,7 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
                     break;
                 case WifiManager.WIFI_STATE_DISABLED:
                     changeWifiState("WIFI已关闭");
-                    SALog.d("WifiStateReciver", "WIFI_STATE_DISABLED");
+//                    SALog.d("WifiStateReciver", "WIFI_STATE_DISABLED");
                     break;
 
             }

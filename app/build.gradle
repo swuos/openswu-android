@@ -13,6 +13,7 @@ android {
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId 'com.swuos.swuassistant'
+        vectorDrawables.useSupportLibrary = true
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 3

@@ -72,7 +72,7 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        SALog.d("onAttach", String.valueOf(week));
+        //        SALog.d("onAttach", String.valueOf(week));
 
     }
 
@@ -99,7 +99,7 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
         scrollView.setOnTouchListener(this);
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.schedule_SwipeRefreshLayout);
 
-        SALog.d("creatview", String.valueOf(week));
+        //        SALog.d("creatview", String.valueOf(week));
 
         return scheduleTableLayout;
     }
@@ -122,13 +122,13 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
 
     @Override
     public void onStart() {
-        SALog.d("start", String.valueOf(week));
+        //        SALog.d("start", String.valueOf(week));
         super.onStart();
     }
 
     @Override
     public void onResume() {
-        SALog.d("resume", String.valueOf(week));
+        //        SALog.d("resume", String.valueOf(week));
         /*延后刷新*/
         if (late_Load) {
             late_Load = false;
@@ -140,20 +140,21 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
 
     @Override
     public void onStop() {
-        SALog.d("stop", String.valueOf(week));
+        //        SALog.d("stop", String.valueOf(week));
 
         super.onStop();
     }
 
     @Override
     public void onDestroyView() {
-        SALog.d("Destroyview", String.valueOf(week));
+        //        SALog.d("Destroyview", String.valueOf(week));
+        scheduleTableLayout = null;
         super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
-        SALog.d("Destroy", String.valueOf(week));
+        //        SALog.d("Destroy", String.valueOf(week));
 
         super.onDestroy();
     }
@@ -165,7 +166,7 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
     @Override
     public void onDetach() {
         super.onDetach();
-        SALog.d("onDetach", String.valueOf(week));
+        //        SALog.d("onDetach", String.valueOf(week));
 
     }
 

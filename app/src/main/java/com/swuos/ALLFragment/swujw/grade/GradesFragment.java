@@ -170,6 +170,12 @@ public class GradesFragment extends BaseFragment implements IGradeview, AdapterV
             showDialog(false);
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        gradesLayout = null;
+    }
 }
 
 

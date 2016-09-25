@@ -40,16 +40,22 @@ public class ChargeFragment extends BaseFragment implements IChargeFragment, Vie
     private String building;
     private String room;
     private ProgressDialog progressDialog;
-
+    private View chargeLayout;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View chargeLayout = inflater.inflate(R.layout.charge_layout, container, false);
+        chargeLayout = inflater.inflate(R.layout.charge_layout, container, false);
         iChargePresenetr = new IChagerPresenterCompl(getActivity(), this);
         bindview(chargeLayout);
         initview();
 
         return chargeLayout;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        chargeLayout = null;
     }
 
     private void bindview(View view) {

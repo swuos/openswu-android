@@ -52,6 +52,7 @@ public class EcardFragmentImp extends BaseFragment implements IEcardView, View.O
     private String id;
     private String pd;
     private boolean pdVaild = false;
+    private View view;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -85,7 +86,7 @@ public class EcardFragmentImp extends BaseFragment implements IEcardView, View.O
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.card_fragment, container, false);
+        view = inflater.inflate(R.layout.card_fragment, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewEcard);
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fabCard);
         linearLayoutError = (LinearLayout) view.findViewById(R.id.linearLayoutEcardError);
