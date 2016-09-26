@@ -68,8 +68,9 @@ public class PersonViewAty extends BaseActivity {
 
         appBarLayout = (AppBarLayout) findViewById(R.id.appbarLayoutLibPerson);
         toolbar = (Toolbar) findViewById(R.id.toolBarLibPersonView);
-        Drawable drawable = getResources().getDrawable(R.drawable.lib_back_person);
-        toolbar.setNavigationIcon(drawable);
+        //        Drawable drawable = getResources().getDrawable(R.drawable.lib_back_person);
+        toolbar.setNavigationIcon(R.drawable.back_material);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

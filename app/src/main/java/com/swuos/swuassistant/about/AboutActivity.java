@@ -68,8 +68,9 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         setSupportActionBar(toolbar);
         this.setTitle("关于我们");
         toolbar.setTitleTextColor(Color.WHITE);
-        Drawable d = ContextCompat.getDrawable(this, R.drawable.back_material);
-        toolbar.setNavigationIcon(d);
+        //        Drawable d = ContextCompat.getDrawable(this, R.drawable.back_material);
+        toolbar.setNavigationIcon(R.drawable.back_material);
+
         initview();
         dynamicAddView(toolbar, "background", R.color.colorPrimary);
     }

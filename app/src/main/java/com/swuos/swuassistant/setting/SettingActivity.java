@@ -30,8 +30,8 @@ public class SettingActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         this.setTitle(R.string.action_settings);
         toolbar.setTitleTextColor(Color.WHITE);
-        Drawable d = ContextCompat.getDrawable(this, R.drawable.back_material);
-        toolbar.setNavigationIcon(d);
+        //        Drawable d = ContextCompat.getDrawable(this, R.drawable.back_material);
+        toolbar.setNavigationIcon(R.drawable.back_material);
         /*打开preferenceFragment*/
         SettingFragment settingFragment=new SettingFragment();
         FragmentManager fragmentManager=getFragmentManager();
