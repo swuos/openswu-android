@@ -13,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.swuos.ALLFragment.library.libsearchs.bookdetail.adapter.BookLocationRecycleAdapter;
 import com.swuos.ALLFragment.library.libsearchs.bookdetail.model.BookLocationInfo;
+import com.swuos.ALLFragment.library.libsearchs.search.model.douabn.DoubanBookCoverImage;
 import com.swuos.ALLFragment.library.libsearchs.search.model.net.LibApi;
 import com.swuos.ALLFragment.library.libsearchs.search.model.parse.LibParse;
 import com.swuos.swuassistant.BaseActivity;
@@ -56,6 +59,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
     private int id;
     private String query;
     private List<BookLocationInfo> locationInfoList = new ArrayList<>();
+    private DrawableRequestBuilder<DoubanBookCoverImage> imageDrawableRequestBuilder;
 
 
     @Override
@@ -63,10 +67,18 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_book_detail);
+
         getintent();
         bindview();
+        imageDrawableRequestBuilder = Glide.with(this)
+                .from(DoubanBookCoverImage.class)
+                .fitCenter()
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL) // 设置本地缓存,缓存源文件和目标图像
+                .placeholder(R.mipmap.book_cover);
         initview();
         getLocation(currentPage, id);
+
     }
 
     private void bindview() {
@@ -99,7 +111,9 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
         bookLocationRecycleAdapter = new BookLocationRecycleAdapter(this);
         recyclerView.setAdapter(bookLocationRecycleAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Glide.with(this).load(bookCoverUrl).placeholder(R.mipmap.book_cover).error(R.mipmap.book_cover).crossFade().centerCrop().into(bookcover);
+        DoubanBookCoverImage doubanBookCoverImage = new DoubanBookCoverImage(ISBNString);
+        doubanBookCoverImage.setId(ISBNString);
+        imageDrawableRequestBuilder.load(doubanBookCoverImage).placeholder(R.mipmap.book_cover).error(R.mipmap.book_cover).crossFade().centerCrop().into(bookcover);
     }
 
     private void getintent() {
