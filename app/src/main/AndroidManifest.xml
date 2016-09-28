@@ -66,7 +66,8 @@
             android:name="com.swuos.ALLFragment.library.libsearchs.bookdetail.BookDetailActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.swuos.ALLFragment.library.lib.views.PersonViewAty"
+        <activity
+            android:name="com.swuos.ALLFragment.library.lib.views.PersonViewAty"
             android:theme="@style/AppTheme.NoActionBarPerson"/>
 
         <service android:name="com.swuos.Service.ClassAlarmService"/>
@@ -99,7 +100,9 @@
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="cd41ce86222f389887a06882d79a08bf"/>
-
+        <meta-data
+            android:name="com.swuos.ALLFragment.library.libsearchs.search.model.GlideV.CustomGllideMoudle"
+            android:value="GlideModule"/>
     </application>
 
 </manifest>

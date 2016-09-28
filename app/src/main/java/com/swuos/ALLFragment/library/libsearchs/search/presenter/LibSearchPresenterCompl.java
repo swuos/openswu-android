@@ -177,7 +177,7 @@ public class LibSearchPresenterCompl implements ILibSearchPresenter {
             public Observable<String> call(String s) {
                 return LibApi.getLibSearchList().searchList("0");
             }
-        }).flatMap(new Func1<String, Observable<SearchResult>>() {
+        }).concatMap(new Func1<String, Observable<SearchResult>>() {
             @Override
             public Observable<SearchResult> call(String s) {
                 if (s.contains("没有检索到任何图书")) {

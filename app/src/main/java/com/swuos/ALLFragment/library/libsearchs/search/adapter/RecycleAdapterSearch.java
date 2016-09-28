@@ -9,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchBookItem;
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchResult;
+import com.swuos.ALLFragment.library.libsearchs.search.model.douabn.DoubanBookCoverImage;
 import com.swuos.swuassistant.R;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import java.util.List;
 public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<SearchBookItem> searchBookItemList = new ArrayList<>();
+    private final DrawableRequestBuilder<DoubanBookCoverImage> imageDrawableRequestBuilder;
     private OnRecyclerItemClickedListener listener;
     private boolean mOpenLoadMore = false;
     private int allBookSize;
@@ -37,6 +41,12 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
      */
     public RecycleAdapterSearch(Context context) {
         this.context = context;
+        imageDrawableRequestBuilder = Glide.with(context)
+                .from(DoubanBookCoverImage.class)
+                .fitCenter()
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL) // 设置本地缓存,缓存源文件和目标图像
+                .placeholder(R.mipmap.book_cover);
     }
 
     @Override
@@ -56,12 +66,15 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof SearchViewHodler) {
             ((SearchViewHodler) holder).textViewBookName.setText(searchBookItemList.get(position).getBookName());
-            Glide.with(context).
-                    load(searchBookItemList.get(position).getBookCoverUrl())
-                    .fitCenter()
-                    .placeholder(R.mipmap.book_cover)
-                    .error(R.mipmap.book_cover)
-                    .into(((SearchViewHodler) holder).bookImage);
+            //            Glide.with(context)
+            //                    .load(searchBookItemList.get(position).getBookCoverUrl())
+            //                    .fitCenter()
+            //                    .placeholder(R.mipmap.book_cover)
+            //                    .error(R.mipmap.book_cover)
+            //                    .into(((SearchViewHodler) holder).bookImage);
+            DoubanBookCoverImage doubanBookCoverImage = new DoubanBookCoverImage(searchBookItemList.get(position).getISBN());
+            doubanBookCoverImage.setId(searchBookItemList.get(position).getISBN());
+            imageDrawableRequestBuilder.load(doubanBookCoverImage).into(((SearchViewHodler) holder).bookImage);
 
             ((SearchViewHodler) holder).textViewBookNumber.setText(searchBookItemList.get(position).getBookNumber());
             ((SearchViewHodler) holder).textViewBookISBN.setText(searchBookItemList.get(position).getISBN());

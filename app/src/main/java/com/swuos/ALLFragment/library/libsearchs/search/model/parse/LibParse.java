@@ -44,28 +44,28 @@ public class LibParse {
             searchBookItem.setSummary("摘    要: " + rr.get(2).text());
             searchBookItem.setWriter("作    者: " + rr.get(3).text().replace("著", ""));
             searchBookItem.setBookNumber(rr.get(5).text());
-            DoubanApi.getDoubanSearch().doubanSearch(searchBookItem.getISBN().substring(9).replace("-", "")).map(new Func1<String, String>() {
-                @Override
-                public String call(String s) {
-                    return DoubanParse.getbookcover(s);
-                }
-            }).subscribe(new Subscriber<String>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onNext(String s) {
-                    searchBookItem.setBookCoverUrl(s);
-                }
-
-            });
+            //            DoubanApi.getDoubanSearch().doubanSearch(searchBookItem.getISBN().substring(9).replace("-", "")).map(new Func1<String, String>() {
+            //                @Override
+            //                public String call(String s) {
+            //                    return DoubanParse.getbookcover(s);
+            //                }
+            //            }).subscribe(new Subscriber<String>() {
+            //                @Override
+            //                public void onCompleted() {
+            //
+            //                }
+            //
+            //                @Override
+            //                public void onError(Throwable e) {
+            //
+            //                }
+            //
+            //                @Override
+            //                public void onNext(String s) {
+            //                    searchBookItem.setBookCoverUrl(s);
+            //                }
+            //
+            //            });
             searchBookItemList.add(searchBookItem);
         }
         searchResult.setSearchbookItemList(searchBookItemList);

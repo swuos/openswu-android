@@ -26,6 +26,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 public class DoubanApi {
     private static DoubanSearch doubanSearch;
+    private static DoubanDownImage doubanDownImage;
     private static RxJavaCallAdapterFactory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
     private static ScalarsConverterFactory scalarsConverterFactory = ScalarsConverterFactory.create();
     private static HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
@@ -71,5 +72,18 @@ public class DoubanApi {
             doubanSearch = retrofit.create(DoubanSearch.class);
         }
         return doubanSearch;
+    }
+
+    public static DoubanDownImage getDoubanDownImage() {
+        if (doubanDownImage == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(okHttpClient)
+                    .baseUrl("https://book.douban.com/")
+                    .addConverterFactory(scalarsConverterFactory)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .build();
+            doubanDownImage = retrofit.create(DoubanDownImage.class);
+        }
+        return doubanDownImage;
     }
 }
