@@ -53,10 +53,10 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
     private TotalInfos totalInfo = TotalInfos.getInstance();
     private int fragmentPosition = R.id.nav_wifi;
     private FragmentControl fragmentControl;
-    private LocalBroadcastManager localBroadcastManager;
     private boolean isFragmentLibSelected = false;
     private ArrayMap arrayMap = new ArrayMap();
     private Toolbar toolbar;
+    private DrawerLayout drawer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,7 +116,7 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
             case Constant.LOGIN_RESULT_CODE:
                 if (resultCode == Constant.LOGIN_RESULT_CODE) {
                     setNavigationViewHeader(totalInfo);
-                    localBroadcastManager = LocalBroadcastManager.getInstance(this);
+                    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
                     Intent intent = new Intent("com.swuos.Logined");
                     localBroadcastManager.sendBroadcast(intent);
                 }
@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string
@@ -158,6 +158,7 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
     public void setNavigationViewHeader(TotalInfos totalInfo) {
         if (totalInfo.getUserName().equals("")) {
             nameTextView.setOnClickListener(this);
+            drawer.openDrawer(GravityCompat.START);
             Toast.makeText(this, R.string.not_logged_in, Toast.LENGTH_SHORT).show();
         } else {
             /*对侧边栏的姓名和学号进行配置*/
@@ -270,7 +271,6 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
                 break;
 
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         invalidateOptionsMenu();
         return true;
@@ -386,7 +386,7 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
         dialogsQuit = new AlertDialog.Builder(this);
         dialogsQuit.setTitle("发现新版本");
         dialogsQuit.setMessage(changelog);
-        dialogsQuit.setCancelable(false);
+        dialogsQuit.setCancelable(true);
         dialogsQuit.setPositiveButton("马上更新", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

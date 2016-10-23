@@ -1,7 +1,9 @@
 package com.swuos.ALLFragment.wifi;
 
+import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -21,19 +23,24 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
-import com.appyvet.rangebar.RangeBar;
 import com.swuos.ALLFragment.BaseFragment;
 import com.swuos.ALLFragment.wifi.presenter.IWifiPresenetrCompl;
 import com.swuos.ALLFragment.wifi.presenter.IWifiPresenter;
 import com.swuos.ALLFragment.wifi.view.IWifiFragmentView;
+import com.swuos.swuassistant.BaseApplication;
 import com.swuos.swuassistant.R;
 import com.swuos.util.SALog;
+
+import java.util.Calendar;
+
+import cn.iwgang.countdownview.CountdownView;
 
 /**
  * Created by 张孟尧 on 2016/4/27.
  */
-public class WifiFragment extends BaseFragment implements IWifiFragmentView, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, CompoundButton.OnCheckedChangeListener, RangeBar.OnThumbMoveListener {
+public class WifiFragment extends BaseFragment implements IWifiFragmentView, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, CompoundButton.OnCheckedChangeListener, TimePickerDialog.OnTimeSetListener, CountdownView.OnCountdownEndListener, DialogInterface.OnCancelListener {
 
     private Button login_button;
     private Button logout_button;
@@ -41,15 +48,17 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView wifiStateTextView;
     private TextView wifiUsername;
-    private RangeBar rangeBar;
     private Switch aSwitch;
     private LocalRecevier localRecevier;
     private LocalBroadcastManager localBroadcastManager;
     private IWifiPresenter iWifiPresenter;
     private String wifissid;
     private WifiStateReciver wifiStateReciver;
+    private TimePickerDialog timePickerDialog;
     private IntentFilter wififilter;
     private IntentFilter nameIntentFilter;
+    private CountdownView countdownView;
+    private boolean timelogontag = false;//是否已经确定了定时退网
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,22 +95,21 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
         logout_button = (Button) view.findViewById(R.id.wifi_logout_button);
         wifiStateTextView = (TextView) view.findViewById(R.id.wifi_state);
         wifiUsername = (TextView) view.findViewById(R.id.wifi_username);
-        rangeBar = (RangeBar) view.findViewById(R.id.rangebar);
+
         aSwitch = (Switch) view.findViewById(R.id.timing_switch);
         aSwitch.setOnCheckedChangeListener(this);
         logout_button.setOnClickListener(this);
         login_button.setOnClickListener(this);
         wifiStateTextView.setOnClickListener(this);
         wifiUsername.setText("当前用户:" + iWifiPresenter.getUsername());
-
-        rangeBar.setTickEnd(240);
-        rangeBar.setTickInterval(10);
-        //        rangeBar.setTickEnd(10);
-        rangeBar.setSeekPinByIndex(0);
-        rangeBar.setVisibility(View.INVISIBLE);
-        rangeBar.setEnabled(false);
-        rangeBar.setThumbMoveListener(this);
         aSwitch.setChecked(false);
+        aSwitch.setClickable(false);
+        aSwitch.setVisibility(View.INVISIBLE);
+        timePickerDialog = new TimePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), true);
+        timePickerDialog.setOnCancelListener(this);
+        countdownView = (CountdownView) view.findViewById(R.id.wifi_countdowntimer);
+        countdownView.setVisibility(View.INVISIBLE);
+        countdownView.setOnCountdownEndListener(this);
 
     }
 
@@ -134,13 +142,27 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
         swipeRefreshLayout.setRefreshing(false);
         login_button.setClickable(true);
         logout_button.setClickable(true);
-        rangeBar.setEnabled(true);
         Snackbar.make(view, result, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void changeWifiState(String state) {
         wifiStateTextView.setText(state);
+    }
+
+    @Override
+    public void showCountDowntimer(boolean show, long time) {
+        if (show) {
+            if (time == 0) {
+                countdownView.setVisibility(View.INVISIBLE);
+            } else {
+                countdownView.setVisibility(View.VISIBLE);
+                countdownView.start(time);
+            }
+        } else {
+            countdownView.stop();
+            aSwitch.setChecked(false);
+        }
     }
 
     @Override
@@ -156,6 +178,7 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
         localRecevier = new LocalRecevier();
         localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.registerReceiver(localRecevier, nameIntentFilter);
+
         wififilter = new IntentFilter();
         wififilter.setPriority(1000);
         wififilter.addAction(WifiManager.RSSI_CHANGED_ACTION);
@@ -168,32 +191,56 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            rangeBar.setVisibility(View.VISIBLE);
-            rangeBar.setEnabled(true);
+            timePickerDialog.show();
         } else {
-            rangeBar.setVisibility(View.INVISIBLE);
-            rangeBar.setEnabled(false);
+            if (timelogontag == true) {
+                //取消定时退网
+                iWifiPresenter.timingLogout(iWifiPresenter.getUsername(), iWifiPresenter.getPassword(), -1, wifissid);
+                swipeRefreshLayout.setRefreshing(true);
+                countdownView.stop();
+                countdownView.setVisibility(View.INVISIBLE);
+                timelogontag = false;
+            }
         }
     }
 
-    @Override
-    public void onThumbMovingStart(RangeBar rangeBar, boolean isLeftThumb) {
-
-    }
-
-    @Override
-    public void onThumbMovingStop(RangeBar rangeBar, boolean isLeftThumb) {
-        swipeRefreshLayout.setRefreshing(true);
-        rangeBar.setEnabled(false);
-        iWifiPresenter.timingLogout(iWifiPresenter.getUsername(), iWifiPresenter.getPassword(), Integer.valueOf(rangeBar.getRightPinValue()), wifissid);
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(wifiStateReciver);
+
+        BaseApplication.getContext().unregisterReceiver(wifiStateReciver);
         localBroadcastManager.unregisterReceiver(localRecevier);
     }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        timePickerDialog.cancel();
+        int delaytime;
+        if (hourOfDay * 60 + minute < Calendar.getInstance().get(Calendar.HOUR_OF_DAY) * 60 + Calendar.getInstance().get(Calendar.MINUTE)) {
+            delaytime = 0;
+        } else {
+            delaytime = (hourOfDay * 60 + minute) - (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) * 60 + Calendar.getInstance().get(Calendar.MINUTE));
+        }
+        iWifiPresenter.timingLogout(iWifiPresenter.getUsername(), iWifiPresenter.getPassword(), delaytime, wifissid);
+        timelogontag = true;
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void onEnd(CountdownView cv) {
+        timelogontag = false;
+        aSwitch.setChecked(false);
+        countdownView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        if (!timelogontag) {
+            aSwitch.setChecked(false);
+        }
+    }
+
 
     /*设置广播接收刷新消息*/
     class LocalRecevier extends BroadcastReceiver {
@@ -210,7 +257,8 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
 
 
         public void onReceive(Context context, Intent intent) {
-//            SALog.d("WifiStateReciver", intent.getAction());
+
+            //            SALog.d("WifiStateReciver", intent.getAction());
             WifiManager wifiManager = (WifiManager) context
                     .getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -218,11 +266,11 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
             int wifiState = wifiManager.getWifiState();
             switch (wifiState) {
                 case WifiManager.WIFI_STATE_ENABLING:
-//                    SALog.d("WifiStateReciver", "WIFI_STATE_ENABLING");
+                    //                    SALog.d("WifiStateReciver", "WIFI_STATE_ENABLING");
                     changeWifiState("正在打开WIFI");
                     break;
                 case WifiManager.WIFI_STATE_ENABLED:
-//                    SALog.d("WifiStateReciver", "WIFI_STATE_ENABLED");
+                    //                    SALog.d("WifiStateReciver", "WIFI_STATE_ENABLED");
                     changeWifiState("WIFI已打开");
                     ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                     NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -239,7 +287,7 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
                     break;
                 case WifiManager.WIFI_STATE_DISABLED:
                     changeWifiState("WIFI已关闭");
-//                    SALog.d("WifiStateReciver", "WIFI_STATE_DISABLED");
+                    //                    SALog.d("WifiStateReciver", "WIFI_STATE_DISABLED");
                     break;
 
             }

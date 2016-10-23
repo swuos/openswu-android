@@ -93,7 +93,7 @@ public class IMainPresenterCompl implements IMainPresenter {
                         final String versionName = GetAppVersion.getPackageInfo(BaseApplication.getContext()).versionName;
 
                         if (!updatajson.getVersionShort().contains(versionName)) {
-                            iMainview.showUpdata(updatajson.getChangelog(), updatajson.getDirect_install_url());
+                            iMainview.showUpdata(updatajson.getChangelog(), updatajson.getUpdate_url());
                         }
                     }
                 }
@@ -113,6 +113,7 @@ public class IMainPresenterCompl implements IMainPresenter {
                     //                    Toast.makeText(BaseApplication.getContext(), "获取完成", Toast.LENGTH_SHORT).show();
                 }
             });
+            //            XiaomiUpdateAgent.update(context,true);
         }
     }
 }

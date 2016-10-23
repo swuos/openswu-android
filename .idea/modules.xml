@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/openswu-androids.iml" filepath="$PROJECT_DIR$/openswu-androids.iml" />
       <module fileurl="file://$PROJECT_DIR$/polylinechart/polylinechart.iml" filepath="$PROJECT_DIR$/polylinechart/polylinechart.iml" />
-      <module fileurl="file://$PROJECT_DIR$/rangebar/rangebar.iml" filepath="$PROJECT_DIR$/rangebar/rangebar.iml" />
     </modules>
   </component>
 </project>

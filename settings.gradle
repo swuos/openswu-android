@@ -1,1 +1,1 @@
-include ':app', 'rangebar', ':polylinechart'
+include ':app', ':polylinechart'

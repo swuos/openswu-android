@@ -75,7 +75,6 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             DoubanBookCoverImage doubanBookCoverImage = new DoubanBookCoverImage(searchBookItemList.get(position).getISBN());
             doubanBookCoverImage.setId(searchBookItemList.get(position).getISBN());
             imageDrawableRequestBuilder.load(doubanBookCoverImage).into(((SearchViewHodler) holder).bookImage);
-
             ((SearchViewHodler) holder).textViewBookNumber.setText(searchBookItemList.get(position).getBookNumber());
             ((SearchViewHodler) holder).textViewBookISBN.setText(searchBookItemList.get(position).getISBN());
             ((SearchViewHodler) holder).textViewBooksuoshuhao.setText(searchBookItemList.get(position).getBookSuoshuhao());

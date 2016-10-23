@@ -16,8 +16,7 @@ import com.swuos.swuassistant.R;
  * Created by 张孟尧 on 2016/5/14.
  */
 public class WifiNotificationService extends Service {
-    private static String username;
-    private static String password;
+
 
     @Override
     public void onCreate() {

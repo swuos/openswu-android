@@ -7,4 +7,6 @@ public interface IWifiFragmentView {
     void showResult(String result);
 
     void changeWifiState(String state);
+
+    void showCountDowntimer(boolean show, long time);
 }

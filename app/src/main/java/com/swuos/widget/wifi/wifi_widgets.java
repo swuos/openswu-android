@@ -10,26 +10,44 @@ import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
+import com.mran.polylinechart.BuildConfig;
+import com.swuos.ALLFragment.wifi.model.NewSwuNetLoginResultJson;
+import com.swuos.ALLFragment.wifi.model.NewSwuNetParse;
+import com.swuos.ALLFragment.wifi.model.SwuNetApi;
 import com.swuos.swuassistant.Constant;
 import com.swuos.swuassistant.R;
 import com.swuos.util.wifi.WifiExit;
 import com.swuos.util.wifi.WifiLogin;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class wifi_widgets extends AppWidgetProvider {
 
-    private String username;
-    private String password;
-
-    private Context context;
     private static RemoteViews views;
     private static AppWidgetManager mappWidgetManager;
     private static int[] mappWidgetIds;
+    private String username;
+    private String password;
+    private Context mcontext;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
             int appWidgetId) {
@@ -86,7 +104,7 @@ public class wifi_widgets extends AppWidgetProvider {
         SharedPreferences sharedPreferences = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
         username = sharedPreferences.getString("userName", "");
         password = sharedPreferences.getString("password", "");
-        this.context = context;
+        this.mcontext = context;
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.wifi_widgets_layout);
 
         if (action.equals(Constant.WIDGET_LOGIN)) {
@@ -94,12 +112,12 @@ public class wifi_widgets extends AppWidgetProvider {
             views.setViewVisibility(R.id.frameLayout1, View.VISIBLE);
             views.setViewVisibility(R.id.frameLayout2, View.INVISIBLE);
 
-            new Mytask().execute(wifiSsid, "login");
+            login(username, password, wifiSsid);
         } else if (action.equals(Constant.WIDGET_LOGOUT)) {
             views.setTextViewText(R.id.wifi_log_info, "正在退出");
             views.setViewVisibility(R.id.frameLayout1, View.VISIBLE);
             views.setViewVisibility(R.id.frameLayout2, View.INVISIBLE);
-            new Mytask().execute(wifiSsid, "logout");
+            logout(username, password, wifiSsid);
         } else if (action.equals(Constant.WIDGET_LOGINFO)) {
 
             views.setViewVisibility(R.id.frameLayout1, View.INVISIBLE);
@@ -110,6 +128,122 @@ public class wifi_widgets extends AppWidgetProvider {
 
         //通知AppWidgetProvider更新
         appWidgetManager.updateAppWidget(componentName, views);
+    }
+
+    private void logout(final String username, final String password, final String wifissid) {
+
+
+        SwuNetApi.getSwuNetSelf().loginToCheck(username, password)
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(String s) {
+                        return SwuNetApi.getSwuNetSelf().getMyLoginInfo();
+                    }
+                }).flatMap(new Func1<String, Observable<String>>() {
+            @Override
+            public Observable<String> call(String s) {
+                if (!s.contains("上线时间")) {
+                    return Observable.just("帐号没有登录");
+                } else {
+                    Document document = Jsoup.parse(s);
+                    Elements elements = document.getElementById("a1").getAllElements();
+                    //                    System.out.println(elements.text().replace("IP : ", ""));
+                    return SwuNetApi.getSwuNetSelf().logout("mran:" + elements.text().replace("IP : ", ""));
+                }
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                Toast.makeText(mcontext, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                if (BuildConfig.DEBUG)
+                    Log.d("IWifiPresenetrCompl", "throwable:" + throwable.getMessage());
+            }
+
+            @Override
+            public void onNext(String s) {
+                String result = s;
+                if (BuildConfig.DEBUG)
+                    Log.d("IWifiPresenetrCompl", s);
+                if (s.contains("下线成功")) {
+                    result = "下线成功";
+                } else if (s.contains("帐号没有登录")) {
+                    result = "帐号没有登录";
+
+                } else {
+                    result = "下线失败";
+                }
+                Toast.makeText(mcontext, result, Toast.LENGTH_SHORT).show();
+
+                RemoteViews views = new RemoteViews(mcontext.getPackageName(), R.layout.wifi_widgets_layout);
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mcontext);
+                ComponentName componentName = new ComponentName(mcontext, wifi_widgets.class);
+                views.setTextViewText(R.id.wifi_log_info, result);
+                //通知AppWidgetProvider更新
+                appWidgetManager.updateAppWidget(componentName, views);
+            }
+        });
+    }
+
+    public void login(final String username, final String password, final String wifissid) {
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("userId", username);
+        map.put("password", password);
+        map.put("service", "%E9%BB%98%E8%AE%A4");
+        map.put("queryString", "wlanacname%3Dc3d7ed6d307ae29d%26ssid%3D46be4f158ac727af%26nasip%3Df9dbb3fe11a1f4e3b5cce4a65fc79cf9%26mac%3D9bca081b48d1f514ce2f43e9408158aa%26t%3Dwireless-v2%26url%3Dbc769469379bc92a49dd39c8187326462c2c594662118267");
+        map.put("operatorPwd", "");
+        map.put("operatorUserId", "");
+        map.put("validcode", "");
+        SwuNetApi.getNewSwuNet().login(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                Toast.makeText(mcontext, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                if (BuildConfig.DEBUG)
+                    Log.d("IWifiPresenetrCompl", "throwable:" + throwable.getMessage());
+            }
+
+            @Override
+            public void onNext(String s) {
+                String result = s;
+                if (BuildConfig.DEBUG)
+                    Log.d("IWifiPresenetrCompl", s);
+                if (s.contains("登录成功")) {
+                    result = "登录成功";
+                } else {
+                    NewSwuNetLoginResultJson newSwuNetLoginResultJson = NewSwuNetParse.str2json(s, NewSwuNetLoginResultJson.class);
+
+                    if (newSwuNetLoginResultJson.getMessage().equals("")) {
+                        result = "登录成功";
+
+                    } else {
+                        result = newSwuNetLoginResultJson.getMessage();
+
+                    }
+
+                }
+                Toast.makeText(mcontext, result, Toast.LENGTH_SHORT).show();
+
+                RemoteViews views = new RemoteViews(mcontext.getPackageName(), R.layout.wifi_widgets_layout);
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mcontext);
+                ComponentName componentName = new ComponentName(mcontext, wifi_widgets.class);
+                views.setTextViewText(R.id.wifi_log_info, result);
+                //通知AppWidgetProvider更新
+                appWidgetManager.updateAppWidget(componentName, views);
+            }
+        });
     }
 
     class Mytask extends AsyncTask<String, Integer, String> {
@@ -129,9 +263,9 @@ public class wifi_widgets extends AppWidgetProvider {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.wifi_widgets_layout);
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            ComponentName componentName = new ComponentName(context, wifi_widgets.class);
+            RemoteViews views = new RemoteViews(mcontext.getPackageName(), R.layout.wifi_widgets_layout);
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mcontext);
+            ComponentName componentName = new ComponentName(mcontext, wifi_widgets.class);
             views.setTextViewText(R.id.wifi_log_info, s);
             //通知AppWidgetProvider更新
             appWidgetManager.updateAppWidget(componentName, views);

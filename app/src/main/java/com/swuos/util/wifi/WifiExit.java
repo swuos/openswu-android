@@ -4,11 +4,13 @@ package com.swuos.util.wifi;
 import com.google.gson.JsonObject;
 import com.swuos.net.OkhttpNet;
 import com.swuos.swuassistant.Constant;
-import com.swuos.swuassistant.R;
 
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
+/**
+ * The type Wifi exit.
+ */
 public class WifiExit {
     private static OkhttpNet okhttpNet = new OkhttpNet();
     private static String result = null;
@@ -36,12 +38,24 @@ public class WifiExit {
         return result;
     }
 
+    /**
+     * Timing logout string.
+     *
+     * @param username  the username
+     * @param password  the password
+     * @param wifissid  the wifissid
+     * @param delaytime the delaytime 分钟
+     * @return the string
+     */
     public static String timingLogout(String username, String password, String wifissid, int delaytime) {
         if (wifissid.contains("swu-wifi")) {
             final JsonObject postjson = new JsonObject();
             postjson.addProperty("username", username);
             postjson.addProperty("password", password);
-            postjson.addProperty("date", System.currentTimeMillis() + delaytime * 1000 * 60);
+            if (delaytime == -1) {
+                postjson.addProperty("date", -1);
+            } else
+                postjson.addProperty("date", System.currentTimeMillis() + delaytime * 1000 * 60);
             String respones = okhttpNet.doPost(Constant.urlQuitnet, postjson);
             if (respones.contains(Constant.TIMING_USER_ERROR)) {
                 result = Constant.swuWifiLogoutPasswordError;

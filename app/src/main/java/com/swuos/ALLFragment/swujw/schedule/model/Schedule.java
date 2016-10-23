@@ -62,7 +62,6 @@ public class Schedule {
             //            scheduleItem.setClassStartTime(Constant.STARTtIMEHOUR[scheduleItem.getStart()], Constant.STARTtIMEMIN[scheduleItem.getStart()]);
             scheduleItem.setStartTime(Constant.STARTtIMES[scheduleItem.getStart() - 1] * 1000 * 60 + (scheduleItem.getXqj() - 1) * Constant.ONE_DAY_TIME);
 
-            int pos = 1;
             /*判断该课程已经存在*/
             for (int j = 0; j < scheduleItemListSort.size(); j++) {
                 ScheduleItem tempSchedule = scheduleItemListSort.get(j);

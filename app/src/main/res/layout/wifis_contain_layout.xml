@@ -4,6 +4,7 @@
     xmlns:skin="http://schemas.android.com/android/skin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -74,34 +75,25 @@
                         android:text="登出"/>
                 </LinearLayout>
 
-                <com.appyvet.rangebar.RangeBar
-                    android:id="@+id/rangebar"
-                    xmlns:custom="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="match_parent"
-                    android:layout_height="72dp"
-                    android:layout_below="@id/wifi_buttons"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="35dp"
-                    custom:connectingLineColor="@color/colorAccent"
-                    custom:pinColor="@color/colorAccent"
-                    custom:rangeBar="false"
-                    custom:rangeBarColor="@color/colorAccent"
-                    custom:selectorColor="@color/colorAccent"
-                    custom:tickColor="@color/colorAccent"/>
-
                 <Switch
                     android:id="@+id/timing_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/rangebar"
-                    android:layout_alignStart="@+id/rangebar"
                     android:layout_below="@+id/wifi_buttons"
-                    android:layout_marginLeft="3dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="15dp"
                     android:switchPadding="14.5sp"
                     android:text="定时退出"/>
 
+                <cn.iwgang.countdownview.CountdownView
+                    android:id="@+id/wifi_countdowntimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/timing_switch"
+                    android:layout_below="@+id/wifi_buttons"
+                    android:layout_marginTop="20dp"
+                    app:timeTextSize="24sp"
+                    android:layout_marginLeft="30dp"/>
             </RelativeLayout>
 
         </ScrollView>
