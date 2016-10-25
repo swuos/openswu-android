@@ -84,6 +84,7 @@ public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshL
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Nullable
@@ -98,6 +99,7 @@ public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshL
         linearLayoutError = (LinearLayout) view.findViewById(R.id.linearLayoutLibError);
         iLibPresenter = new LibPresenterImp(this);
 
+        showLibError();
 
         initDialog();
         sharedPreferences = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
@@ -127,6 +129,25 @@ public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshL
         return view;
     }
 
+    private void showLibError() {
+        final MaterialDialog dialog1 = new MaterialDialog.Builder(getActivity())
+                .title("注意")
+                .content("不好意思，学校正在升级校园网，暂时关闭图书馆地址，请过段时间再来访问" +
+                        "\n对您造成的不便敬请谅解~~~~(>_<)~~~~")
+                .positiveText("确定")
+                .cancelable(false)
+                .positiveColor(Color.parseColor("#48b360"))
+                .build();
+        dialog1.show();
+        dialog1.getActionButton(DialogAction.POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog1.dismiss();
+                Toast.makeText(getContext(), "谢谢体谅", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void initDialog() {
         dialog = new MaterialDialog.Builder(getActivity())
                 .title("注意")
@@ -153,7 +174,7 @@ public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshL
 
 
         if (isLogin) {
-            iLibPresenter.setProgressDialogVisible(View.VISIBLE);
+//            iLibPresenter.setProgressDialogVisible(View.VISIBLE);
             iLibPresenter.setErrorLayoutVisible(View.GONE);
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

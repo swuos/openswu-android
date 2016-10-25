@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     String muserName;
     String mpassWord;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

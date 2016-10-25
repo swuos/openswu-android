@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:skin="http://schemas.android.com/android/skin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -22,7 +22,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
 
                 <TextView
                     android:id="@+id/wifi_state"
@@ -90,11 +89,11 @@
                     android:id="@+id/wifi_countdowntimer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/wifi_buttons"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="20dp"
                     android:layout_toRightOf="@id/timing_switch"
-                    app:timeTextSize="24sp"/>
+                    android:layout_below="@+id/wifi_buttons"
+                    android:layout_marginTop="20dp"
+                    app:timeTextSize="24sp"
+                    android:layout_marginLeft="30dp"/>
             </RelativeLayout>
 
         </ScrollView>

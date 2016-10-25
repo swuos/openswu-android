@@ -13,6 +13,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.LayoutAnimationController;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -73,7 +77,6 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
     public void onAttach(Context context) {
         super.onAttach(context);
         //        SALog.d("onAttach", String.valueOf(week));
-
     }
 
     @Override
@@ -182,6 +185,14 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
     public void setTable() {
         textViewList.clear();
         relativeLayout.removeAllViews();
+
+        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.schedule_item);
+        LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation);
+        layoutAnimationController.setInterpolator(new BounceInterpolator());
+        layoutAnimationController.setOrder(LayoutAnimationController.ORDER_RANDOM);
+        relativeLayout.setLayoutAnimation(layoutAnimationController);
+
+
         /*得到一节课的高度*/
         int hight = class1TextView.getHeight();
         /*得到一天的宽度*/
@@ -238,6 +249,7 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
             textViewList.add(scheduleDetail);
                 /*将新建的textview加入布局*/
             relativeLayout.addView(textView);
+
             i++;
         }
         /*加载完成取消刷新动画*/
@@ -267,7 +279,6 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
     public void onClick(View v) {
         int id = v.getId();
         SALog.d("scheduletable", String.valueOf(id));
-
         Intent intent = new Intent(getActivity(), SchedulDetialActivity.class);
         intent.putExtra("title", textViewList.get(id).getScheduleItem().getKcmc());
         intent.putExtra("xm", textViewList.get(id).getScheduleItem().getXm());
