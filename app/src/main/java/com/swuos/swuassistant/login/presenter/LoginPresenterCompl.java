@@ -8,7 +8,6 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.swuos.ALLFragment.swujw.TotalInfos;
-
 import com.swuos.ALLFragment.swujw.net.api.SwuApi;
 import com.swuos.ALLFragment.swujw.net.jsona.LoginJson;
 import com.swuos.swuassistant.Constant;

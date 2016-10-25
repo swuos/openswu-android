@@ -5,8 +5,6 @@ package com.swuos.swuassistant.login.presenter;
  */
 public interface ILoginPresenter {
     String doLogin(String userName, String password);
-
-
     void storageInfo();
 
     void dealError(String response);
