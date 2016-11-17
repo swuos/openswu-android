@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.swuos.ALLFragment.card.view.EcardFragmentImp;
 import com.swuos.ALLFragment.charge.ChargeFragment;
 import com.swuos.ALLFragment.find_lost.FindLostFragment;
-import com.swuos.ALLFragment.library.lib.views.LibFragment;
+import com.swuos.ALLFragment.library.library.fragment.LibFragment;
 import com.swuos.ALLFragment.main_page.MainPageFragment;
 import com.swuos.ALLFragment.study_materials.StudyMaterialsFragment;
 import com.swuos.ALLFragment.swujw.grade.GradesFragment;

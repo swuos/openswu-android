@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -22,14 +24,14 @@ import com.swuos.ALLFragment.library.libsearchs.search.presenter.ILibSearchPrese
 import com.swuos.ALLFragment.library.libsearchs.search.presenter.LibSearchPresenterCompl;
 import com.swuos.ALLFragment.library.libsearchs.search.view.EndLessOnScrollListener;
 import com.swuos.ALLFragment.library.libsearchs.search.view.ILibSearchView;
-import com.swuos.swuassistant.BaseActivity;
 import com.swuos.swuassistant.R;
 
 
 /**
  * Created by 张孟尧 on 2016/9/4.
  */
-public class SearchActity extends BaseActivity implements ILibSearchView, SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener, RecycleAdapterSearch.OnRecyclerItemClickedListener, View.OnClickListener {
+public class SearchActity extends AppCompatActivity implements ILibSearchView, SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener, RecycleAdapterSearch.OnRecyclerItemClickedListener, View.OnClickListener {
+    private static final String TAG="SearchActity";
     private ILibSearchPresenter libSearchPresenter;
     private SearchView searchView;
     private RecyclerView recyclerView;
@@ -73,7 +75,8 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
         recyclerView.setLayoutManager(linearLayoutManager);
         endLessOnScrollListener = new EndLessOnScrollListener(linearLayoutManager, recycleAdapterSearch) {
             @Override
-            public void onLoadMore(int currentPage) {
+           public void onLoadMore(int currentPage) {
+                Log.d(TAG,"currentPage==>"+currentPage);
                 libSearchPresenter.SearchMore(currentPage);
             }
         };
@@ -95,7 +98,7 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
         toolbar = (Toolbar) findViewById(R.id.search_toolbar);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.search_swipeRefresh);
         setSupportActionBar(toolbar);
-        dynamicAddView(toolbar, "background", R.color.colorPrimary);
+//        dynamicAddView(toolbar, "background", R.color.colorPrimary);
 
     }
 
@@ -161,8 +164,19 @@ public class SearchActity extends BaseActivity implements ILibSearchView, Search
         inten.putExtra("summary", libSearchPresenter.getSearchBookItemList().get(position).getSummary());
         inten.putExtra("currentpage", endLessOnScrollListener.getCurrentPage());
         inten.putExtra("bookCoverUrl", libSearchPresenter.getSearchBookItemList().get(position).getBookCoverUrl());
-        inten.putExtra("id", position % 15);
+        inten.putExtra("id", libSearchPresenter.getSearchBookItemList().get(position).getBookId());
         inten.putExtra("query", searchView.getQuery().toString());
+        Log.d(TAG,"bookname=>"+libSearchPresenter.getSearchBookItemList().get(position).getBookName());
+        Log.d(TAG,"writer=>"+libSearchPresenter.getSearchBookItemList().get(position).getWriter());
+        Log.d(TAG,"suoshuhao=>"+libSearchPresenter.getSearchBookItemList().get(position).getBookSuoshuhao());
+        Log.d(TAG,"ISBN=>"+libSearchPresenter.getSearchBookItemList().get(position).getISBN());
+        Log.d(TAG,"summary=>"+libSearchPresenter.getSearchBookItemList().get(position).getSummary());
+        Log.d(TAG,"currentpage=>"+endLessOnScrollListener.getCurrentPage());
+        Log.d(TAG,"bookCoverUrl=>"+libSearchPresenter.getSearchBookItemList().get(position).getBookCoverUrl());
+        Log.d(TAG,"id=>"+libSearchPresenter.getSearchBookItemList().get(position).getBookId());
+
+        Log.d(TAG,"query=>"+ searchView.getQuery().toString());
+
         startActivity(inten);
     }
 

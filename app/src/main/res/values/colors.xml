@@ -26,4 +26,11 @@
     <color name="whitegrey">#eef1f4</color>
 
 
+
+    <color name="fab_search">#1a8e56</color>
+    <color name="fab_person">#7b1c65</color>
+    <color name="fab_logout">#9c661f</color>
+    <color name="fab_ripple">#d60fab</color>
+
+
 </resources>

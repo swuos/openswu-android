@@ -1,5 +1,6 @@
 package com.swuos.ALLFragment.library.libsearchs.search.model.douabn;
 
+
 import com.swuos.swuassistant.Constant;
 
 import java.io.IOException;

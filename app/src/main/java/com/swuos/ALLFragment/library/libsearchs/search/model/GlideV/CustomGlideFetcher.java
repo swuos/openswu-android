@@ -1,9 +1,10 @@
 package com.swuos.ALLFragment.library.libsearchs.search.model.GlideV;
 
+
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.data.DataFetcher;
-import com.swuos.ALLFragment.library.libsearchs.search.model.douabn.DoubanBookCoverImage;
 import com.swuos.ALLFragment.library.libsearchs.search.model.douabn.DoubanApi;
+import com.swuos.ALLFragment.library.libsearchs.search.model.douabn.DoubanBookCoverImage;
 import com.swuos.ALLFragment.library.libsearchs.search.model.douabn.DoubanParse;
 
 import java.io.IOException;

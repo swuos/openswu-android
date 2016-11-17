@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.swuos.ALLFragment.library.libsearchs.search.adapter.RecycleAdapterSearch;
 
+
 public abstract class EndLessOnScrollListener extends RecyclerView.OnScrollListener {
 
     //声明一个LinearLayoutManager

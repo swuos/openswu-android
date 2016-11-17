@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeLayoutLib"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dadada">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLib"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewLib"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBarLib"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:layout_centerInParent="true"/>
+
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fabMenuLib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="18dp"
+        android:layout_marginRight="12dp"
+        app:menu_colorNormal="@color/colorAccent">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabSearch"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/lib_fab_search"
+            app:fab_colorNormal="@color/fab_search"
+            app:fab_label="搜索图书"/>
+
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#dadada"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/imageViewLibError"
+            android:layout_width="208dp"
+            android:layout_height="308dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"/>
+    </RelativeLayout>
+</RelativeLayout>

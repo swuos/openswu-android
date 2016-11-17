@@ -1,4 +1,4 @@
-package com.swuos.ALLFragment.library.libsearchs.search.model.net;
+package com.swuos.ALLFragment.library.libsearchs.search.net;
 
 
 import com.swuos.swuassistant.Constant;

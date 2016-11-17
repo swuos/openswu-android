@@ -1,4 +1,4 @@
-package com.swuos.ALLFragment.library.libsearchs.search.model.net;
+package com.swuos.ALLFragment.library.libsearchs.search.net;
 
 import retrofit2.http.GET;
 import retrofit2.http.Url;

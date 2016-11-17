@@ -3,6 +3,7 @@ package com.swuos.ALLFragment.library.libsearchs.search.adapter;
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +21,13 @@ import com.swuos.swuassistant.R;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Created by youngkaaa on 2016/5/25.
  * Email:  645326280@qq.com
  */
 public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = "RecycleAdapterSearch";
     private Context context;
     private List<SearchBookItem> searchBookItemList = new ArrayList<>();
     private final DrawableRequestBuilder<DoubanBookCoverImage> imageDrawableRequestBuilder;
@@ -135,8 +138,8 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
      * @param searchResult the search result
      */
     public void firstAdd(SearchResult searchResult) {
-        allBookSize = searchResult.getBookSize();
-
+        allBookSize = searchResult.getBookSize()+1;  //加 1
+        Log.d(TAG,"firstAdd() allBookSize===>"+allBookSize);
         this.searchBookItemList.clear();
         searchBookItemList.addAll(searchResult.getSearchbookItemList());
         if (searchBookItemList.size() < allBookSize) {
@@ -160,9 +163,12 @@ public class RecycleAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
      * @param searchResult the search result
      */
     public void addMore(SearchResult searchResult) {
+        allBookSize+=searchResult.getBookSize();
         /**判断是否已经全部加载,否则开启加载更多*/
         if (searchBookItemList.size() < allBookSize) {
+
             searchBookItemList.addAll(searchResult.getSearchbookItemList());
+
             if (searchBookItemList.size() < allBookSize) {mOpenLoadMore = true;} else
                 mOpenLoadMore = false;
         } else {mOpenLoadMore = false;}

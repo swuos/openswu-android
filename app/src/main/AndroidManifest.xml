@@ -51,22 +51,26 @@
         <activity
             android:name="com.swuos.ALLFragment.card.view.ConsumeActivityImp"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity android:name="com.swuos.ALLFragment.library.libsearchs.bookdetail.BookDetailActivity"/>
         <activity
             android:name="com.swuos.ALLFragment.swujw.schedule.SchedulDetialActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="com.swuos.ALLFragment.library.search.views.SearchAtyImp"/>
         <activity android:name="com.swuos.ALLFragment.library.search.views.BookDetailViewAty"/>
         <activity
-            android:name="com.swuos.ALLFragment.library.libsearchs.search.SearchActity"
+            android:name="com.swuos.ALLFragment.library.libsearchs_origin.search.SearchActity"
             android:launchMode="standard"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.swuos.ALLFragment.library.libsearchs.bookdetail.BookDetailActivity"
+            android:name="com.swuos.ALLFragment.library.libsearchs_origin.bookdetail.BookDetailActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"/>
         <activity
             android:name="com.swuos.ALLFragment.library.lib.views.PersonViewAty"
             android:theme="@style/AppTheme.NoActionBarPerson"/>
+
+        <activity android:name="com.swuos.ALLFragment.library.libsearchs.search.SearchActity"/>
 
         <service android:name="com.swuos.Service.ClassAlarmService"/>
         <service android:name="com.swuos.Service.ScheduleNotificationService"/>
@@ -103,8 +107,13 @@
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="cd41ce86222f389887a06882d79a08bf"/>
         <meta-data
+            android:name="com.swuos.ALLFragment.library.libsearchs_origin.search.model.GlideV.CustomGllideMoudle"
+            android:value="GlideModule"/>
+
+        <meta-data
             android:name="com.swuos.ALLFragment.library.libsearchs.search.model.GlideV.CustomGllideMoudle"
             android:value="GlideModule"/>
+
     </application>
 
 </manifest>

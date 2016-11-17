@@ -144,7 +144,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
                     mRevealLayout.setVisibility(View.INVISIBLE);
                     mRevealView.setVisibility(View.INVISIBLE);
                 }
-            }, 700);
+            }, 800);
         } else {
             mTextViewLoginBack.clearAnimation();
             mTextViewLoginBack.setVisibility(View.GONE);

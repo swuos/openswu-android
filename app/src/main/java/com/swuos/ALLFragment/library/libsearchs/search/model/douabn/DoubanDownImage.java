@@ -1,7 +1,5 @@
 package com.swuos.ALLFragment.library.libsearchs.search.model.douabn;
 
-import java.io.InputStream;
-
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;

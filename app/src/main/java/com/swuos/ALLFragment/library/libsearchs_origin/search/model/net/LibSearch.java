@@ -1,4 +1,4 @@
-package com.swuos.ALLFragment.library.libsearchs.search.model.net;
+package com.swuos.ALLFragment.library.libsearchs_origin.search.model.net;
 
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;

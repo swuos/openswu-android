@@ -25,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.swuos.ALLFragment.FragmentControl;
-import com.swuos.ALLFragment.library.libsearchs.search.SearchActity;
 import com.swuos.ALLFragment.swujw.TotalInfos;
 import com.swuos.swuassistant.BaseActivity;
 import com.swuos.swuassistant.BaseApplication;
@@ -176,16 +175,6 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (isFragmentLibSelected) {
-            menu.findItem(R.id.search).setVisible(true);
-        } else {
-            menu.findItem(R.id.search).setVisible(false);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -196,9 +185,6 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
                 break;
             case R.menu.main:
                 SALog.d("MainActivity", "click_main");
-                break;
-            case R.id.search:
-                startActivity(new Intent(this, SearchActity.class));
                 break;
         }
 
@@ -221,7 +207,6 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
                 break;
             case R.id.nav_schedule:
                 arrayMap.put("scheduleFragment", true);
-
                 fragmentControl.fragmentSelection(id);
                 toolbar.setTitle(R.string.schedule_title);
                 fragmentPosition = id;

@@ -2,16 +2,18 @@ package com.swuos.ALLFragment.library.libsearchs.bookdetail.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.swuos.ALLFragment.library.libsearchs.bookdetail.model.BookLocationInfo;
+import com.swuos.ALLFragment.library.libsearchs.bookdetail.model.BookLocationItem;
 import com.swuos.swuassistant.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by 张孟尧 on 2016/9/8.
@@ -19,7 +21,7 @@ import java.util.List;
 
 public class BookLocationRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<BookLocationInfo> bookLocationInfoList;
+    private List<BookLocationItem> bookLocationInfoList;
 
     public BookLocationRecycleAdapter(Context context) {
         this.context = context;
@@ -36,9 +38,9 @@ public class BookLocationRecycleAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (bookLocationInfoList.size() != 0) {
-            ((BookLocationViewHolder) holder).libraryTextView.setText(bookLocationInfoList.get(position).getAddress());
-            ((BookLocationViewHolder) holder).isOnShelfTextView.setText(bookLocationInfoList.get(position).getFrameState());
-            ((BookLocationViewHolder) holder).shelfTextView.setText(bookLocationInfoList.get(position).getShelf());
+            ((BookLocationViewHolder) holder).libraryTextView.setText(bookLocationInfoList.get(position).getApartName());
+            ((BookLocationViewHolder) holder).isOnShelfTextView.setText(Html.fromHtml(bookLocationInfoList.get(position).getBookstatus()));
+            ((BookLocationViewHolder) holder).shelfTextView.setText(bookLocationInfoList.get(position).getLocation());
         }
     }
 
@@ -47,11 +49,9 @@ public class BookLocationRecycleAdapter extends RecyclerView.Adapter<RecyclerVie
         return bookLocationInfoList.size();
     }
 
-    public void additem(BookLocationInfo bookLocationInfo) {
-        this.bookLocationInfoList.add(bookLocationInfo);
+    public void addItems(List<BookLocationItem> bookLocationInfo) {
+        this.bookLocationInfoList.addAll(bookLocationInfo);
         notifyDataSetChanged();
-
-
     }
 
     private class BookLocationViewHolder extends RecyclerView.ViewHolder {

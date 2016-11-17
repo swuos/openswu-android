@@ -15,10 +15,5 @@
     <!--app:showAsAction="always"-->
     <!--/>-->
 
-    <item android:id="@+id/search"
-          android:icon="@drawable/ic_action_search"
-          android:title="搜索"
-          app:showAsAction="always"/>
-
 
 </menu>

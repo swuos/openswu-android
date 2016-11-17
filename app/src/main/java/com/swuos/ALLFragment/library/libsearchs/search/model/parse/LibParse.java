@@ -4,8 +4,6 @@ package com.swuos.ALLFragment.library.libsearchs.search.model.parse;
 import com.swuos.ALLFragment.library.libsearchs.bookdetail.model.BookLocationInfo;
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchBookItem;
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchResult;
-import com.swuos.ALLFragment.library.libsearchs.search.model.douabn.DoubanApi;
-import com.swuos.ALLFragment.library.libsearchs.search.model.douabn.DoubanParse;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,8 +13,6 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscriber;
-import rx.functions.Func1;
 
 
 /**

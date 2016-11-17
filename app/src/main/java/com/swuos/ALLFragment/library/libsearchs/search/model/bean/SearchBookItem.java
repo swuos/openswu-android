@@ -4,11 +4,35 @@ package com.swuos.ALLFragment.library.libsearchs.search.model.bean;
  * Created by 张孟尧 on 2016/9/3.
  */
 public class SearchBookItem {
+    //本次搜到的书的数量
+    private  long searchResultNum;
+
+    public long getSearchResultNum() {
+        return searchResultNum;
+    }
+
+    public void setSearchResultNum(long searchResultNum) {
+        this.searchResultNum = searchResultNum;
+    }
+
+    // 图书ID
+    private String bookId;
+    //图书详情页URL
+    private String bookDetailUrl;
+
+    public String getBookDetailUrl() {
+        return bookDetailUrl;
+    }
+
+    public void setBookDetailUrl(String bookDetailUrl) {
+        this.bookDetailUrl = bookDetailUrl;
+    }
+
     //    书名
     private String bookName;
     //    索书号
     private String bookSuoshuhao;
-    private String ISBN;
+    private String ISBN="nothing";  //默认
     //    出版社
     private String publisher;
     //    摘要
@@ -27,6 +51,14 @@ public class SearchBookItem {
     private String shelf;
     private boolean BookCover = false;
     private String bookCoverUrl;
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
 
     public String getBookCoverUrl() {
         return bookCoverUrl;
