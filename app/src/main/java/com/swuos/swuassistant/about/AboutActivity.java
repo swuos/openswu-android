@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
@@ -69,7 +67,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         this.setTitle("关于我们");
         toolbar.setTitleTextColor(Color.WHITE);
         //        Drawable d = ContextCompat.getDrawable(this, R.drawable.back_material);
-        toolbar.setNavigationIcon(R.drawable.back_material);
+        toolbar.setNavigationIcon(R.drawable.toolbar_back);
 
         initview();
         dynamicAddView(toolbar, "background", R.color.colorPrimary);

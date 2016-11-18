@@ -85,7 +85,7 @@ public class BookDetailActivity extends BaseActivity implements View.OnClickList
         toolbar = (Toolbar) findViewById(R.id.search_book_toolbar);
 
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.back_material);
+        toolbar.setNavigationIcon(R.drawable.toolbar_back);
         toolbar.setNavigationOnClickListener(this);
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
         collapsingToolbarLayoutl = (CollapsingToolbarLayout) findViewById(R.id.search_book_collapsingToolabar);

@@ -1,9 +1,11 @@
 package com.swuos.ALLFragment.swujw.schedule;
 
+import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -13,10 +15,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.LayoutAnimationController;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -38,10 +36,10 @@ import java.util.List;
  * Created by 张孟尧 on 2016/3/10.
  */
 public class ScheduleTableFragment extends BaseFragment implements View.OnTouchListener, View.OnClickListener {
-
-    private  TotalInfos totalInfo = TotalInfos.getInstance();
-    private  SwipeRefreshLayout swipeRefreshLayout;
-    private  MainActivity mainActivity;
+    private static final String TAG = "ScheduleTableFragment";
+    private TotalInfos totalInfo = TotalInfos.getInstance();
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private MainActivity mainActivity;
     private static int curretweek = -1;
     View scheduleTableLayout;
     /*课程表布局*/
@@ -186,11 +184,11 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
         textViewList.clear();
         relativeLayout.removeAllViews();
 
-        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.schedule_item);
-        LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation);
-        layoutAnimationController.setInterpolator(new BounceInterpolator());
-        layoutAnimationController.setOrder(LayoutAnimationController.ORDER_RANDOM);
-        relativeLayout.setLayoutAnimation(layoutAnimationController);
+//        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.schedule_item);
+//        LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation);
+//        layoutAnimationController.setInterpolator(new BounceInterpolator());
+//        layoutAnimationController.setOrder(LayoutAnimationController.ORDER_RANDOM);
+//        relativeLayout.setLayoutAnimation(layoutAnimationController);
 
 
         /*得到一节课的高度*/
@@ -277,6 +275,10 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
 
     @Override
     public void onClick(View v) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            SALog.d(TAG, "setTransitionName()=》" + getString(R.string.schedule_transition));
+            v.setTransitionName(getString(R.string.schedule_transition));
+        }
         int id = v.getId();
         SALog.d("scheduletable", String.valueOf(id));
         Intent intent = new Intent(getActivity(), SchedulDetialActivity.class);
@@ -286,7 +288,12 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
         intent.putExtra("jc", textViewList.get(id).getScheduleItem().getJc());
         intent.putExtra("color", textViewList.get(id).getColor());
 
-        startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), v, getString(R.string.schedule_transition));
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
 
     }
 

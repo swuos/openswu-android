@@ -1,7 +1,6 @@
 package com.swuos.ALLFragment.library.lib.views;
 
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -69,7 +68,7 @@ public class PersonViewAty extends BaseActivity {
         appBarLayout = (AppBarLayout) findViewById(R.id.appbarLayoutLibPerson);
         toolbar = (Toolbar) findViewById(R.id.toolBarLibPersonView);
         //        Drawable drawable = getResources().getDrawable(R.drawable.lib_back_person);
-        toolbar.setNavigationIcon(R.drawable.back_material);
+        toolbar.setNavigationIcon(R.drawable.toolbar_back);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

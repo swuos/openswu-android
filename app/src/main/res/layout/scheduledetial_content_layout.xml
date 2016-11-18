@@ -13,7 +13,8 @@
         android:paddingTop="24dp"
         android:text="植物病理学"
         android:textColor="#ffffff"
-        android:textSize="30sp"/>
+        android:textSize="30sp"
+        android:transitionName="@string/schedule_transition"/>
 
     <RelativeLayout
         android:layout_below="@id/schedule_detail_class_title"

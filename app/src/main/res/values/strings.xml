@@ -56,4 +56,6 @@
 
     <string name="fab_name">Fab_Lib</string>
 
+    <string name="schedule_transition">schedule_transition</string>
+
 </resources>
