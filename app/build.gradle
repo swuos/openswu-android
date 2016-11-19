@@ -69,5 +69,4 @@ dependencies {
     compile 'com.github.iwgang:countdownview:2.1.2'
     compile 'com.github.clans:fab:1.6.4'
 
-
 }

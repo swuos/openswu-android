@@ -7,6 +7,7 @@ import com.swuos.ALLFragment.library.library.api.manager.ServiceManager;
 import com.swuos.ALLFragment.library.library.model.BookItem;
 import com.swuos.ALLFragment.library.library.presenter.ILibPresenter;
 import com.swuos.ALLFragment.library.library.utils.Parser;
+import com.swuos.ALLFragment.library.library.utils.SharedPreferenceUtil;
 import com.swuos.ALLFragment.library.library.view.ILibView;
 
 import java.util.ArrayList;
@@ -34,10 +35,12 @@ public class LibPresenterImp extends BasePresenterImp implements ILibPresenter {
     private int currentPos = -20;
     private int totalNums = 0;
     private int totalPages;
+    private SharedPreferenceUtil sharedPreferenceUtil;
 
     public LibPresenterImp(Context context, ILibView libView) {
         this.mContext = context;
         this.mLibView = libView;
+        sharedPreferenceUtil=new SharedPreferenceUtil(mContext);
     }
 
     /**
@@ -147,14 +150,15 @@ public class LibPresenterImp extends BasePresenterImp implements ILibPresenter {
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "onCompleted");
-                        mLibView.hideProgressDialog();
+
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
                         Log.d(TAG, "onError " + throwable.toString());
+                        mLibView.updateData(sharedPreferenceUtil.getBookList());
                         mLibView.hideProgressDialog();
-                        mLibView.showError(throwable.toString());
+                        mLibView.showError("未知错误，已帮你加载缓存数据");
                     }
 
                     @Override
@@ -167,6 +171,7 @@ public class LibPresenterImp extends BasePresenterImp implements ILibPresenter {
                             bookItems.addAll(Parser.makeBookItems(s));
                         }
                         mLibView.updateData(bookItems);
+                        sharedPreferenceUtil.putBookList(bookItems);
                     }
                 });
     }

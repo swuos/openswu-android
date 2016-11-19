@@ -6,15 +6,12 @@ import android.content.SharedPreferences;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 import com.swuos.ALLFragment.library.library.adapter.FooterAdapter;
 import com.swuos.ALLFragment.library.library.adapter.LibRecyclerAdapter;
 import com.swuos.ALLFragment.library.library.model.BookItem;
@@ -22,6 +19,7 @@ import com.swuos.ALLFragment.library.library.presenter.ILibPresenter;
 import com.swuos.ALLFragment.library.library.presenter.Imp.LibPresenterImp;
 import com.swuos.ALLFragment.library.library.utils.NetWorkUtils;
 import com.swuos.ALLFragment.library.library.utils.Parser;
+import com.swuos.ALLFragment.library.library.utils.SharedPreferenceUtil;
 import com.swuos.ALLFragment.library.library.view.ILibView;
 import com.swuos.swuassistant.R;
 import com.swuos.util.SALog;
@@ -38,7 +36,7 @@ import butterknife.OnClick;
  * Contact me : 645326280@qq.com
  */
 
-public class LibFragment extends BaseFragment implements ILibView, View.OnTouchListener, SwipeRefreshLayout.OnRefreshListener {
+public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "LibFragment";
 
     @BindView(R.id.recyclerViewLib)
@@ -48,22 +46,16 @@ public class LibFragment extends BaseFragment implements ILibView, View.OnTouchL
     @BindView(R.id.progressBarLib)
     ProgressBar mProgressBar;
 
-    @BindView(R.id.fabMenuLib)
-    FloatingActionMenu mFabMenu;
-
     @BindView(R.id.fabSearch)
     FloatingActionButton mFabSearch;
 
-    @BindView(R.id.imageViewLibError)
-    ImageView mImageViewError;
+    @BindView(R.id.relativeLayoutLib)
+    RelativeLayout mRelativeLayoutMain;
+
+
     @BindView(R.id.swipeRefreshLib)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @BindView(R.id.relativeLayoutError)
-    RelativeLayout mRelativeLayoutError;
-
-    @BindView(R.id.relativeLayoutLib)
-    RelativeLayout mRelativeLayoutMain;
 
     private ILibPresenter mLibPresenter;
     private List<BookItem> mBookItems;
@@ -73,6 +65,7 @@ public class LibFragment extends BaseFragment implements ILibView, View.OnTouchL
     private String passWord;
     private int lastY;
     private SharedPreferences sharedPreferences;
+    private SharedPreferenceUtil sharedPreferenceUtil;
 
     @Override
     public int getLayoutId() {
@@ -93,10 +86,15 @@ public class LibFragment extends BaseFragment implements ILibView, View.OnTouchL
         userName = sharedPreferences.getString("userName", "nothing");
         passWord = sharedPreferences.getString("password", "nothing");
 
-        SALog.d(TAG,"userName==>"+userName);
-        SALog.d(TAG,"passwd==>"+passWord);
+        SALog.d(TAG, "userName==>" + userName);
+        SALog.d(TAG, "passwd==>" + passWord);
         mLibPresenter.getBorrowListByLogin(userName, passWord);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        sharedPreferenceUtil = new SharedPreferenceUtil(getContext());
+        if (sharedPreferenceUtil.getBookList() != null) {
+            updateData(sharedPreferenceUtil.getBookList());
+        }
+        Toast.makeText(getContext(), "正在后台帮你获取最新信息，请稍候...", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.fabSearch)
@@ -105,27 +103,13 @@ public class LibFragment extends BaseFragment implements ILibView, View.OnTouchL
         startActivity(new Intent(getContext(), com.swuos.ALLFragment.library.libsearchs.search.SearchActity.class));
     }
 
-    @OnClick(R.id.imageViewLibError)
-    void onImageErrorEvent() {
-        if (NetWorkUtils.isNetConnected(getContext())) {
-            Toast.makeText(getContext(), "network connected ", Toast.LENGTH_SHORT).show();
-            mRelativeLayoutError.setVisibility(View.INVISIBLE);
-            mRelativeLayoutMain.setVisibility(View.VISIBLE);
-
-            mLibPresenter.getBorrowListByLogin(userName, passWord);
-        } else {
-            Toast.makeText(getContext(), "没网别乱点 ~~(╯﹏╰) ", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     @Override
     public void checkNetWork() {
         if (!NetWorkUtils.isNetConnected(getContext())) {
-            Toast.makeText(getContext(), "没网哦！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "现在没有网络，帮你加载离线数据！", Toast.LENGTH_LONG).show();
             hideProgressDialog();
-            mRelativeLayoutError.setVisibility(View.VISIBLE);
+            updateData(sharedPreferenceUtil.getBookList());
         }
-
     }
 
     @Override
@@ -137,21 +121,16 @@ public class LibFragment extends BaseFragment implements ILibView, View.OnTouchL
         mFooterAdapter = new FooterAdapter(getContext(), mRecyclerAdapter);
         mFooterAdapter.setFooterResId(R.layout.list_footer_no_more);
         mRecyclerView.setAdapter(mFooterAdapter);
-        mRecyclerView.setOnTouchListener(this);
     }
 
     @Override
     public void hindFab() {
-        if (!mFabMenu.isMenuHidden()) {
-            mFabMenu.hideMenu(false);
-        }
+
     }
 
     @Override
     public void showFab() {
-        if (mFabMenu.isMenuHidden()) {
-            mFabMenu.showMenu(false);
-        }
+
     }
 
     @Override
@@ -184,7 +163,7 @@ public class LibFragment extends BaseFragment implements ILibView, View.OnTouchL
 
     @Override
     public void showErrorView() {
-        mRelativeLayoutError.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -193,25 +172,15 @@ public class LibFragment extends BaseFragment implements ILibView, View.OnTouchL
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        int y = (int) event.getY();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_MOVE:
-                int deltaY = y - lastY;
-                if (deltaY >= 0) {  //down
-                    mFabMenu.showMenu(true);
-                } else {  //up
-                    mFabMenu.hideMenu(true);
-                }
-                break;
-        }
-        lastY = y;
-        return false;
-    }
-
-    @Override
     public void onRefresh() {
-        mLibPresenter.getBorrowList();
-        showRefreshLayout();
+        if (!NetWorkUtils.isNetConnected(getContext())) {
+            Toast.makeText(getContext(), "现在没有网络，帮你加载离线数据！", Toast.LENGTH_LONG).show();
+            hideProgressDialog();
+            updateData(sharedPreferenceUtil.getBookList());
+        } else {
+            Toast.makeText(getContext(), "已经获得最新信息！", Toast.LENGTH_LONG).show();
+            mLibPresenter.getBorrowList();
+            showRefreshLayout();
+        }
     }
 }
