@@ -5,13 +5,13 @@ package com.swuos.ALLFragment.library.libsearchs.search.model.bean;
  */
 public class SearchBookItem {
     //本次搜到的书的数量
-    private  long searchResultNum;
+    private int searchResultNum;
 
-    public long getSearchResultNum() {
+    public int getSearchResultNum() {
         return searchResultNum;
     }
 
-    public void setSearchResultNum(long searchResultNum) {
+    public void setSearchResultNum(int searchResultNum) {
         this.searchResultNum = searchResultNum;
     }
 
@@ -32,7 +32,7 @@ public class SearchBookItem {
     private String bookName;
     //    索书号
     private String bookSuoshuhao;
-    private String ISBN="nothing";  //默认
+    private String ISBN;
     //    出版社
     private String publisher;
     //    摘要

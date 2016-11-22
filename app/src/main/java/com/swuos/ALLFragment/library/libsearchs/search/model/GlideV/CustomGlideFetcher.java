@@ -1,8 +1,10 @@
 package com.swuos.ALLFragment.library.libsearchs.search.model.GlideV;
 
+import android.util.Log;
 
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.data.DataFetcher;
+import com.mran.polylinechart.BuildConfig;
 import com.swuos.ALLFragment.library.libsearchs.search.model.douabn.DoubanApi;
 import com.swuos.ALLFragment.library.libsearchs.search.model.douabn.DoubanBookCoverImage;
 import com.swuos.ALLFragment.library.libsearchs.search.model.douabn.DoubanParse;
@@ -35,6 +37,8 @@ public class CustomGlideFetcher implements DataFetcher<InputStream> {
 
             @Override
             public void onError(Throwable e) {
+                if (BuildConfig.DEBUG)
+                    Log.d("CustomGlideFetcher", e.getMessage());
 
             }
 
@@ -52,7 +56,8 @@ public class CustomGlideFetcher implements DataFetcher<InputStream> {
 
             @Override
             public void onError(Throwable e) {
-
+                if (BuildConfig.DEBUG)
+                    Log.d("CustomGlideFetcher", e.getMessage());
             }
 
             @Override
@@ -69,7 +74,7 @@ public class CustomGlideFetcher implements DataFetcher<InputStream> {
             if (mIsCanceled) {
                 return null;
             }
-            DoubanApi.getDoubanSearch().doubanSearch(mdoubanBookCoverImage.getISBN().substring(9).replace("-", "")).map(new Func1<String, String>() {
+            DoubanApi.getDoubanSearch().doubanSearch(mdoubanBookCoverImage.getISBN()).map(new Func1<String, String>() {
                 @Override
                 public String call(String s) {
                     return DoubanParse.getbookcover(s);

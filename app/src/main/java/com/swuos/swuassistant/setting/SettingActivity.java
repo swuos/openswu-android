@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -29,7 +30,7 @@ public class SettingActivity extends BaseActivity {
         this.setTitle(R.string.action_settings);
         toolbar.setTitleTextColor(Color.WHITE);
         //        Drawable d = ContextCompat.getDrawable(this, R.drawable.back_material);
-        toolbar.setNavigationIcon(R.drawable.toolbar_back);
+        toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_back));
         /*打开preferenceFragment*/
         SettingFragment settingFragment=new SettingFragment();
         FragmentManager fragmentManager=getFragmentManager();

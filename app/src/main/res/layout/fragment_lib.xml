@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/relativeLayoutLib"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/relativeLayoutLib"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#dadada">
@@ -36,7 +36,7 @@
             android:id="@+id/fabSearch"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/lib_fab_search"
+            android:src="@drawable/ic_1479490305_magnifying_glass_search"
             app:fab_colorNormal="@color/fab_search"
             app:fab_label="搜索图书"/>
 

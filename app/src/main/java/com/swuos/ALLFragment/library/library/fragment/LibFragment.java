@@ -99,7 +99,7 @@ public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshL
 
     @OnClick(R.id.fabSearch)
     void fabSearchEvent() {
-        Toast.makeText(getContext(), "fabSearch", Toast.LENGTH_SHORT).show();
+        //        Toast.makeText(getContext(), "fabSearch", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(getContext(), com.swuos.ALLFragment.library.libsearchs.search.SearchActity.class));
     }
 

@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layoutAnimation="@anim/grade_layout_anim"/>
+            />
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

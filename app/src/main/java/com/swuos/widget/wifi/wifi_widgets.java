@@ -19,6 +19,7 @@ import com.mran.polylinechart.BuildConfig;
 import com.swuos.ALLFragment.wifi.model.NewSwuNetLoginResultJson;
 import com.swuos.ALLFragment.wifi.model.NewSwuNetParse;
 import com.swuos.ALLFragment.wifi.model.SwuNetApi;
+import com.swuos.ALLFragment.wifi.util.Parse;
 import com.swuos.swuassistant.Constant;
 import com.swuos.swuassistant.R;
 import com.swuos.util.wifi.WifiExit;
@@ -192,15 +193,20 @@ public class wifi_widgets extends AppWidgetProvider {
 
     public void login(final String username, final String password, final String wifissid) {
 
-        Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<String, String>();
         map.put("userId", username);
         map.put("password", password);
         map.put("service", "%E9%BB%98%E8%AE%A4");
-        map.put("queryString", "wlanacname%3Dc3d7ed6d307ae29d%26ssid%3D46be4f158ac727af%26nasip%3Df9dbb3fe11a1f4e3b5cce4a65fc79cf9%26mac%3D9bca081b48d1f514ce2f43e9408158aa%26t%3Dwireless-v2%26url%3Dbc769469379bc92a49dd39c8187326462c2c594662118267");
         map.put("operatorPwd", "");
         map.put("operatorUserId", "");
         map.put("validcode", "");
-        SwuNetApi.getNewSwuNet().login(map)
+        SwuNetApi.getNewSwuNet().loginPre().flatMap(new Func1<String, Observable<String>>() {
+            @Override
+            public Observable<String> call(String s) {
+                map.put("queryString", Parse.getSwuNetInfoQueryString(s));
+                return SwuNetApi.getNewSwuNet().login(map);
+            }
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
             @Override

@@ -28,7 +28,7 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            >
+
         </activity>
         <activity
             android:name=".login.LoginActivity"
@@ -56,16 +56,8 @@
         <activity
             android:name="com.swuos.ALLFragment.swujw.schedule.SchedulDetialActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.swuos.ALLFragment.library.search.views.SearchAtyImp"/>
-        <activity android:name="com.swuos.ALLFragment.library.search.views.BookDetailViewAty"/>
-        <activity
-            android:name="com.swuos.ALLFragment.library.libsearchs_origin.search.SearchActity"
-            android:launchMode="standard"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name="com.swuos.ALLFragment.library.libsearchs_origin.bookdetail.BookDetailActivity"
-            android:launchMode="standard"
-            android:screenOrientation="portrait"/>
+
+
         <activity
             android:name="com.swuos.ALLFragment.library.lib.views.PersonViewAty"
             android:theme="@style/AppTheme.NoActionBarPerson"/>
@@ -106,9 +98,7 @@
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="cd41ce86222f389887a06882d79a08bf"/>
-        <meta-data
-            android:name="com.swuos.ALLFragment.library.libsearchs_origin.search.model.GlideV.CustomGllideMoudle"
-            android:value="GlideModule"/>
+
 
         <meta-data
             android:name="com.swuos.ALLFragment.library.libsearchs.search.model.GlideV.CustomGllideMoudle"

@@ -45,7 +45,7 @@ public class SwuNetApi {
 
     private static OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .cookieJar(cookieJar)
-            .addInterceptor(httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS))
+            .addInterceptor(httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY))
             //            .proxy(proxy)
             .build();
     private static OkHttpClient okHttpClientSelf = new OkHttpClient.Builder()
@@ -65,7 +65,7 @@ public class SwuNetApi {
     public static NewSwuNet getNewSwuNet() {
         if (newSwuNet == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://login2.swu.edu.cn/")
+                    .baseUrl("http://222.198.127.170")
                     .addCallAdapterFactory(rxJavaCallAdapterFactory)
                     .addConverterFactory(scalarsConverterFactory)
                     .client(okHttpClient)

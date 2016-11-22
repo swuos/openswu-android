@@ -39,7 +39,7 @@ public class SchedulDetialActivity extends AppCompatActivity {
         toolbar.setBackgroundColor(colors);
         setSupportActionBar(toolbar);
         this.setTitle("");
-        Drawable d = ContextCompat.getDrawable(this, R.drawable.toolbar_back);
+        Drawable d = ContextCompat.getDrawable(this, R.drawable.ic_back);
         toolbar.setNavigationIcon(d);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(colors);

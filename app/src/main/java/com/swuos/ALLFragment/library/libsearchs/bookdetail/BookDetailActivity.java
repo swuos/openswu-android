@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -23,6 +21,7 @@ import com.swuos.ALLFragment.library.libsearchs.bookdetail.api.manager.ServiceMa
 import com.swuos.ALLFragment.library.libsearchs.bookdetail.model.BookLocationInfo;
 import com.swuos.ALLFragment.library.libsearchs.bookdetail.model.BookLocationItem;
 import com.swuos.ALLFragment.library.libsearchs.search.model.douabn.DoubanBookCoverImage;
+import com.swuos.swuassistant.BaseActivity;
 import com.swuos.swuassistant.R;
 
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ import rx.schedulers.Schedulers;
  * Created by 张孟尧 on 2016/9/7.
  */
 
-public class BookDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class BookDetailActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG="BookDetailActivity";
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbarLayoutl;
@@ -74,14 +73,14 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
                 .diskCacheStrategy(DiskCacheStrategy.ALL) // 设置本地缓存,缓存源文件和目标图像
                 .placeholder(R.mipmap.book_cover);
         initview();
-        getLocation(currentPage, id);
+        getLocation(id);
     }
 
     private void bindview() {
         toolbar = (Toolbar) findViewById(R.id.search_book_toolbar);
 
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.toolbar_back);
+        toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_back));
         toolbar.setNavigationOnClickListener(this);
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
         collapsingToolbarLayoutl = (CollapsingToolbarLayout) findViewById(R.id.search_book_collapsingToolabar);
@@ -99,11 +98,11 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initview() {
-//        dynamicAddView(collapsingToolbarLayoutl, "CollapsingToolbarLayoutcontent", R.color.colorPrimary);
+        dynamicAddView(collapsingToolbarLayoutl, "CollapsingToolbarLayoutcontent", R.color.colorPrimary);
 
         writerTextView.setText(writerString);
         suoshuhaoTextView.setText(suoshuhaoString);
-        ISBNTextView.setText(ISBNString);
+        ISBNTextView.setText("I S B N: " + ISBNString);
         summaryTextView.setText(summaryString);
         bookLocationRecycleAdapter = new BookLocationRecycleAdapter(this);
         recyclerView.setAdapter(bookLocationRecycleAdapter);
@@ -131,15 +130,13 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
         finish();
     }
 
-    private void getLocation(final int currentPage, final String id) {
-        Log.d(TAG,"ID==>"+id);
+    private void getLocation(String id) {
         ServiceManager.getLocationService().getBookLocation(id, System.currentTimeMillis())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<BookLocationItem>>() {
                     @Override
                     public void onCompleted() {
-                        Toast.makeText(BookDetailActivity.this, "onCompleted", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -149,11 +146,7 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
 
                     @Override
                     public void onNext(List<BookLocationItem> locationItems) {
-                        for(BookLocationItem item:locationItems){
-                            Log.d(TAG,"item.getApart()=>"+item.getApart());
-                            Log.d(TAG,"item.getLocation()=>"+item.getLocation());
-                            Log.d(TAG,"item.getBookstatus()=>"+item.getBookstatus());
-                        }
+
                         bookLocationRecycleAdapter.addItems(locationItems);
                         recyclerView.setAdapter(bookLocationRecycleAdapter);
                     }

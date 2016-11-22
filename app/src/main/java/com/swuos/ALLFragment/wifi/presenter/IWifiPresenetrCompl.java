@@ -8,6 +8,7 @@ import com.swuos.ALLFragment.swujw.TotalInfos;
 import com.swuos.ALLFragment.wifi.model.NewSwuNetLoginResultJson;
 import com.swuos.ALLFragment.wifi.model.NewSwuNetParse;
 import com.swuos.ALLFragment.wifi.model.SwuNetApi;
+import com.swuos.ALLFragment.wifi.util.Parse;
 import com.swuos.ALLFragment.wifi.view.IWifiFragmentView;
 import com.swuos.util.wifi.WifiExit;
 
@@ -40,31 +41,23 @@ public class IWifiPresenetrCompl implements IWifiPresenter {
 
     @Override
     public void login(final String username, final String password, final String wifissid) {
-        //        Observable.create(new Observable.OnSubscribe<String>() {
-        //            @Override
-        //            public void call(Subscriber<? super String> subscriber) {
-        //                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password))
-        //                    subscriber.onNext(context.getString(R.string.not_logged_in));
-        //                else
-        //                    subscriber.onNext(WifiLogin.login(username, password, wifissid));
-        //            }
-        //        }).subscribeOn(Schedulers.io())
-        //                .observeOn(AndroidSchedulers.mainThread())
-        //                .subscribe(new Action1<String>() {
-        //                    @Override
-        //                    public void call(String s) {
-        //                        iWifiFragmentView.showResult(s);
-        //                    }
-        //                });
-        Map<String, String> map = new HashMap<String, String>();
+
+        final Map<String, String> map = new HashMap<String, String>();
         map.put("userId", username);
         map.put("password", password);
         map.put("service", "%E9%BB%98%E8%AE%A4");
-        map.put("queryString", "wlanacname%3Dc3d7ed6d307ae29d%26ssid%3D46be4f158ac727af%26nasip%3Df9dbb3fe11a1f4e3b5cce4a65fc79cf9%26mac%3D9bca081b48d1f514ce2f43e9408158aa%26t%3Dwireless-v2%26url%3Dbc769469379bc92a49dd39c8187326462c2c594662118267");
         map.put("operatorPwd", "");
         map.put("operatorUserId", "");
         map.put("validcode", "");
-        SwuNetApi.getNewSwuNet().login(map)
+        SwuNetApi.getNewSwuNet().loginPre().flatMap(new Func1<String, Observable<String>>() {
+            @Override
+            public Observable<String> call(String s) {
+                if (s.contains("登录成功"))
+                    return Observable.just(s);
+                map.put("queryString", Parse.getSwuNetInfoQueryString(s));
+                return SwuNetApi.getNewSwuNet().login(map);
+            }
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
             @Override
@@ -101,23 +94,6 @@ public class IWifiPresenetrCompl implements IWifiPresenter {
 
     @Override
     public void logout(final String username, final String password, final String wifissid) {
-        //        Observable.create(new Observable.OnSubscribe<String>() {
-        //            @Override
-        //            public void call(Subscriber<? super String> subscriber) {
-        //                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password))
-        //                    subscriber.onNext(context.getString(R.string.not_logged_in));
-        //                else
-        //                    subscriber.onNext(WifiExit.logout(username, password, wifissid));
-        //
-        //            }
-        //        }).subscribeOn(Schedulers.io())
-        //                .observeOn(AndroidSchedulers.mainThread())
-        //                .subscribe(new Action1<String>() {
-        //                    @Override
-        //                    public void call(String s) {
-        //                        iWifiFragmentView.showResult(s);
-        //                    }
-        //                });
 
         SwuNetApi.getSwuNetSelf().loginToCheck(username, password)
                 .flatMap(new Func1<String, Observable<String>>() {

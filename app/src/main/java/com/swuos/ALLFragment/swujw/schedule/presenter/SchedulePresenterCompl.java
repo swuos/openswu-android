@@ -94,46 +94,9 @@ public class SchedulePresenterCompl implements ISchedulePresenter {
     @Override
     public void getSchedule(final String username, final String password, final String xnm, final String xqm) {
         iScheduleView.showDialog(true);
-        //        Observable.create(new Observable.OnSubscribe<String>() {
-        //            @Override
-        //            public void call(Subscriber<? super String> subscriber) {
-        //                Login login = new Login();
-        //                LoginJson loginJson = login.doLogin(username, password);
-        //                if (loginJson.getData().getGetUserInfoByUserNameResponse().getReturnX().isSuccess()) {
-        //                    Schedule schedule = new Schedule(login.okhttpNet);
-        //                    /*判断是否课程表是否正常获得*/
-        //                    if (schedule.setSchedule(totalInfos, xnm, xqm).equals(Constant.CLIENT_ERROR)) {
-        //                        subscriber.onError(new Throwable(mContext.getString(R.string.school_servier_boom)));
-        //                    } else {
-        //                        totalInfos.setScheduleItemList(schedule.getScheduleList(totalInfos));
-        //                        /*将获取的课程表json信息写入本地文件*/
-        //                        editor.putString("scheduleDataJson", totalInfos.getScheduleDataJson());
-        //                        editor.commit();
-        //                        subscriber.onNext("");
-        //                    }
-        //                } else if (loginJson.getData().getGetUserInfoByUserNameResponse().getReturnX().isSuccess()) {
-        //                    subscriber.onError(new Throwable(mContext.getString(R.string.no_user_or_password_error)));
-        //                }
-        //            }
-        //        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
-        //            @Override
-        //            public void onCompleted() {
-        //            }
-        //
-        //            @Override
-        //            public void onError(Throwable e) {
-        //                iScheduleView.showDialog(false);
-        //                iScheduleView.showError(e.getMessage());
-        //            }
-        //
-        //            @Override
-        //            public void onNext(String s) {
-        //                iScheduleView.showDialog(false);
-        //                iScheduleView.showResult();
-        //            }
-        //        });
 
-  SwuApi.jwSchedule().getSchedule(totalInfos.getSwuID(), xnm, xqm).flatMap(new Func1<String, Observable<?>>() {
+
+        SwuApi.jwSchedule().getSchedule(totalInfos.getSwuID(), xnm, xqm).flatMap(new Func1<String, Observable<?>>() {
             @Override
             public Observable<?> call(String s) {
                 if (s.contains("登录超时"))

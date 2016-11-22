@@ -1,12 +1,11 @@
 package com.swuos.ALLFragment.library.libsearchs.search.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.swuos.ALLFragment.library.libsearchs.search.api.LibSearchApi;
+import com.swuos.ALLFragment.library.libsearchs.search.interfacecompl.search.LibSearchApi;
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchBookItem;
 import com.swuos.ALLFragment.library.libsearchs.search.model.bean.SearchResult;
-import com.swuos.ALLFragment.library.libsearchs.search.util.ParserUtil;
+import com.swuos.ALLFragment.library.libsearchs.search.model.util.Parse;
 import com.swuos.ALLFragment.library.libsearchs.search.view.ILibSearchView;
 import com.swuos.swuassistant.Constant;
 
@@ -29,13 +28,12 @@ import rx.schedulers.Schedulers;
  */
 
 public class LibSearchPresenterCompl implements ILibSearchPresenter {
-    private static final String TAG = "LibSearchPresenterCompl";
     private Context context;
     private ILibSearchView libSearchview;
     private List<SearchBookItem> searchBookItemList = new ArrayList<>();
     private String bookname;
-    private Subscriber subscriber1;
-    private Subscriber subscriber2;
+    private Subscriber moreSubscriber;
+    private Subscriber fitstSubscriber;
     private int checkoutSearch = 0;
     private int allBookSize = 0;
 
@@ -50,10 +48,23 @@ public class LibSearchPresenterCompl implements ILibSearchPresenter {
         return searchBookItemList;
     }
 
-    @Override
+
     public void SearchMore(int currentPage) {
-        int currentPos = 20 * (currentPage - 1);
-        subscriber1 = new Subscriber<SearchResult>() {
+        Map<String, String> map = new HashMap<>();
+        map.put("q", bookname);
+        map.put("flword", bookname);
+        map.put("searchType", "oneSearch");
+        map.put("field", "title");
+        map.put("searchModel", "seg");
+        map.put("oneSearchWord", "title" + bookname);
+        map.put("twoSearchWord", "");
+        map.put("advSearchWold", "");
+        map.put("combineSearchWold", "");
+        map.put("exactSearch", "yes");
+        map.put("corename", "");
+        map.put("gcbook", "yes");
+        map.put("pager.offset", String.valueOf(currentPage * 10));
+        moreSubscriber = new Subscriber<SearchResult>() {
             @Override
             public void onCompleted() {
 
@@ -77,62 +88,28 @@ public class LibSearchPresenterCompl implements ILibSearchPresenter {
                 libSearchview.ShowMore(searchResult);
             }
         };
-        Map<String, String> map = new HashMap<>();
-        map.put("q", this.bookname);
-        map.put("flword", this.bookname);
-        map.put("searchType", "oneSearch");
-        map.put("field", "title");
-        map.put("searchModel", "seg");
-        map.put("oneSearchWord", "title" + this.bookname);
-        map.put("twoSearchWord", "");
-        map.put("advSearchWold", "");
-        map.put("combineSearchWold", "");
-        map.put("exactSearch", "yes");
-        map.put("corename", "");
-        map.put("gcbook", "yes");
-        map.put("pager.offset", String.valueOf(currentPos));
-        LibSearchApi.getLibSearch().searchBook(map).flatMap(new Func1<String, Observable<SearchBookItem>>() {
+
+        LibSearchApi.getLibSearch().searchBook(map).flatMap(new Func1<String, Observable<List<SearchBookItem>>>() {
             @Override
-            public Observable<SearchBookItem> call(String s) {
-                Observable<SearchBookItem> from = Observable.from(ParserUtil.getSearchResult(s));
-                return from;
+            public Observable<List<SearchBookItem>> call(String s) {
+                return Observable.just(Parse.getSearchResult(s));
             }
-        }).concatMap(new Func1<SearchBookItem, Observable<SearchBookItem>>() {
-            @Override
-            public Observable<SearchBookItem> call(final SearchBookItem searchBookItem) {
-                return LibSearchApi.getLibSearch().getBookstateNum(searchBookItem.getBookId(), System.currentTimeMillis()).flatMap(new Func1<String, Observable<SearchBookItem>>() {
+        }).concatMap(new Func1<List<SearchBookItem>, Observable<SearchResult>>() {
                     @Override
-                    public Observable<SearchBookItem> call(String s) {
-                        String[] nums = s.split("/");
-                        Log.d(TAG, "nums[0]=>" + nums[0]);
-                        Log.d(TAG, "nums[1]=>" + nums[1]);
-                        searchBookItem.setBookNumber(nums[0]);
-                        searchBookItem.setLendableNumber(nums[1]);
-                        return Observable.just(searchBookItem);
+                    public Observable<SearchResult> call(List<SearchBookItem> searchBookItems) {
+                        SearchResult s = new SearchResult();
+                        s.setBookSize(searchBookItems.get(0).getSearchResultNum());
+                        s.setSearchbookItemList(searchBookItems);
+                        return Observable.just(s);
                     }
-                });
-            }
-        }).buffer(10).map(new Func1<List<SearchBookItem>, SearchResult>() {
-            @Override
-            public SearchResult call(List<SearchBookItem> searchBookItems) {
-                SearchResult result = new SearchResult();
-                result.setBookSize(searchBookItems.size());
-                result.setSearchbookItemList(searchBookItems);
-                for (SearchBookItem item : result.getSearchbookItemList()) {
-                    Log.d(TAG, "bookId==>" + item.getBookId());
-                }
-                return result;
-            }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber1);
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(moreSubscriber);
 
     }
 
-    @Override
+
     public void firstSearch(String bookName) {
         this.bookname = bookName;
-        subscriber2 = new Subscriber<SearchResult>() {
+        fitstSubscriber = new Subscriber<SearchResult>() {
             @Override
             public void onCompleted() {
 
@@ -146,8 +123,7 @@ public class LibSearchPresenterCompl implements ILibSearchPresenter {
                 } else if (throwable instanceof SocketTimeoutException) {
                     error = Constant.CLIENT_TIMEOUT;
                 }
-                Log.d(TAG, throwable.getMessage());
-                throwable.printStackTrace();
+
                 libSearchview.ShowError(error);
             }
 
@@ -158,6 +134,7 @@ public class LibSearchPresenterCompl implements ILibSearchPresenter {
                 libSearchview.ShowResult(searchResult);
             }
         };
+
         Map<String, String> map = new HashMap<>();
         map.put("q", bookName);
         map.put("flword", bookName);
@@ -172,57 +149,37 @@ public class LibSearchPresenterCompl implements ILibSearchPresenter {
         map.put("corename", "");
         map.put("gcbook", "yes");
         map.put("pager.offset", "0");
-        LibSearchApi.getLibSearch().searchBook(map).flatMap(new Func1<String, Observable<SearchBookItem>>() {
+        LibSearchApi.getLibSearch().searchBook(map).flatMap(new Func1<String, Observable<List<SearchBookItem>>>() {
             @Override
-            public Observable<SearchBookItem> call(String s) {
-                Observable<SearchBookItem> from = Observable.from(ParserUtil.getSearchResult(s));
-                return from;
+            public Observable<List<SearchBookItem>> call(String s) {
+                return Observable.just(Parse.getSearchResult(s));
             }
-        }).concatMap(new Func1<SearchBookItem, Observable<SearchBookItem>>() {
+        }).concatMap(new Func1<List<SearchBookItem>, Observable<SearchResult>>() {
             @Override
-            public Observable<SearchBookItem> call(final SearchBookItem searchBookItem) {
-                return LibSearchApi.getLibSearch().getBookstateNum(searchBookItem.getBookId(), System.currentTimeMillis()).flatMap(new Func1<String, Observable<SearchBookItem>>() {
-                    @Override
-                    public Observable<SearchBookItem> call(String s) {
-                        String[] nums = s.split("/");
-
-                        Log.d("kklog", "nums[0]=>" + nums[0]);
-                        Log.d("kklog", "nums[1]=>" + nums[1]);
-                        searchBookItem.setBookNumber(nums[0]);
-                        searchBookItem.setLendableNumber(nums[1]);
-                        return Observable.just(searchBookItem);
-                    }
-                });
+            public Observable<SearchResult> call(List<SearchBookItem> searchBookItems) {
+                SearchResult s = new SearchResult();
+                s.setBookSize(searchBookItems.get(0).getSearchResultNum());
+                s.setSearchbookItemList(searchBookItems);
+                return Observable.just(s);
             }
-        }).buffer(10).map(new Func1<List<SearchBookItem>, SearchResult>() {
-            @Override
-            public SearchResult call(List<SearchBookItem> searchBookItems) {
-                SearchResult result = new SearchResult();
-                result.setBookSize(searchBookItems.size());
-                result.setSearchbookItemList(searchBookItems);
-                return result;
-            }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber2);
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(fitstSubscriber);
     }
 
-    @Override
     public void cancelSearch() {
-        if (subscriber1 != null && subscriber1.isUnsubscribed()) {
-            subscriber1.unsubscribe();
+        if (moreSubscriber != null && moreSubscriber.isUnsubscribed()) {
+            moreSubscriber.unsubscribe();
         }
-        if (subscriber2 != null && subscriber2.isUnsubscribed()) {
-            subscriber2.unsubscribe();
+        if (fitstSubscriber != null && fitstSubscriber.isUnsubscribed()) {
+            fitstSubscriber.unsubscribe();
         }
     }
 
-    @Override
+
     public void checkoutSearch(int i) {
         checkoutSearch = i;
     }
 
-    @Override
+
     public int getCheckoutSearch() {
         return checkoutSearch;
     }

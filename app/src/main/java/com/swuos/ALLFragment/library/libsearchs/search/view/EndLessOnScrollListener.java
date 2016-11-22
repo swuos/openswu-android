@@ -3,7 +3,7 @@ package com.swuos.ALLFragment.library.libsearchs.search.view;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.swuos.ALLFragment.library.libsearchs.search.adapter.RecycleAdapterSearch;
+import com.swuos.ALLFragment.library.libsearchs.search.adapter.SearchRecycleAdapter;
 
 
 public abstract class EndLessOnScrollListener extends RecyclerView.OnScrollListener {
@@ -26,11 +26,11 @@ public abstract class EndLessOnScrollListener extends RecyclerView.OnScrollListe
 
     //是否正在上拉数据
     private boolean loading = true;
-    private RecycleAdapterSearch recycleAdapterSearch;
+    private SearchRecycleAdapter searchRecycleAdapter;
 
-    public EndLessOnScrollListener(LinearLayoutManager linearLayoutManager, RecycleAdapterSearch recycleAdapterSearch) {
+    public EndLessOnScrollListener(LinearLayoutManager linearLayoutManager, SearchRecycleAdapter searchRecycleAdapter) {
         this.mLinearLayoutManager = linearLayoutManager;
-        this.recycleAdapterSearch = recycleAdapterSearch;
+        this.searchRecycleAdapter = searchRecycleAdapter;
     }
 
     @Override
@@ -50,7 +50,7 @@ public abstract class EndLessOnScrollListener extends RecyclerView.OnScrollListe
             }
         }
         //这里需要好好理解
-        if (!loading && totalItemCount - visibleItemCount <= firstVisibleItem && recycleAdapterSearch.ismOpenLoadMore()) {
+        if (!loading && totalItemCount - visibleItemCount <= firstVisibleItem && searchRecycleAdapter.ismOpenLoadMore()) {
             currentPage++;
             onLoadMore(currentPage);
             loading = true;
