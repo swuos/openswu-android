@@ -8,12 +8,10 @@ public interface IWifiPresenter {
 
     void logout(String username, String password,  String wifissid);
 
-    void timingLogout(String username,String password,int delaytime,  String wifissid);
 
     String getUsername();
 
     String getPassword();
 
-    void initdata();
-    void unregisterReceiver();
+
 }

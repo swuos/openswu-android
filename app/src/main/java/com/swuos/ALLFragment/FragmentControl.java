@@ -8,9 +8,8 @@ import com.swuos.ALLFragment.card.view.EcardFragmentImp;
 import com.swuos.ALLFragment.charge.ChargeFragment;
 import com.swuos.ALLFragment.find_lost.FindLostFragment;
 import com.swuos.ALLFragment.library.library.fragment.LibFragment;
-import com.swuos.ALLFragment.main_page.MainPageFragment;
 import com.swuos.ALLFragment.study_materials.StudyMaterialsFragment;
-import com.swuos.ALLFragment.swujw.grade.GradesFragment;
+import com.swuos.ALLFragment.swujw.grade.GradesNewFragment;
 import com.swuos.ALLFragment.swujw.schedule.ScheduleFragment;
 import com.swuos.ALLFragment.wifi.WifiFragment;
 import com.swuos.swuassistant.Constant;
@@ -22,14 +21,13 @@ import com.swuos.util.SALog;
  */
 public class FragmentControl {
 
-    private static FragmentControl fragmentControl;
-    /*主界面布局*/
-    private MainPageFragment mainPageFragment;
+
     /*课程表界面布局*/
     private ScheduleFragment scheduleFragment;
     private EcardFragmentImp cardfragment;
     /*成绩界面布局*/
-    private GradesFragment gradesFragment;
+    private GradesNewFragment gradesNewFragment;
+
     /*学习资料界面布局*/
     private StudyMaterialsFragment studyMaterialsFragment;
     /*图书馆界面布局*/
@@ -45,23 +43,14 @@ public class FragmentControl {
         this.fragmentManager = fragmentManager;
     }
 
-    /*public static FragmentControl getFragmentControlInstance(FragmentManager fragmentManager) {
-        if (fragmentControl == null) {
-            fragmentControl = new FragmentControl(fragmentManager);
-        }
-        return fragmentControl;
-    }*/
 
     private void hideFragments(FragmentTransaction fragmentTransaction) {
-        //        if (mainPageFragment != null) {
-        //            SALog.d("MainActity", "Hidemain");
-        //            fragmentTransaction.hide(mainPageFragment);
-        //        }
-        if (gradesFragment != null) {
-            SALog.d("MainActity", "HideGrades");
-            fragmentTransaction.hide(gradesFragment);
-        }
 
+
+        if (gradesNewFragment != null) {
+            SALog.d("MainActity", "HideGrades");
+            fragmentTransaction.hide(gradesNewFragment);
+        }
         if (scheduleFragment != null) {
             SALog.d("MainActity", "Hideschedule");
             fragmentTransaction.hide(scheduleFragment);
@@ -116,16 +105,16 @@ public class FragmentControl {
                 break;
             case R.id.nav_grades:
 
-                if (gradesFragment == null) {
+
+                if (gradesNewFragment == null) {
                     SALog.d("FragmentControl", "新建gradesFragment");
 
-                    gradesFragment = new GradesFragment();
-                    transaction.add(R.id.content, gradesFragment, Constant.FRAGMENTTAG[2]);
+                    gradesNewFragment = new GradesNewFragment();
+                    transaction.add(R.id.content, gradesNewFragment, Constant.FRAGMENTTAG[2]);
                 } else {
                     SALog.d("FragmentControl", "重新showgradesFragment");
-                    transaction.show(gradesFragment);
+                    transaction.show(gradesNewFragment);
                 }
-
                 break;
             case R.id.nav_library:
 
@@ -208,15 +197,10 @@ public class FragmentControl {
         // 开启一个Fragment事务
         transaction = fragmentManager.beginTransaction();
 
-        mainPageFragment = new MainPageFragment();
-        transaction.add(R.id.content, mainPageFragment, Constant.FRAGMENTTAG[0]);
-
 
         scheduleFragment = new ScheduleFragment();
         transaction.add(R.id.content, scheduleFragment, Constant.FRAGMENTTAG[1]);
 
-        gradesFragment = new GradesFragment();
-        transaction.add(R.id.content, gradesFragment, Constant.FRAGMENTTAG[2]);
 
         cardfragment = new EcardFragmentImp();
         transaction.add(R.id.content, cardfragment, Constant.FRAGMENTTAG[3]);
@@ -246,8 +230,10 @@ public class FragmentControl {
 
         }
         if (saveInstanceState.get("gradesFragment") != null) {
-            gradesFragment = new GradesFragment();
-            gradesFragment = (GradesFragment) fragmentManager.findFragmentByTag(Constant.FRAGMENTTAG[2]);
+            //            gradesFragment = new GradesFragment();
+            //            gradesFragment = (GradesFragment) fragmentManager.findFragmentByTag(Constant.FRAGMENTTAG[2]);
+            gradesNewFragment = new GradesNewFragment();
+            gradesNewFragment = (GradesNewFragment) fragmentManager.findFragmentByTag(Constant.FRAGMENTTAG[2]);
             SALog.d("FragmentControl", "saveInstanceState存在数据,gradesFragment");
 
         }

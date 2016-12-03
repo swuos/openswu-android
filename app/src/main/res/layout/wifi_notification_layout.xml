@@ -7,7 +7,7 @@
     <ImageView
         android:paddingTop="10dp"
         android:id="@+id/wifi_notification_icon"
-        android:src="@drawable/wifi"
+        android:src="@mipmap/wifi"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:foregroundGravity="center"

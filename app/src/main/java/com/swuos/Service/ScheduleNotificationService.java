@@ -53,7 +53,7 @@ public class ScheduleNotificationService extends Service {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setContentTitle(scheduleItem.getKcmc()).setContentText(scheduleItem.getCdmc() + "  " + scheduleItem.getJc()).setTicker("要上课了").setSmallIcon(R.drawable.ic_action_home).setDefaults(Notification.DEFAULT_LIGHTS).setAutoCancel(true);
+        mBuilder.setContentTitle(scheduleItem.getKcmc()).setContentText(scheduleItem.getCdmc() + "  " + scheduleItem.getJc()).setTicker("要上课了").setSmallIcon(R.mipmap.ic_action_home).setDefaults(Notification.DEFAULT_LIGHTS).setAutoCancel(true);
         Notification notification = mBuilder.build();
         //        notification.defaults=Notification.DEFAULT_LIGHTS;
         notificationManager.notify(100, notification);

@@ -1,9 +1,4 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -16,20 +11,12 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context=".login.LoginActivity">
 
-        <!-- Login progress -->
-        <ProgressBar
-            android:id="@+id/login_progress"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone"/>
 
         <ScrollView
             android:id="@+id/login_form"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical">
+            >
 
             <RelativeLayout
                 android:id="@+id/email_login_form"
@@ -85,37 +72,10 @@
                     android:textAllCaps="false"
                     android:textStyle="bold"/>
 
-                <TextView
-                    android:id="@+id/textViewLoginBack"
-                    android:visibility="invisible"
-                    android:layout_marginTop="30dp"
-                    android:layout_below="@id/textInputLoginUserPasswd"
-                    android:gravity="center"
-                    android:text="登录中..."
-                    android:layout_marginLeft="28dp"
-                    android:layout_marginRight="28dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
 
             </RelativeLayout>
         </ScrollView>
     </LinearLayout>
 
-
-    <com.swuos.widget.reveal.RevealLayout
-        android:id="@+id/reveal_layoutLogin"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible">
-
-        <View
-            android:id="@+id/reveal_viewLogin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark"
-            android:visibility="invisible"/>
-
-    </com.swuos.widget.reveal.RevealLayout>
-</FrameLayout>
 
 

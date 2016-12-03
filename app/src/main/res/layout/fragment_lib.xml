@@ -20,27 +20,26 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
-        android:visibility="invisible"
         android:id="@+id/progressBarLib"
         android:layout_width="84dp"
         android:layout_height="84dp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
 
 
-
-        <com.github.clans.fab.FloatingActionButton
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="18dp"
-            android:layout_marginRight="12dp"
-            android:id="@+id/fabSearch"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_1479490305_magnifying_glass_search"
-            app:fab_colorNormal="@color/fab_search"
-            app:fab_label="搜索图书"/>
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fabSearch"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="18dp"
+        android:layout_marginRight="12dp"
+        android:src="@mipmap/ic_action_search"
+        app:fab_colorNormal="@color/fab_search"
+        app:fab_label="搜索图书"/>
 
     <!--<include android:id="@+id/libLoadingLayout"-->
-        <!--layout="@layout/lib_loading_layout"/>-->
+    <!--layout="@layout/lib_loading_layout"/>-->
 
 </RelativeLayout>

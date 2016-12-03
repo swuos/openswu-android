@@ -28,24 +28,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
  * Created by 张孟尧 on 2016/2/29.
  */
 public class ScheduleFragment extends BaseFragment implements IScheduleView, SwipeRefreshLayout.OnRefreshListener {
 
+    TabLayout tabLayout;
+    long lastclickTime = 0;
     /*viewpager*/
     private ViewPager sceduleViewPager;
     private View schedule_layout;
-    /*viewpager的适配器*/
-    private ScheduleViewpagerAdapter scheduleViewpagerAdapter;
-    private TabLayout tabLayout;
     /*下拉刷新布局*/
     private SwipeRefreshLayout swipeRefreshLayout;
     private LocalBroadcastManager localBroadcastManager;
     private List<Fragment> scheduleTabblefragmentList;    //保存所有的单周课表fragment
     private ISchedulePresenter iSchedulePresenter;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,17 +61,24 @@ public class ScheduleFragment extends BaseFragment implements IScheduleView, Swi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
         schedule_layout = inflater.inflate(R.layout.schedule_layout, container, false);
+        bindView();
+        initView();
+        return schedule_layout;
+    }
+
+    void bindView() {
         sceduleViewPager = (ViewPager) schedule_layout.findViewById(R.id.schedule_viewpager);
-        setSceduleViewPager();
-        /*设置下拉刷新*/
         swipeRefreshLayout = (SwipeRefreshLayout) schedule_layout.findViewById(R.id.schedule_SwipeRefreshLayout);
+        tabLayout = (TabLayout) schedule_layout.findViewById(R.id.schedule_tablayout);
+
+    }
+
+    void initView() {
+        setSceduleViewPager();
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         swipeRefreshLayout.setOnRefreshListener(this);
-        /*设置tablayout*/
-        tabLayout = (TabLayout) schedule_layout.findViewById(R.id.schedule_tablayout);
         tabLayout.setupWithViewPager(sceduleViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        return schedule_layout;
     }
 
     @Override
@@ -87,7 +91,7 @@ public class ScheduleFragment extends BaseFragment implements IScheduleView, Swi
 
     private void setSceduleViewPager() {
         /*设置适配器*/
-        scheduleViewpagerAdapter = new ScheduleViewpagerAdapter(
+        ScheduleViewpagerAdapter scheduleViewpagerAdapter = new ScheduleViewpagerAdapter(
                 getChildFragmentManager(),
                 scheduleTabblefragmentList
         );
@@ -114,7 +118,6 @@ public class ScheduleFragment extends BaseFragment implements IScheduleView, Swi
             }
         });
     }
-
 
     @Override
     public void onRefresh() {
@@ -152,4 +155,5 @@ public class ScheduleFragment extends BaseFragment implements IScheduleView, Swi
         super.onDestroyView();
         schedule_layout = null;
     }
+
 }

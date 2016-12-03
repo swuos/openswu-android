@@ -6,22 +6,18 @@ import java.util.List;
  * Created by 张孟尧 on 2016/1/6.
  */
 /*用于Gson解析json数据*/
-public class GradesData
-{
+public class GradesData {
     private List<Items> items;
 
-    public List<Items> getItems()
-    {
+    public List<Items> getItems() {
         return items;
     }
 
-    public void setItems(List<Items> items)
-    {
+    public void setItems(List<Items> items) {
         this.items = items;
     }
 
-    public static class Items
-    {
+    public static class Items {
         private String cj;
         private String jd;
         private String kcmc;
@@ -30,6 +26,9 @@ public class GradesData
         private String xh_id;
         private String xnm;
         private String xqm;
+        private String kcxzmc;
+        private String ksxz;
+
 
         public String getXnm() {
             return xnm;
@@ -93,6 +92,22 @@ public class GradesData
 
         public void setXf(String xf) {
             this.xf = xf;
+        }
+
+        public String getKcxzmc() {
+            return kcxzmc;
+        }
+
+        public void setKcxzmc(String kcxzmc) {
+            this.kcxzmc = kcxzmc;
+        }
+
+        public String getKsxz() {
+            return ksxz;
+        }
+
+        public void setKsxz(String ksxz) {
+            this.ksxz = ksxz;
         }
     }
 

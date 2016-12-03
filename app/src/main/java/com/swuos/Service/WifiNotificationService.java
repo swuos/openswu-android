@@ -56,7 +56,7 @@ public class WifiNotificationService extends Service {
         remoteViews.setOnClickPendingIntent(R.id.wifi_notification_logout, pendingIntentLogout);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        Notification notification = mBuilder.setContent(remoteViews).setTicker("校园wifi").setContentIntent(pendingIntentactivity).setOngoing(true).setSmallIcon(R.drawable.icon_notification).build();
+        Notification notification = mBuilder.setContent(remoteViews).setTicker("校园wifi").setContentIntent(pendingIntentactivity).setOngoing(true).setSmallIcon(R.mipmap.icon_notification).build();
         startForeground(Constant.NOTIFICATION_WIFI_ID, notification);
     }
 

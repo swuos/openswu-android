@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:background="@drawable/filter_bg"
+              android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginTop="@dimen/x10"
+
+                android:text="考试性质"
+                android:textColor="@color/textcolorblack"
+                android:textSize="@dimen/x18"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+                <Button
+                    android:id="@+id/grade_filter_normal_exam"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:background="@drawable/filter_button_bg"
+                    android:text="正常考试"
+                    android:textSize="@dimen/filter_button_text_size"/>
+
+                <Button
+                    android:id="@+id/grade_filter_makeup_exam"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:background="@drawable/filter_button_bg"
+
+                    android:text="补考"
+                    android:textSize="@dimen/filter_button_text_size"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:layout_marginTop="@dimen/x5"
+                android:background="#20b668"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginTop="@dimen/x5"
+                android:text="课程性质"
+                android:textColor="@color/textcolorblack"
+                android:textSize="@dimen/x18"/>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:columnCount="2"
+                android:rowCount="3">
+
+                <Button
+                    android:id="@+id/grade_filter_professional_required_course"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:background="@drawable/filter_button_bg"
+                    android:text="专业必修课"
+                    android:textSize="@dimen/filter_button_text_size"
+                    />
+
+                <Button
+                    android:id="@+id/grade_filter_professional_elective_course"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:background="@drawable/filter_button_bg"
+                    android:text="专业选修课"
+
+                    android:textSize="@dimen/filter_button_text_size"/>
+
+                <Button
+                    android:id="@+id/grade_filter_general_required_course"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_marginTop="@dimen/x5"
+                    android:background="@drawable/filter_button_bg"
+                    android:text="通识必修课"
+                    android:textSize="@dimen/filter_button_text_size"/>
+
+                <Button
+                    android:id="@+id/grade_filter_general_elective_course"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:layout_marginTop="@dimen/x5"
+                    android:background="@drawable/filter_button_bg"
+                    android:text="通识选修课"
+
+                    android:textSize="@dimen/filter_button_text_size"/>
+
+                <Button
+                    android:id="@+id/grade_filter_subject_required_course"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_marginTop="@dimen/x5"
+                    android:background="@drawable/filter_button_bg"
+                    android:text="学科必修课"
+
+                    android:textSize="@dimen/filter_button_text_size"/>
+            </GridLayout>
+
+            <View
+                android:layout_width="fill_parent"
+
+                android:layout_height="2dip"
+                android:layout_marginTop="@dimen/x5"
+                android:background="#20b668"/>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginTop="@dimen/x5"
+                android:text="成绩区间"
+                android:textColor="@color/textcolorblack"
+                android:textSize="@dimen/x18"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <EditText
+                    android:id="@+id/grade_filter_grades_min"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_marginLeft="@dimen/x10"
+
+                    android:hint="最小值"
+                    android:inputType="numberDecimal"
+
+                    android:maxLines="1"
+
+                    android:textAlignment="center"
+                    android:textSize="@dimen/filter_edit_text_size"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="~"/>
+
+                <EditText
+                    android:id="@+id/grade_filter_grades_max"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+
+                    android:layout_marginLeft="@dimen/x15"
+                    android:hint="最大值"
+                    android:inputType="numberDecimal"
+
+                    android:maxLines="1"
+
+
+                    android:textAlignment="center"
+                    android:textSize="@dimen/filter_edit_text_size"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:layout_marginTop="@dimen/x5"
+
+                android:background="#20b668"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginTop="@dimen/x5"
+                android:text="绩点区间"
+                android:textColor="@color/textcolorblack"
+                android:textSize="@dimen/x18"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <EditText
+                    android:id="@+id/grade_filter_grades_point_min"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_marginLeft="@dimen/x10"
+
+                    android:hint="最小值"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/filter_edit_text_size"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="~"/>
+
+                <EditText
+                    android:id="@+id/grade_filter_grades_point_max"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+                    android:hint="最大值"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/filter_edit_text_size"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:layout_marginTop="@dimen/x5"
+                android:background="#20b668"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x5"
+
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/grade_filter_enter"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:background="@drawable/filter_click_button_bg"
+                    android:text="确定"
+                    android:textSize="@dimen/filter_button_text_size"/>
+
+                <Button
+                    android:id="@+id/grade_filter_cancle"
+                    android:layout_width="@dimen/filter_button_width"
+                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:background="@drawable/filter_click_button_bg"
+                    android:text="取消"
+
+                    android:textSize="@dimen/filter_button_text_size"/>
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

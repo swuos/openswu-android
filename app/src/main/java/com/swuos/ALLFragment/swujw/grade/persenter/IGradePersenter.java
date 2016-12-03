@@ -28,7 +28,7 @@ public interface IGradePersenter {
 
     void setXqmPosition(int xqmPosition);
 
-    void getGradeDetial(String username, String password,int Position);
+    void getGradeDetial(String username, String password, int Position);
 
     void saveUserLastCLick(int xnm, int xqm);
 
@@ -38,5 +38,17 @@ public interface IGradePersenter {
 
     String getGradesDataJsonFromCache(String xnm, String xqm);
 
-
+    void filterGrades(
+            boolean isCheckedNormalExam,
+            boolean isCheckedMakeupExam,
+            boolean isCheckedProfessionalRequiredCourse,
+            boolean isCheckedProfessionalElectiveCourse,
+            boolean isCheckedGeneralRequiredCourse,
+            boolean isCheckedGeneralElectiveCourse,
+            boolean isCheckedSubjectRequiredCourse,
+            float gradeMin,
+            float gradeMax,
+            float gradePointMax,
+            float gradePointMin
+    );
 }

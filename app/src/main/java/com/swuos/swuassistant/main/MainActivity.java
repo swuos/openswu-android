@@ -32,12 +32,10 @@ import com.swuos.swuassistant.Constant;
 import com.swuos.swuassistant.R;
 import com.swuos.swuassistant.about.AboutActivity;
 import com.swuos.swuassistant.login.LoginActivity;
-import com.swuos.swuassistant.main.presenter.IMainPresenter;
 import com.swuos.swuassistant.main.presenter.IMainPresenterCompl;
 import com.swuos.swuassistant.main.view.IMainview;
 import com.swuos.swuassistant.setting.SettingActivity;
 import com.swuos.util.SALog;
-import com.swuos.util.tools.Tools;
 
 import solid.ren.skinlibrary.loader.SkinManager;
 
@@ -46,7 +44,7 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
     private final String STATE_SAVE_IS_SHOW = "STATE_SAVE_IS_SHOW";
     TextView nameTextView;
     TextView swuIDTextView;
-    IMainPresenter iMainPresenter;
+    IMainPresenterCompl iMainPresenter;
     View headerView;
     NavigationView navigationView;
     private TotalInfos totalInfo = TotalInfos.getInstance();
@@ -79,7 +77,6 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
             SALog.d("FragmentControl", "savedInstanceState != null");
             fragmentControl.fragmentStateCheck(savedInstanceState, getSupportFragmentManager(), R.id.nav_wifi);
         }
-        SALog.d("Mainactivity", Tools.getSystemProperty("ro.miui.ui.version.name"));
         iMainPresenter.startUpdata();
 
     }
@@ -114,6 +111,9 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
         switch (requestCode) {
             case Constant.LOGIN_RESULT_CODE:
                 if (resultCode == Constant.LOGIN_RESULT_CODE) {
+                    totalInfo.setUserName(data.getStringExtra("username"));
+                    totalInfo.setPassword(data.getStringExtra("password"));
+                    iMainPresenter.initData(totalInfo);
                     setNavigationViewHeader(totalInfo);
                     LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
                     Intent intent = new Intent("com.swuos.Logined");
@@ -132,7 +132,7 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string
                 .navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);

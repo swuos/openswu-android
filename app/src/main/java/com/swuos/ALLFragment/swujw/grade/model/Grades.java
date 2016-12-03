@@ -1,11 +1,7 @@
 package com.swuos.ALLFragment.swujw.grade.model;
 
 import com.google.gson.Gson;
-
 import com.swuos.ALLFragment.swujw.TotalInfos;
-import com.swuos.ALLFragment.swujw.grade.model.GradeItem;
-import com.swuos.ALLFragment.swujw.grade.model.GradesData;
-import com.swuos.net.OkhttpNet;
 import com.swuos.swuassistant.Constant;
 
 import org.jsoup.Jsoup;
@@ -14,24 +10,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import okhttp3.FormBody;
-import okhttp3.RequestBody;
 
 /**
  * Created by 张孟尧 on 2016/1/23.
  */
 public class Grades {
 
-    private static OkhttpNet okhttpNet;
-
-    public Grades(OkhttpNet okhttpNet) {
-        this.okhttpNet = okhttpNet;
-        /*进入教务系统*/
-        okhttpNet.doGet(Constant.urlEms);
-    }
 
     public static List<GradeItem> getGradesList(TotalInfos totalInfo) {
 
@@ -51,6 +36,14 @@ public class Grades {
         /*设置列表的头部*/
 
         GradesData.Items items;
+        GradeItem temgradeItem = new GradeItem();
+        temgradeItem.setKcmc("科目名称");
+        temgradeItem.setCj("成绩");
+        temgradeItem.setXf("学分");
+        temgradeItem.setJd("绩点");
+        temgradeItem.setKsxzText("考试性质");
+        temgradeItem.setKcxzText("课程性质");
+        gradeItemList.add(temgradeItem);
         for (int i = 0; i < gradesData.getItems().size(); i++) {
             /*获得单个的科目成绩*/
             items = gradesData.getItems().get(i);
@@ -58,6 +51,8 @@ public class Grades {
             String cj = items.getCj();
             String xf = items.getXf();
             String jd = items.getJd();
+            String ksxz = items.getKsxz();
+            String kcxz = items.getKcxzmc();
             String xh_id = items.getXh_id();
             String jxb_id = items.getJxb_id();
             String xnm = items.getXnm();
@@ -98,6 +93,8 @@ public class Grades {
             gradeItem.setXh_id(xh_id);
             gradeItem.setXnm(xnm);
             gradeItem.setXqm(xqm);
+            gradeItem.setKsxzText(ksxz);
+            gradeItem.setKcxzText(kcxz);
             /*添加到列表中*/
             gradeItemList.add(gradeItem);
         }
@@ -121,19 +118,7 @@ public class Grades {
     public static GradeItem getGradeDetial(String respones, GradeItem gradeItem) {
 
         List<String[]> detial = new ArrayList<>();
-        //
-        //        /*构建一个post的参数*/
-        //        RequestBody requestBody = new FormBody.Builder()
-        //                .add("jxb_id", gradeItem.getJxb_id())
-        //                .add("kcmc", gradeItem.getKcmc())
-        //                .add("xh_id", gradeItem.getXh_id())
-        //                .add("xnm", gradeItem.getXnm())
-        //                .add("xqm", gradeItem.getXqm())
-        //                .build();
-        //        String url = "http://jw.swu.edu.cn/jwglxt/cjcx/cjcx_cxCjxq.html?" + "time=" + String.valueOf(System.currentTimeMillis()) + "&gnmkdmKey=N305005" + "&sessionUserKey=" + gradeItem.getXh_id();
-        //        /*构建目标网址*/
-        //        /*发送请求*/
-        //        String respones = okhttpNet.doPost(url, requestBody);
+
         if (!respones.contains(Constant.NO_NET)) {
             Document body = Jsoup.parse(respones, "UTF-8");
             Element subtab = body.getElementById("subtab");
@@ -151,27 +136,4 @@ public class Grades {
         return gradeItem;
     }
 
-    public String setGrades(TotalInfos totalInfo, String xnm, String xqm) {
-        /*构建一个post的参数*/
-        RequestBody requestBody = new FormBody.Builder()
-                .add("_search", "false")
-                .add("nd", Long.toString(new Date().getTime()))
-                .add("queryModel.currentPage", "1")
-                .add("queryModel.showCount", "1000")
-                .add("queryModel.sortName", "")
-                .add("queryModel.sortOrder", "asc")
-                .add("time", "0")
-                .add("xnm", xnm)
-                .add("xqm", xqm)
-                .build();
-        /*构建目标网址*/
-        String url = "http://jw.swu.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html?" + "doType=query&gnmkdmKey=N305005&sessionUserKey=" + totalInfo.getSwuID();
-        /*发送请求*/
-        String respones = okhttpNet.doPost(url, requestBody);
-        if (!respones.contains(Constant.NO_NET)) {
-            totalInfo.setGradesDataJson(respones);
-        } else
-            return respones;
-        return Constant.CLIENT_OK;
-    }
 }

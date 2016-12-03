@@ -36,16 +36,11 @@
             android:launchMode="standard"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".WifiActivity"
-            android:label="@string/app_name"
-            android:launchMode="standard"/>
-        <activity
             android:name=".setting.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".about.AboutActivity"
-            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
@@ -57,10 +52,6 @@
             android:name="com.swuos.ALLFragment.swujw.schedule.SchedulDetialActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-
-        <activity
-            android:name="com.swuos.ALLFragment.library.lib.views.PersonViewAty"
-            android:theme="@style/AppTheme.NoActionBarPerson"/>
 
         <activity android:name="com.swuos.ALLFragment.library.libsearchs.search.SearchActity"/>
 
@@ -90,11 +81,7 @@
 
             </intent-filter>
         </receiver>
-        <receiver android:name="com.xiaomi.market.sdk.DownloadCompleteReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
-            </intent-filter>
-        </receiver>
+
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="cd41ce86222f389887a06882d79a08bf"/>

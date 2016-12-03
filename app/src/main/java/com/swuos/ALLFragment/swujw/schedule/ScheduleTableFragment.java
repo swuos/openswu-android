@@ -65,17 +65,6 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
         return scheduleTableFragment;
     }
 
-    /**
-     * Called when a fragment is first attached to its context.
-     * {@link #onCreate(Bundle)} will be called after this.
-     *
-     * @param context
-     */
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        //        SALog.d("onAttach", String.valueOf(week));
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,7 +89,6 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
         scrollView.setOnTouchListener(this);
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.schedule_SwipeRefreshLayout);
 
-        //        SALog.d("creatview", String.valueOf(week));
 
         return scheduleTableLayout;
     }
@@ -184,11 +172,7 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
         textViewList.clear();
         relativeLayout.removeAllViews();
 
-//        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.schedule_item);
-//        LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation);
-//        layoutAnimationController.setInterpolator(new BounceInterpolator());
-//        layoutAnimationController.setOrder(LayoutAnimationController.ORDER_RANDOM);
-//        relativeLayout.setLayoutAnimation(layoutAnimationController);
+
 
 
         /*得到一节课的高度*/
@@ -266,7 +250,6 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
                     swipeRefreshLayout.setEnabled(false);
                 } else {
                     swipeRefreshLayout.setEnabled(true);
-
                 }
 
         }

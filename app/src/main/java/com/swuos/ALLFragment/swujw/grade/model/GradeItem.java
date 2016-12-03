@@ -4,6 +4,9 @@ import java.util.List;
 
 /*用于listview显示*/
 public class GradeItem {
+
+    private String ksxzText;
+    private String kcxzText;
     /*课程名称*/
     private String kcmc;
     /*成绩*/
@@ -16,10 +19,23 @@ public class GradeItem {
     private String xh_id;
     private String xnm;
     private String xqm;
-
-
-
     private List<String[]> detial;
+
+    public String getKsxzText() {
+        return ksxzText;
+    }
+
+    public void setKsxzText(String ksxzText) {
+        this.ksxzText = ksxzText;
+    }
+
+    public String getKcxzText() {
+        return kcxzText;
+    }
+
+    public void setKcxzText(String kcxzText) {
+        this.kcxzText = kcxzText;
+    }
 
     public List<String[]> getDetial() {
         return detial;
@@ -76,6 +92,7 @@ public class GradeItem {
     public void setXf(String xf) {
         this.xf = xf;
     }
+
     public String getXnm() {
         return xnm;
     }

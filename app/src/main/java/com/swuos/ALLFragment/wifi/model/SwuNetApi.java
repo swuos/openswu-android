@@ -75,20 +75,7 @@ public class SwuNetApi {
         return newSwuNet;
     }
 
-    //    public static NewSwuNetDevice getNewSwuNetDevice()
-    //    {
-    //        if (newSwuNetDevice==null)
-    //        {
-    //            Retrofit retrofit=new Retrofit.Builder()
-    //                    .baseUrl("http://123.123.123.123/ ")
-    //                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
-    //                    .addConverterFactory(scalarsConverterFactory)
-    //                    .client(okHttpClient)
-    //                    .build();
-    //            newSwuNetDevice=retrofit.create(NewSwuNetDevice.class);
-    //        }
-    //        return newSwuNetDevice;
-    //    }
+
     public static SwuNetSelf getSwuNetSelf() {
         if (swuNetSelf == null) {
             Retrofit retrofit = new Retrofit.Builder()

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 
-
 import com.swuos.ALLFragment.swujw.TotalInfos;
 import com.swuos.ALLFragment.swujw.grade.model.GradeItem;
 import com.swuos.ALLFragment.swujw.grade.model.Grades;
@@ -15,6 +14,7 @@ import com.swuos.swuassistant.Constant;
 
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -108,7 +108,7 @@ public class GradePresenterCompl implements IGradePersenter {
         data.put("xnm", xnm);
         data.put("xqm", xqm);
         String cache = getGradesDataJsonFromCache(xnm, xqm);
-        if (cache != null && !isFroceFromNet) {
+        if (cache != null || !isFroceFromNet) {
             totalInfos.setGradesDataJson(getGradesDataJsonFromCache(xnm, xqm));
             gradeItemList = Grades.getGradesList(totalInfos);
             Observable.just(gradeItemList).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<GradeItem>>() {
@@ -128,6 +128,7 @@ public class GradePresenterCompl implements IGradePersenter {
                     }
                     iGradeview.showError(error);
                 }
+
                 @Override
                 public void onNext(List<GradeItem> gradeItems) {
                     iGradeview.showDialog(false);
@@ -308,6 +309,139 @@ public class GradePresenterCompl implements IGradePersenter {
     @Override
     public String getGradesDataJsonFromCache(String xnm, String xqm) {
         return sharedPreferences.getString(xnm + xqm, null);
+    }
+
+    @Override
+    public void filterGrades(final boolean isCheckedNormalExam, final boolean isCheckedMakeupExam, final boolean isCheckedProfessionalRequiredCourse, final boolean isCheckedProfessionalElectiveCourse, final boolean isCheckedGeneralRequiredCourse, final boolean isCheckedGeneralElectiveCourse, final boolean isCheckedSubjectRequiredCourse, final float gradeMin, final float gradeMax, final float gradePointMin, final float gradePointMax) {
+
+
+        Observable.just(gradeItemList)
+                .flatMap(new Func1<List<GradeItem>, Observable<List<GradeItem>>>() {
+
+
+                             @Override
+                             public Observable<List<GradeItem>> call(List<GradeItem> gradeItems) {
+                                 final List<GradeItem> filterGradeItems = new ArrayList<>();
+                                 GradeItem headGradeItem = new GradeItem();
+                                 headGradeItem.setKcmc("科目名称");
+                                 headGradeItem.setCj("成绩");
+                                 headGradeItem.setXf("学分");
+                                 headGradeItem.setJd("绩点");
+                                 headGradeItem.setKsxzText("考试性质");
+                                 headGradeItem.setKcxzText("课程性质");
+                                 filterGradeItems.add(headGradeItem);
+                                 //成绩总和
+                                 float gradesCount = 0;
+                                 //学分总和
+                                 float studyPointCount = 0;
+                                 //绩点总和
+                                 float gradesPointCount = 0;
+                                 String ksxzTag = "";
+                                 if (isCheckedNormalExam) { ksxzTag += "正常考试";}
+                                 if (isCheckedMakeupExam) {ksxzTag += "补考一";}
+                                 if (isCheckedMakeupExam == isCheckedNormalExam) {
+                                     ksxzTag = "正常考试补考一";
+                                 }
+
+                                 String kcxzTag = "";
+
+                                 if (isCheckedProfessionalRequiredCourse)
+                                     kcxzTag += "专业必修课";
+                                 else if (isCheckedProfessionalElectiveCourse)
+                                     kcxzTag += "专业选修课";
+                                 else if (isCheckedGeneralRequiredCourse)
+                                     kcxzTag += "通识必修课";
+                                 else if (isCheckedGeneralElectiveCourse)
+                                     kcxzTag += "通识选修课";
+                                 else if (isCheckedSubjectRequiredCourse)
+                                     kcxzTag += "学科必修课";
+                                 if (!isCheckedProfessionalRequiredCourse &&
+                                         !isCheckedProfessionalElectiveCourse &&
+                                         !isCheckedGeneralRequiredCourse &&
+                                         !isCheckedGeneralElectiveCourse &&
+                                         !isCheckedSubjectRequiredCourse) {
+                                     kcxzTag = "专业必修课专业选修课通识必修课通识选修课学科必修课";
+                                 }
+                                 for (int i = 1; i < gradeItemList.size() - 2; i++) {
+                                     GradeItem gradeItem = gradeItemList.get(i);
+                                     String cj = gradeItem.getCj();
+                                     float grades = 0;
+                                     float gradesPoint = Float.parseFloat(gradeItem.getJd());
+                                     float studyPoint = Float.parseFloat(gradeItem.getXf());
+
+                                     switch (cj) {
+                                         case "A":
+                                             grades = 95;
+                                             break;
+                                         case "B":
+                                             grades = 85;
+                                             break;
+                                         case "C":
+                                             grades = 75;
+                                             break;
+                                         case "D":
+                                             grades = 65;
+                                             break;
+                                         case "E":
+                                             grades = 55;
+                                             break;
+                                         default:
+                                             grades = Float.valueOf(cj);
+                                             break;
+                                     }
+
+                                     if (ksxzTag.contains(gradeItem.getKsxzText()))
+                                         if (kcxzTag.contains(gradeItem.getKcxzText()))
+                                             if (grades >= gradeMin && grades <= gradeMax)
+                                                 if (gradesPoint >= gradePointMin && gradesPoint <= gradePointMax) {
+                                                     gradesPointCount += gradesPoint;
+                                                     gradesCount += grades;
+                                     /*绩点不等于0时加学分*/
+                                                     if (gradesPoint != 0) {
+                                                         studyPointCount += studyPoint;
+                                                     }
+                                                     filterGradeItems.add(gradeItem);
+                                                 }
+                                 }
+                                 if (filterGradeItems.size() != 0) {
+                                 /*设置列表的尾部，显示平均成绩和总成绩*/
+                                     GradeItem gradeItemFooter1 = new GradeItem();
+                                     gradeItemFooter1.setKcmc("平均");
+                                     gradeItemFooter1.setCj(String.format("%.2f", gradesCount / (filterGradeItems.size() - 1)));
+                                     gradeItemFooter1.setXf(String.format("%.2f", studyPointCount / (filterGradeItems.size() - 1)));
+                                     gradeItemFooter1.setJd(String.format("%.2f", gradesPointCount / (filterGradeItems.size() - 1)));
+                                     filterGradeItems.add(gradeItemFooter1);
+
+                                     GradeItem gradeItemFooter2 = new GradeItem();
+                                     gradeItemFooter2.setKcmc("总和");
+                                     gradeItemFooter2.setCj(String.format("%.2f", gradesCount));
+                                     gradeItemFooter2.setXf(String.format("%.2f", studyPointCount));
+                                     gradeItemFooter2.setJd(String.format("%.2f", gradesPointCount));
+                                     filterGradeItems.add(gradeItemFooter2);
+                                 }
+                                 return Observable.just(filterGradeItems);
+                             }
+                         }
+
+                ).subscribe(new Subscriber<List<GradeItem>>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    iGradeview.showError(e.getMessage());
+                                }
+
+                                @Override
+                                public void onNext(List<GradeItem> gradeItems) {
+                                    iGradeview.showResult(gradeItems);
+                                }
+                            }
+
+        );
+
     }
 
     void saveGradesJson(String xnm, String xqm) {

@@ -8,5 +8,5 @@ public interface IWifiFragmentView {
 
     void changeWifiState(String state);
 
-    void showCountDowntimer(boolean show, long time);
+
 }
