@@ -38,6 +38,8 @@ public interface IGradePersenter {
 
     String getGradesDataJsonFromCache(String xnm, String xqm);
 
+    void judgement(String username, String password, final String iscommit);
+
     void filterGrades(
             boolean isCheckedNormalExam,
             boolean isCheckedMakeupExam,

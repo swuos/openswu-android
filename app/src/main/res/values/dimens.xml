@@ -13,6 +13,8 @@
     <dimen name="filter_button_higth">@dimen/x30</dimen>
     <dimen name="filter_button_text_size">@dimen/x12</dimen>
     <dimen name="filter_edit_text_size">@dimen/x10</dimen>
+    <dimen name="filter_edit_text_hight">@dimen/x40</dimen>
+
 
     <!--
 Refer to App Widget Documentation for margin information

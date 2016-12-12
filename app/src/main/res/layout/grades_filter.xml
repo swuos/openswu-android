@@ -11,7 +11,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -149,7 +149,7 @@
                 <EditText
                     android:id="@+id/grade_filter_grades_min"
                     android:layout_width="@dimen/filter_button_width"
-                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_height="@dimen/filter_edit_text_hight"
                     android:layout_marginLeft="@dimen/x10"
 
                     android:hint="最小值"
@@ -170,15 +170,11 @@
                 <EditText
                     android:id="@+id/grade_filter_grades_max"
                     android:layout_width="@dimen/filter_button_width"
-                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_height="@dimen/filter_edit_text_hight"
 
-                    android:layout_marginLeft="@dimen/x15"
                     android:hint="最大值"
                     android:inputType="numberDecimal"
-
                     android:maxLines="1"
-
-
                     android:textAlignment="center"
                     android:textSize="@dimen/filter_edit_text_size"
                     />
@@ -208,8 +204,9 @@
                 <EditText
                     android:id="@+id/grade_filter_grades_point_min"
                     android:layout_width="@dimen/filter_button_width"
-                    android:layout_height="@dimen/filter_button_higth"
-                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_height="@dimen/filter_edit_text_hight"
+
+                    android:layout_marginLeft="@dimen/x5"
 
                     android:hint="最小值"
                     android:inputType="numberDecimal"
@@ -227,7 +224,8 @@
                 <EditText
                     android:id="@+id/grade_filter_grades_point_max"
                     android:layout_width="@dimen/filter_button_width"
-                    android:layout_height="@dimen/filter_button_higth"
+                    android:layout_height="@dimen/filter_edit_text_hight"
+
                     android:hint="最大值"
                     android:inputType="numberDecimal"
                     android:maxLines="1"
@@ -253,16 +251,19 @@
                     android:id="@+id/grade_filter_enter"
                     android:layout_width="@dimen/filter_button_width"
                     android:layout_height="@dimen/filter_button_higth"
-                    android:layout_marginLeft="@dimen/x10"
+
+                    android:layout_weight="1"
                     android:background="@drawable/filter_click_button_bg"
                     android:text="确定"
                     android:textSize="@dimen/filter_button_text_size"/>
 
                 <Button
                     android:id="@+id/grade_filter_cancle"
+
                     android:layout_width="@dimen/filter_button_width"
                     android:layout_height="@dimen/filter_button_higth"
-                    android:layout_marginLeft="@dimen/x15"
+                    android:layout_marginLeft="@dimen/x5"
+                    android:layout_weight="1"
                     android:background="@drawable/filter_click_button_bg"
                     android:text="取消"
 
@@ -270,6 +271,20 @@
 
 
             </LinearLayout>
+
+
+            <Button
+                android:id="@+id/grade_filter_judegment"
+                android:layout_marginBottom="0dp"
+                android:layout_width="@dimen/x150"
+                android:layout_height="@dimen/filter_button_higth"
+                android:layout_marginLeft="@dimen/x5"
+                android:layout_marginTop="@dimen/x50"
+                android:layout_weight="1"
+                android:background="@drawable/filter_click_button_bg"
+                android:text="一键教评"
+
+                android:textSize="@dimen/filter_button_text_size"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

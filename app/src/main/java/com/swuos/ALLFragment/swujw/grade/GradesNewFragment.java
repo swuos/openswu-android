@@ -1,8 +1,11 @@
 package com.swuos.ALLFragment.swujw.grade;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -60,6 +63,7 @@ public class GradesNewFragment extends BaseFragment implements IGradeview, Swipe
     Button subjectRequiredCourseButton;
     Button cancleButton;
     Button enterButton;
+    Button judegmentButton;
 
     EditText gradeMinEditText;
     EditText gradeMaxEditText;
@@ -82,6 +86,7 @@ public class GradesNewFragment extends BaseFragment implements IGradeview, Swipe
     /*选择学期的下拉列表*/
     private Spinner spinnerXqm;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ProgressDialog progressDialog;
 
     @Nullable
     @Override
@@ -112,13 +117,16 @@ public class GradesNewFragment extends BaseFragment implements IGradeview, Swipe
         generalRequiredCourseButton = (Button) filterView.findViewById(R.id.grade_filter_general_required_course);
         generalElectiveCourseButton = (Button) filterView.findViewById(R.id.grade_filter_general_elective_course);
         subjectRequiredCourseButton = (Button) filterView.findViewById(R.id.grade_filter_subject_required_course);
+        judegmentButton = (Button) filterView.findViewById(R.id.grade_filter_judegment);
         cancleButton = (Button) filterView.findViewById(R.id.grade_filter_cancle);
         enterButton = (Button) filterView.findViewById(R.id.grade_filter_enter);
         gradeMinEditText = (EditText) filterView.findViewById(R.id.grade_filter_grades_min);
         gradeMaxEditText = (EditText) filterView.findViewById(R.id.grade_filter_grades_max);
         gradePointMinEditText = (EditText) filterView.findViewById(R.id.grade_filter_grades_point_min);
         gradePointMaxEditText = (EditText) filterView.findViewById(R.id.grade_filter_grades_point_max);
-
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("正在教评...");
 
     }
 
@@ -164,6 +172,7 @@ public class GradesNewFragment extends BaseFragment implements IGradeview, Swipe
         subjectRequiredCourseButton.setOnClickListener(this);
         cancleButton.setOnClickListener(this);
         enterButton.setOnClickListener(this);
+        judegmentButton.setOnClickListener(this);
     }
 
     @Override
@@ -196,6 +205,7 @@ public class GradesNewFragment extends BaseFragment implements IGradeview, Swipe
         if (isShow) {
             swipeRefreshLayout.setRefreshing(true);
         } else {
+            progressDialog.dismiss();
 
             swipeRefreshLayout.setRefreshing(false);
         }
@@ -203,12 +213,15 @@ public class GradesNewFragment extends BaseFragment implements IGradeview, Swipe
 
     @Override
     public void showResult(List<GradeItem> gradeItemList) {
+        showDialog(false);
         gradesRecycleviewAdapter.addData(gradeItemList);
     }
 
     @Override
     public void showError(String error) {
-        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+        showDialog(false);
+        //        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+        Snackbar.make(gradesLayout, error, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -268,7 +281,7 @@ public class GradesNewFragment extends BaseFragment implements IGradeview, Swipe
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
+        final int id = v.getId();
         switch (id) {
             case R.id.grade_new_fragment_filter_button:
                 popupWindow.showAsDropDown(filterButton);
@@ -392,6 +405,27 @@ public class GradesNewFragment extends BaseFragment implements IGradeview, Swipe
                         gradeMin, gradeMax, gradePointMin, gradePointMax
                 );
                 break;
+            case R.id.grade_filter_judegment:
+                popupWindow.dismiss();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("一键教评").setMessage(R.string.judgement_message).setPositiveButton("提交", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        progressDialog.show();
+                        iGradePersenter.judgement(iGradePersenter.getUsername(), iGradePersenter.getPassword(), "1");
+                    }
+                }).setNegativeButton("保存", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        progressDialog.show();
+                        iGradePersenter.judgement(iGradePersenter.getUsername(), iGradePersenter.getPassword(), "0");
+                    }
+                }).setNeutralButton("我再想想", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }).setCancelable(true).show();
             default:
                 break;
 

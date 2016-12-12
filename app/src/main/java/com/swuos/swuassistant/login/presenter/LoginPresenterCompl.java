@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.util.Base64;
 import android.util.Log;
 
-import com.swuos.ALLFragment.swujw.net.api.SwuApi;
+import com.swuos.ALLFragment.swujw.net.api.SwuJwApi;
 import com.swuos.ALLFragment.swujw.net.jsona.LoginJson;
 import com.swuos.swuassistant.Constant;
 import com.swuos.swuassistant.login.view.ILoginView;
@@ -41,7 +41,7 @@ public class LoginPresenterCompl {
 
 
         String swuLoginjsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\"}", userName, password);
-        SwuApi.loginIswu().login(swuLoginjsons).flatMap(new Func1<LoginJson, Observable<String>>() {
+        SwuJwApi.loginIswu().login(swuLoginjsons).flatMap(new Func1<LoginJson, Observable<String>>() {
             @Override
             public Observable<String> call(LoginJson loginJson) {
                 if (loginJson.getData().getGetUserInfoByUserNameResponse().getReturnX().isSuccess()) {
@@ -49,7 +49,7 @@ public class LoginPresenterCompl {
                     cookie = String.format("CASTGC=\"%s\"; rtx_rep=no", new String(Base64.decode(tgt, Base64.DEFAULT)));
                     getBasicInfo(loginJson, password);
                     storageInfo();
-                    return SwuApi.loginJw(cookie).login();
+                    return SwuJwApi.loginJw(cookie).login();
                 } else
                     return Observable.error(new Throwable(Constant.USERNAMEORPSWERRR));
 

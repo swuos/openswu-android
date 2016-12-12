@@ -123,45 +123,12 @@ public class Constant {
     public static final String NOTIFICATION_LOGOUT = "NOTIFICATION_LOGOUT";
     public static final int NOTIFICATION_WIFI_ID = 100001;
 
-    public static final String CARD_FRAGMENT_ID = "card_id";
-    public static final String CARD_FRAGMENT_PD = "card_pd";
-    public static final String CARD_FRAGMENT_ECARD = "card_ecard";
-
 
     //内网服务器反馈地址
     public static final String urlReportIssue = "http://opensource.desu.pub/openswu/reportIssue";
     //内网定时退出网络地址
     public static final String urlQuitnet = "http://opensource.desu.pub/openswu/quitnet";
-    //图书馆搜索地址一
-    public static final String librarySearch = "http://202.202.121.3:99/gold/opac/search";
-    public static final String libraryBookDetail = "http://202.202.121.3:99/gold/opac/book/";
-    public static final String libraryHoldingsInformation = "http://202.202.121.3:99/gold/opac/book/getHoldingsInformation/";
-    public static final String libraryCollectingAddress = "http://202.202.121.10/xndxrfidweb/TSDW/GotoFlash.aspx?szBarCode=";
-    //图书馆搜索地址二
-    public static final String LIBRARYSEARCH = "http://202.202.121.3/";
 
-    public static final int LIB_LOGIN_SUCCESS = 1;
-    public static final int LIB_LOGIN_INVALID_PD = 2;
-    public static final int LIB_LOGIN_INVALID_ID = 3;
-    public static final int LIB_LOGIN_FAILED = 4;
-    public static final String LIB_LOGIN_RESULT_CONTENT = "login_result_content";
-    public static final String LIB_LOGIN_RESULT_FLAG = "login_result_flag";
-
-    public static final String LIB_NO = "LblNo";  //内部编号
-    public static final String LIB_CARD_NO = "LblCardNO";  //借书证号
-    public static final String LIB_READER_BAR = "LblCarcCode";  //读者条码
-    public static final String LIB_READER_NAME = "LblreaderName"; //姓名
-    public static final String LIB_READER_SEX = "LblReaderSex";  //性别
-    public static final String LIB_READER_UNIT = "LblReaderUnit"; //单位
-    public static final String LIB_DEBT = "LblQfk"; //欠罚款
-    public static final String LIB_PAY = "LblQpK"; //欠赔款
-    public static final String LIB_BORROW_COUNT = "LblBrooyCount"; //已外借
-
-
-    public static final String LIB_BOOK_LATEST_OP_TIME = "latestOpTime"; //最近一次操作时间
-    public static final String LIB_BOOK_LATEST_OP_KIND = "latestOpKind"; //最近一次操作种类
-    public static final String LIB_BOOK_FIRST_OP_TIME = "firstOpTime"; //第一次操作时间
-    public static final String LIB_BOOK_FIRST_OP_KIND = "firstOpKind"; //第一次操作种类
 
 
     public static final int[] background = {R.color.colorclass1, R.color.colorclass2, R.color.colorclass3, R.color.colorclass4, R.color.colorclass5, R.color.colorclass6};
@@ -184,5 +151,56 @@ public class Constant {
             100021, 100054, 100055, 100056,
             100057, 100058, 100059, 100060, 100061,100063,
             100044, 100045, 100046, 100047, 100048, 100049, 100050, 100062, 100052, 100053};
+    // 优秀
+    public static final String A = "252BD170CD67B480E050C6DE977E4AD2";
+    // 良好;
+    public static final String B = "252BD170CD68B480E050C6DE977E4AD2";
+    // 中;
+    public static final String C = "252BD170CD69B480E050C6DE977E4AD2";
+    // 合格;
+    public static final String D = "252BD170CD6AB480E050C6DE977E4AD2";
+    // 不合格;
+    public static final String E = "252BD170CD6BB480E050C6DE977E4AD2";
+    public static final String pfdjdmb_id = "19E17A2CBFD3BC83E050007F01005F6D";
+    // modelList[0].pjmbmcb_id;
+    public static final String pjmbmcb_id = "41678A818DA2F101E050C6DE977E5279";
+    // modelList[0].xspfb_id;
+    public static final String xspfb_id = "43332D2E730847F4E050C6DE977E517F";
+    public static final String F = "41678A818DA3F101E050C6DE977E5279";
+    // 能根据教学实际科学、熟练利用各种教学媒体辅助教学，使用方法恰当，效果明显;
+    public static final String F1 = "41678A818DA7F101E050C6DE977E5279";
+    // 板书设计合理、工整，层次清晰。;
+    public static final String F2 = "41678A818DA8F101E050C6DE977E5279";
+    // 普通话标准。;
+    public static final String F3 = "41678A818DA9F101E050C6DE977E5279";
+    // 因材施教，注重启发学生；能适时、恰当地指导学生。;
+    public static final String F4 = "41678A818DAAF101E050C6DE977E5279";
+    // 教学内容;
+    public static final String G = "41678A818DA4F101E050C6DE977E5279";
+    // 教学内容充实，信息量大；新知识与新思路兼备。;
+    public static final String G1 = "41678A818DABF101E050C6DE977E5279";
+    // 基本概念、理论讲授正确，重点、难点突出，解析透彻。;
+    public static final String G2 = "41678A818DACF101E050C6DE977E5279";
+    // 教学目的明确，课堂讲授内容与教学大纲要求相吻合;
+    public static final String G3 = "41678A818DADF101E050C6DE977E5279";
+    // 讲课理论联系实际，例证恰当、贴切、生动，问题设计合理;
+    public static final String G4 = "41678A818DAEF101E050C6DE977E5279";
+    // 教学内容没有政治性错误;
+    public static final String G5 = "41678A818DAFF101E050C6DE977E5279";
+    // 教学内容没有科学性错误。;
+    public static final String G6 = "41678A818DB0F101E050C6DE977E5279";
+    public static final String H = "41678A818DA5F101E050C6DE977E5279";
+    // 教学态度端正，仪态得体；情绪饱满，富有感染力;
+    public static final String H1 = "41678A818DB1F101E050C6DE977E5279";
+    // 作业批改及时、认真，辅导耐心。;
+    public static final String H2 = "41678A818DB2F101E050C6DE977E5279";
+    // 教学效果;
+    public static final String I = "41678A818DA6F101E050C6DE977E5279";
+    // 使学生自学能力、分析与解决问题的能力得到提高。;
+    public static final String I1 = "41678A818DB3F101E050C6DE977E5279";
+    // 使学生较好地掌握了授课内容；提高了学生对该课程的学习兴趣。;
+    public static final String I2 = "41678A818DB4F101E050C6DE977E5279";
+    // 课堂气氛活跃，学生参与积极。;
+    public static final String I3 = "41678A818DB5F101E050C6DE977E5279";
 }
 

@@ -6,7 +6,7 @@ import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.swuos.ALLFragment.swujw.TotalInfos;
-import com.swuos.ALLFragment.swujw.net.api.SwuApi;
+import com.swuos.ALLFragment.swujw.net.api.SwuJwApi;
 import com.swuos.ALLFragment.swujw.net.jsona.LoginJson;
 import com.swuos.ALLFragment.swujw.schedule.model.Schedule;
 import com.swuos.ALLFragment.swujw.schedule.model.ScheduleDatas;
@@ -20,6 +20,7 @@ import java.net.UnknownHostException;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -96,7 +97,12 @@ public class SchedulePresenterCompl implements ISchedulePresenter {
         iScheduleView.showDialog(true);
 
 
-        SwuApi.jwSchedule().getSchedule(totalInfos.getSwuID(), xnm, xqm).flatMap(new Func1<String, Observable<?>>() {
+        Observable.defer(new Func0<Observable<String>>() {
+            @Override
+            public Observable<String> call() {
+                return SwuJwApi.jwSchedule().getSchedule(totalInfos.getSwuID(), xnm, xqm);
+            }
+        }).flatMap(new Func1<String, Observable<?>>() {
             @Override
             public Observable<?> call(String s) {
                 if (s.contains("登录超时"))
@@ -120,12 +126,12 @@ public class SchedulePresenterCompl implements ISchedulePresenter {
                     public Observable<?> call(Throwable throwable) {
                         if (throwable.getMessage().contains("登录超时")) {
                             String swuLoginjsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\"}", username, password);
-                            return SwuApi.loginIswu().login(swuLoginjsons).flatMap(new Func1<LoginJson, Observable<?>>() {
+                            return SwuJwApi.loginIswu().login(swuLoginjsons).flatMap(new Func1<LoginJson, Observable<?>>() {
                                 @Override
                                 public Observable<?> call(LoginJson loginJson) {
                                     String tgt = loginJson.getData().getGetUserInfoByUserNameResponse().getReturnX().getInfo().getAttributes().getTgt();
                                     String cookie = String.format("CASTGC=\"%s\"; rtx_rep=no", new String(Base64.decode(tgt, Base64.DEFAULT)));
-                                    return SwuApi.loginJw(cookie).login();
+                                    return SwuJwApi.loginJw(cookie).login();
                                 }
                             });
                         } else {

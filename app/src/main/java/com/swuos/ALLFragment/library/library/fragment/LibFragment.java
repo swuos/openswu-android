@@ -81,13 +81,8 @@ public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshL
     public void initData() {
         mLibPresenter = new LibPresenterImp(getContext(), this);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        initDataFromCache();
 
-        sharedPreferences = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        userName = sharedPreferences.getString("userName", "nothing");
-        passWord = sharedPreferences.getString("password", "nothing");
-
-        SALog.d(TAG, "userName==>" + userName);
-        SALog.d(TAG, "passwd==>" + passWord);
         mLibPresenter.getBorrowListByLogin(userName, passWord);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         sharedPreferenceUtil = new SharedPreferenceUtil(getContext());
@@ -95,6 +90,16 @@ public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshL
             updateData(sharedPreferenceUtil.getBookList());
         }
         Toast.makeText(getContext(), "正在后台帮你获取最新信息，请稍候...", Toast.LENGTH_SHORT).show();
+    }
+
+    void initDataFromCache() {
+        sharedPreferences = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        userName = sharedPreferences.getString("userName", null);
+        passWord = sharedPreferences.getString("password", null);
+
+        SALog.d(TAG, "userName==>" + userName);
+        SALog.d(TAG, "passwd==>" + passWord);
+
     }
 
     @OnClick(R.id.fabSearch)
@@ -178,8 +183,9 @@ public class LibFragment extends BaseFragment implements ILibView, SwipeRefreshL
             hideProgressDialog();
             updateData(sharedPreferenceUtil.getBookList());
         } else {
-            Toast.makeText(getContext(), "已经获得最新信息！", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "正在加载", Toast.LENGTH_LONG).show();
             mLibPresenter.getBorrowList();
+            //            initData();
             showRefreshLayout();
         }
     }

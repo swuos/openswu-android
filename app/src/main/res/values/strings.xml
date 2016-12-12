@@ -57,5 +57,6 @@
     <string name="fab_name">Fab_Lib</string>
 
     <string name="schedule_transition">schedule_transition</string>
+    <string name="judgement_message">使用须知:\n默认每个课程的评价结果除了最后一项为B,其他项都为A.\n点击保存后,你仍然可以通过网页端教务系统来来修改\n点击提交即按照默认设置进行教评,且提交后无法修改.</string>
 
 </resources>

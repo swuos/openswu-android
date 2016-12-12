@@ -7,8 +7,10 @@ import android.util.Base64;
 import com.swuos.ALLFragment.swujw.TotalInfos;
 import com.swuos.ALLFragment.swujw.grade.model.GradeItem;
 import com.swuos.ALLFragment.swujw.grade.model.Grades;
+import com.swuos.ALLFragment.swujw.grade.model.SwuJwParse;
+import com.swuos.ALLFragment.swujw.grade.model.TeacherJudgementItem;
 import com.swuos.ALLFragment.swujw.grade.view.IGradeview;
-import com.swuos.ALLFragment.swujw.net.api.SwuApi;
+import com.swuos.ALLFragment.swujw.net.api.SwuJwApi;
 import com.swuos.ALLFragment.swujw.net.jsona.LoginJson;
 import com.swuos.swuassistant.Constant;
 
@@ -95,7 +97,7 @@ public class GradePresenterCompl implements IGradePersenter {
 
     @Override
     public void getGrades(final String username, final String password, final String xqm, final String xnm, final boolean isFroceFromNet) {
-        iGradeview.showDialog(true);
+
         final Map<String, String> data = new HashMap<>();
 
         data.put("_search", "false");
@@ -114,13 +116,12 @@ public class GradePresenterCompl implements IGradePersenter {
             Observable.just(gradeItemList).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<GradeItem>>() {
                 @Override
                 public void onCompleted() {
-                    iGradeview.showDialog(false);
+
                 }
 
                 @Override
                 public void onError(Throwable e) {
                     String error = e.getMessage();
-                    iGradeview.showDialog(false);
                     if (e instanceof UnknownHostException) {
                         error = Constant.CLIENT_ERROR;
                     } else if (e instanceof SocketTimeoutException) {
@@ -131,12 +132,11 @@ public class GradePresenterCompl implements IGradePersenter {
 
                 @Override
                 public void onNext(List<GradeItem> gradeItems) {
-                    iGradeview.showDialog(false);
                     iGradeview.showResult(gradeItems);
                 }
             });
         } else {
-            SwuApi.jwGrade().getSchedule(totalInfos.getSwuID(), data).flatMap(new Func1<String, Observable<List<GradeItem>>>() {
+            SwuJwApi.jwGrade().getSchedule(totalInfos.getSwuID(), data).flatMap(new Func1<String, Observable<List<GradeItem>>>() {
                 @Override
                 public Observable<List<GradeItem>> call(String s) {
                     if (s.contains("登录超时"))
@@ -156,12 +156,12 @@ public class GradePresenterCompl implements IGradePersenter {
                         public Observable<?> call(Throwable throwable) {
                             if (throwable.getMessage().contains("登录超时")) {
                                 String swuLoginjsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\"}", username, password);
-                                return SwuApi.loginIswu().login(swuLoginjsons).flatMap(new Func1<LoginJson, Observable<?>>() {
+                                return SwuJwApi.loginIswu().login(swuLoginjsons).flatMap(new Func1<LoginJson, Observable<?>>() {
                                     @Override
                                     public Observable<?> call(LoginJson loginJson) {
                                         String tgt = loginJson.getData().getGetUserInfoByUserNameResponse().getReturnX().getInfo().getAttributes().getTgt();
                                         String cookie = String.format("CASTGC=\"%s\"; rtx_rep=no", new String(Base64.decode(tgt, Base64.DEFAULT)));
-                                        return SwuApi.loginJw(cookie).login();
+                                        return SwuJwApi.loginJw(cookie).login();
                                     }
                                 });
                             } else {
@@ -174,14 +174,14 @@ public class GradePresenterCompl implements IGradePersenter {
             }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<GradeItem>>() {
                 @Override
                 public void onCompleted() {
-                    iGradeview.showDialog(false);
+
 
                 }
 
                 @Override
                 public void onError(Throwable e) {
                     String error = e.getMessage();
-                    iGradeview.showDialog(false);
+
                     if (e instanceof UnknownHostException) {
                         error = Constant.CLIENT_ERROR;
                     } else if (e instanceof SocketTimeoutException) {
@@ -192,7 +192,7 @@ public class GradePresenterCompl implements IGradePersenter {
 
                 @Override
                 public void onNext(List<GradeItem> gradeItems) {
-                    iGradeview.showDialog(false);
+
                     iGradeview.showResult(gradeItems);
                 }
             });
@@ -202,7 +202,7 @@ public class GradePresenterCompl implements IGradePersenter {
 
     @Override
     public void getGradeDetial(final String username, final String password, final int position) {
-        iGradeview.showDialog(true);
+
         gradeItem = gradeItemList.get(position);
         Map<String, String> data = new HashMap<String, String>();
         data.put("jxb_id", gradeItem.getJxb_id());
@@ -211,7 +211,7 @@ public class GradePresenterCompl implements IGradePersenter {
         data.put("xnm", gradeItem.getXnm());
         data.put("xqm", gradeItem.getXqm());
 
-        SwuApi.getJwGradeDetail().getSchedule(String.valueOf(System.currentTimeMillis()), totalInfos.getSwuID(), data).flatMap(new Func1<String, Observable<GradeItem>>() {
+        SwuJwApi.getJwGradeDetail().getSchedule(String.valueOf(System.currentTimeMillis()), totalInfos.getSwuID(), data).flatMap(new Func1<String, Observable<GradeItem>>() {
             @Override
             public Observable<GradeItem> call(String s) {
                 if (s.contains("登录超时"))
@@ -229,12 +229,12 @@ public class GradePresenterCompl implements IGradePersenter {
                     public Observable<?> call(Throwable throwable) {
                         if (throwable.getMessage().contains("登录超时")) {
                             String swuLoginjsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\"}", username, password);
-                            return SwuApi.loginIswu().login(swuLoginjsons).flatMap(new Func1<LoginJson, Observable<?>>() {
+                            return SwuJwApi.loginIswu().login(swuLoginjsons).flatMap(new Func1<LoginJson, Observable<?>>() {
                                 @Override
                                 public Observable<?> call(LoginJson loginJson) {
                                     String tgt = loginJson.getData().getGetUserInfoByUserNameResponse().getReturnX().getInfo().getAttributes().getTgt();
                                     String cookie = String.format("CASTGC=\"%s\"; rtx_rep=no", new String(Base64.decode(tgt, Base64.DEFAULT)));
-                                    return SwuApi.loginJw(cookie).login();
+                                    return SwuJwApi.loginJw(cookie).login();
                                 }
                             });
                         } else {
@@ -247,13 +247,12 @@ public class GradePresenterCompl implements IGradePersenter {
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<GradeItem>() {
             @Override
             public void onCompleted() {
-                iGradeview.showDialog(false);
             }
 
             @Override
             public void onError(Throwable e) {
                 String error = e.getMessage();
-                iGradeview.showDialog(false);
+
                 if (e instanceof UnknownHostException) {
                     error = Constant.CLIENT_ERROR;
                 } else if (e instanceof SocketTimeoutException) {
@@ -264,7 +263,7 @@ public class GradePresenterCompl implements IGradePersenter {
 
             @Override
             public void onNext(GradeItem gradeItem) {
-                iGradeview.showDialog(false);
+
                 iGradeview.showGradeDetial(gradeItem);
             }
         });
@@ -312,6 +311,137 @@ public class GradePresenterCompl implements IGradePersenter {
     }
 
     @Override
+    public void judgement(final String username, final String password, final String iscommit) {
+        SwuJwApi.getJwJudgement().getTeacherList(totalInfos.getSwuID(), System.currentTimeMillis(), "N4010", "00").flatMap(new Func1<String, Observable<String>>() {
+            @Override
+            public Observable<String> call(String s) {
+                if (s.contains("登录超时"))
+                    return Observable.error(new Throwable("登录超时"));
+                else {
+                    return Observable.just(s);
+                }
+            }
+        }).retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
+            @Override
+            public Observable<?> call(Observable<? extends Throwable> observable) {
+                return observable.flatMap(new Func1<Throwable, Observable<?>>() {
+                    @Override
+                    public Observable<?> call(Throwable throwable) {
+                        if (throwable.getMessage().contains("登录超时")) {
+                            String swuLoginjsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\"}", username, password);
+                            return SwuJwApi.loginIswu().login(swuLoginjsons).flatMap(new Func1<LoginJson, Observable<?>>() {
+                                @Override
+                                public Observable<?> call(LoginJson loginJson) {
+                                    String tgt = loginJson.getData().getGetUserInfoByUserNameResponse().getReturnX().getInfo().getAttributes().getTgt();
+                                    String cookie = String.format("CASTGC=\"%s\"; rtx_rep=no", new String(Base64.decode(tgt, Base64.DEFAULT)));
+                                    return SwuJwApi.loginJw(cookie).login();
+                                }
+                            });
+                        } else {
+                            return Observable.error(throwable);
+                        }
+                    }
+                });
+            }
+
+        }).flatMap(new Func1<String, Observable<TeacherJudgementItem>>() {
+            @Override
+            public Observable<TeacherJudgementItem> call(String s) {
+                return Observable.from(SwuJwParse.getTeachList(s));
+            }
+        }).flatMap(new Func1<TeacherJudgementItem, Observable<String>>() {
+            @Override
+            public Observable<String> call(TeacherJudgementItem teacherJudgementItems) {
+                System.out.println(teacherJudgementItems.getClassName());
+                System.out.println(teacherJudgementItems.getTeacherName());
+                Map<String, String> data = new HashMap<String, String>();
+                data.put("kch_id", teacherJudgementItems.getKch_id());
+                data.put("ztpjbl", "100");
+                data.put("jszdpjbl", "0");
+                data.put("xykzpjbl", "0");
+                data.put("jgh_id", teacherJudgementItems.getJgh_id());
+                data.put("modelList[0].pjdxdm", teacherJudgementItems.getXsdm());
+                data.put("jxb_id", teacherJudgementItems.getJxb_id());
+                data.put("modelList[0].pjmbmcb_id", Constant.pjmbmcb_id);
+                data.put("modelList[0].xspfb_id", Constant.xspfb_id);
+                data.put("modelList[0].py", "");
+                //                data.put(# 这里为0的话就是保存,,为1的话就是提);
+                data.put("tjzt", iscommit);
+                data.put("modelList[0].xspjList[0].pjzbxm_id", Constant.F);
+                data.put("modelList[0].xspjList[0].childXspjList[0].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[0].childXspjList[0].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[0].childXspjList[0].pjzbxm_id", Constant.F1);
+                data.put("modelList[0].xspjList[0].childXspjList[1].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[0].childXspjList[1].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[0].childXspjList[1].pjzbxm_id", Constant.F2);
+                data.put("modelList[0].xspjList[0].childXspjList[2].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[0].childXspjList[2].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[0].childXspjList[2].pjzbxm_id", Constant.F3);
+                data.put("modelList[0].xspjList[0].childXspjList[3].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[0].childXspjList[3].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[0].childXspjList[3].pjzbxm_id", Constant.F3);
+
+                data.put("modelList[0].xspjList[1].pjzbxm_id", Constant.G);
+                data.put("modelList[0].xspjList[1].childXspjList[0].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[1].childXspjList[0].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[1].childXspjList[0].pjzbxm_id", Constant.G1);
+                data.put("modelList[0].xspjList[1].childXspjList[1].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[1].childXspjList[1].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[1].childXspjList[1].pjzbxm_id", Constant.G2);
+                data.put("modelList[0].xspjList[1].childXspjList[2].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[1].childXspjList[2].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[1].childXspjList[2].pjzbxm_id", Constant.G3);
+                data.put("modelList[0].xspjList[1].childXspjList[3].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[1].childXspjList[3].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[1].childXspjList[3].pjzbxm_id", Constant.G4);
+                data.put("modelList[0].xspjList[1].childXspjList[4].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[1].childXspjList[4].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[1].childXspjList[4].pjzbxm_id", Constant.G5);
+                data.put("modelList[0].xspjList[1].childXspjList[5].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[1].childXspjList[5].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[1].childXspjList[5].pjzbxm_id", Constant.G6);
+                data.put("modelList[0].xspjList[2].pjzbxm_id", Constant.H);
+                data.put("modelList[0].xspjList[2].childXspjList[0].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[2].childXspjList[0].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[2].childXspjList[0].pjzbxm_id", Constant.H1);
+                data.put("modelList[0].xspjList[2].childXspjList[1].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[2].childXspjList[1].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[2].childXspjList[1].pjzbxm_id", Constant.H2);
+
+                data.put("modelList[0].xspjList[3].pjzbxm_id", Constant.I);
+                data.put("modelList[0].xspjList[3].childXspjList[0].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[3].childXspjList[0].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[3].childXspjList[0].pjzbxm_id", Constant.I1);
+                data.put("modelList[0].xspjList[3].childXspjList[1].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[3].childXspjList[1].pfdjdmxmb_id", Constant.A);
+                data.put("modelList[0].xspjList[3].childXspjList[1].pjzbxm_id", Constant.I2);
+                data.put("modelList[0].xspjList[3].childXspjList[2].pfdjdmb_id", Constant.pfdjdmb_id);
+                data.put("modelList[0].xspjList[3].childXspjList[2].pfdjdmxmb_id", Constant.B);
+                data.put("modelList[0].xspjList[3].childXspjList[2].pjzbxm_id", Constant.I);
+
+
+                return SwuJwApi.getJwJudgement().setJudgement(totalInfos.getSwuID(), data);
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+                iGradeview.showError("评教成功,请进入教务系统查看");
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                iGradeview.showError(throwable.getMessage());
+            }
+
+            @Override
+            public void onNext(String s) {
+            }
+        });
+
+    }
+
+    @Override
     public void filterGrades(final boolean isCheckedNormalExam, final boolean isCheckedMakeupExam, final boolean isCheckedProfessionalRequiredCourse, final boolean isCheckedProfessionalElectiveCourse, final boolean isCheckedGeneralRequiredCourse, final boolean isCheckedGeneralElectiveCourse, final boolean isCheckedSubjectRequiredCourse, final float gradeMin, final float gradeMax, final float gradePointMin, final float gradePointMax) {
 
 
@@ -347,13 +477,13 @@ public class GradePresenterCompl implements IGradePersenter {
 
                                  if (isCheckedProfessionalRequiredCourse)
                                      kcxzTag += "专业必修课";
-                                 else if (isCheckedProfessionalElectiveCourse)
+                                 if (isCheckedProfessionalElectiveCourse)
                                      kcxzTag += "专业选修课";
-                                 else if (isCheckedGeneralRequiredCourse)
+                                 if (isCheckedGeneralRequiredCourse)
                                      kcxzTag += "通识必修课";
-                                 else if (isCheckedGeneralElectiveCourse)
+                                 if (isCheckedGeneralElectiveCourse)
                                      kcxzTag += "通识选修课";
-                                 else if (isCheckedSubjectRequiredCourse)
+                                 if (isCheckedSubjectRequiredCourse)
                                      kcxzTag += "学科必修课";
                                  if (!isCheckedProfessionalRequiredCourse &&
                                          !isCheckedProfessionalElectiveCourse &&

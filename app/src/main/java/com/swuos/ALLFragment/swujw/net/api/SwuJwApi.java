@@ -3,6 +3,7 @@ package com.swuos.ALLFragment.swujw.net.api;
 
 import com.swuos.ALLFragment.swujw.net.interfacelmpl.JwGrade;
 import com.swuos.ALLFragment.swujw.net.interfacelmpl.JwGradeDetail;
+import com.swuos.ALLFragment.swujw.net.interfacelmpl.JwJudgement;
 import com.swuos.ALLFragment.swujw.net.interfacelmpl.JwSchedule;
 import com.swuos.ALLFragment.swujw.net.interfacelmpl.LoginIswu;
 import com.swuos.ALLFragment.swujw.net.interfacelmpl.LoginJw;
@@ -33,24 +34,40 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 /**
  * Created by 张孟尧 on 2016/8/30.
  */
-public class SwuApi {
+public class SwuJwApi {
 
     private static LoginIswu loginIswu;
     private static LoginJw loginJw;
     private static JwSchedule jwSchedule;
     private static JwGrade jwGrade;
     private static JwGradeDetail jwGradeDetail;
+    private static JwJudgement jwJudgement;
+
     private static ScalarsConverterFactory scalarsConverterFactory = ScalarsConverterFactory.create();
     private static GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create();
     private static CallAdapter.Factory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
     private static HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
 
     private static CookieJar cookieJar = new CookieJar() {
-        List<Cookie> cookies;
+        List<Cookie> cookies = new ArrayList<>();
 
         @Override
         public void saveFromResponse(HttpUrl httpUrl, List<Cookie> list) {
-            cookies = list;
+            if (cookies.size() == 0) {
+                cookies.addAll(list);
+                return;
+            }
+            for (Cookie c : list) {
+
+                for (int i = 0; i < cookies.size(); i++) {
+                    Cookie cookie = cookies.get(i);
+                    if (cookie.name().equals(c.name())) {
+                        cookies.remove(i);
+                    }
+                }
+                cookies.add(c);
+
+            }
         }
 
         @Override
@@ -107,6 +124,18 @@ public class SwuApi {
         return loginJw;
     }
 
+    public static JwJudgement getJwJudgement() {
+        if (jwJudgement == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://jw.swu.edu.cn/")
+                    .client(okHttpClient)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .addConverterFactory(scalarsConverterFactory)
+                    .build();
+            jwJudgement = retrofit.create(JwJudgement.class);
+        }
+        return jwJudgement;
+    }
     public static JwSchedule jwSchedule() {
         if (jwSchedule == null) {
             Retrofit retrofit = new Retrofit.Builder()
