@@ -1,9 +1,13 @@
 package com.swuos.ALLFragment.swujw.schedule.model;
 
+import com.swuos.swuassistant.BaseApplication;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by 张孟尧 on 2016/3/20.
@@ -14,9 +18,10 @@ public class CurrentWeek {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Date smdate = null;
-
+        String openStudyDate;
+        openStudyDate = BaseApplication.getContext().getSharedPreferences("com.swuos.swuassistant_preferences", MODE_PRIVATE).getString("open_study_date", "20170227");
         try {
-            smdate = sdf.parse("20160905");
+            smdate = sdf.parse(openStudyDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }

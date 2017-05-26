@@ -66,7 +66,7 @@ public class Schedule {
             for (int j = 0; j < scheduleItemListSort.size(); j++) {
                 ScheduleItem tempSchedule = scheduleItemListSort.get(j);
 
-                if (tempSchedule.getKcmc().equals(scheduleItem.getKcmc()) && tempSchedule.getXqjmc().equals(scheduleItem.getXqjmc()) /*&& tempSchedule.getJc().equals(scheduleItem.getJc())*/) {
+                if (tempSchedule.getKcmc().equals(scheduleItem.getKcmc()) && tempSchedule.getXqjmc().equals(scheduleItem.getXqjmc()) && tempSchedule.getJc().equals(scheduleItem.getJc())) {
                     scheduleItemListSort.get(j).setZcd(scheduleItemListSort.get(j).getZcd() + "," + scheduleItem.getZcd());
                     scheduleItemListSort.get(j).setClassweek(week(scheduleItemListSort.get(j).getZcd()));
                     /*总课表显示内容加上周*/

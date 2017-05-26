@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.swuos.Service.ClassAlarmService;
 import com.swuos.Service.WifiNotificationService;
@@ -20,17 +22,31 @@ import com.swuos.util.SALog;
 /* 本fragment不受fragment管理*/
 public class SettingFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
     private CheckBoxPreference scheduleCheckBoxPreference;
+    private ListPreference studyDatelistPreference;//学期选择
     private ListPreference listPreference;
+    private EditTextPreference studyYearEditTextPreference;//
+    private EditTextPreference openStudyDateEditTextPreference;//开学日期输入
+
     private CheckBoxPreference wifiNotificationCheckBoxPreference;
+    private String xnm;
+    private String xqm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.setting);
+        studyYearEditTextPreference = (EditTextPreference) findPreference("set_study_year");
+        studyYearEditTextPreference.setOnPreferenceChangeListener(this);
+
+        studyDatelistPreference = (ListPreference) findPreference("select_date");
+        studyDatelistPreference.setOnPreferenceChangeListener(this);
+        openStudyDateEditTextPreference = (EditTextPreference) findPreference("open_study_date");
+        openStudyDateEditTextPreference.setOnPreferenceChangeListener(this);
         scheduleCheckBoxPreference = (CheckBoxPreference) findPreference("schedule_is_should be_remind");
         listPreference = (ListPreference) findPreference("headway_before_class");
         wifiNotificationCheckBoxPreference = (CheckBoxPreference) findPreference("wifi_notification_show");
         listPreference.setOnPreferenceChangeListener(this);
+//        sets();
 
     }
 
@@ -75,7 +91,14 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             getActivity().startService(statrtIntent);
             SALog.d("setting", "设定时间改变,重启服务");
         }
+        if (preference == openStudyDateEditTextPreference || preference == studyDatelistPreference || preference == studyYearEditTextPreference) {
+            Intent intent = new Intent();
+            intent.setAction("study_date_change");
+            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+            localBroadcastManager.sendBroadcast(intent);
+        }
         return true;
     }
+
 
 }

@@ -20,4 +20,5 @@ public interface ISchedulePresenter {
 
     void getSchedule(String username, String password, String xnm, String xqm);
 
+    void setXnmAndXqm();
 }

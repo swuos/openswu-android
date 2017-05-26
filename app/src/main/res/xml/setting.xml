@@ -4,30 +4,48 @@
         android:key="schedule"
         android:summary="课程表设置"
         android:title="课程表设置">
+        <EditTextPreference
+            android:key="open_study_date"
+            android:summary="填写该学期的开学日期,如20170227"
+            android:title="开学日期"
+            />
+        <EditTextPreference
+            android:key="set_study_year"
+            android:summary="填写选择的学年,如2016"
+            android:title="选择学年"
+            />
+        <ListPreference
+            android:defaultValue="3"
+            android:dialogTitle="选择学期"
+            android:entries="@array/study_date"
+            android:entryValues="@array/study_date_data"
+            android:key="select_date"
+            android:summary="选择需要的学期"
+            android:title="选择学期"/>
         <CheckBoxPreference
+            android:defaultValue="false"
             android:key="schedule_is_should be_remind"
             android:summary="设置后会在上课前以状态栏通知的形式通知上课信息"
-            android:title="上课提醒"
-            android:defaultValue="false"/>
+            android:title="上课提醒"/>
         <ListPreference
-            android:key="headway_before_class"
+            android:defaultValue="15"
             android:dependency="schedule_is_should be_remind"
-            android:title="@string/remind_time"
             android:dialogTitle="@string/set_remind_time"
-            android:summary="@string/remind_time_detail"
             android:entries="@array/headway_before_class_string"
             android:entryValues="@array/headway_before_class"
-            android:defaultValue="15"/>
+            android:key="headway_before_class"
+            android:summary="@string/remind_time_detail"
+            android:title="@string/remind_time"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="wifi"
         android:summary="wifi登录/登出设置"
         android:title="wifi登录/登出设置">
         <CheckBoxPreference
+            android:defaultValue="false"
             android:key="wifi_notification_show"
             android:summary="在打开wifi的情况下显示快捷登录/登出按钮"
-            android:title="wifi登录/登出快捷入口"
-            android:defaultValue="true"/>
+            android:title="wifi登录/登出快捷入口"/>
 
     </PreferenceCategory>
 

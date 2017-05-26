@@ -1,7 +1,10 @@
 package com.swuos.ALLFragment.swujw.schedule;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -43,6 +46,7 @@ public class ScheduleFragment extends BaseFragment implements IScheduleView, Swi
     private LocalBroadcastManager localBroadcastManager;
     private List<Fragment> scheduleTabblefragmentList;    //保存所有的单周课表fragment
     private ISchedulePresenter iSchedulePresenter;
+    private StudyYeayChageReciver studyYeayChageReciver;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +91,10 @@ public class ScheduleFragment extends BaseFragment implements IScheduleView, Swi
         super.onViewCreated(view, savedInstanceState);
         iSchedulePresenter.initData();
         localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        studyYeayChageReciver = new StudyYeayChageReciver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("study_date_change");
+        localBroadcastManager.registerReceiver(studyYeayChageReciver, intentFilter);
     }
 
     private void setSceduleViewPager() {
@@ -122,7 +130,7 @@ public class ScheduleFragment extends BaseFragment implements IScheduleView, Swi
     @Override
     public void onRefresh() {
         if (iSchedulePresenter.getUsername() != null && !iSchedulePresenter.getUsername().equals("")) {
-            iSchedulePresenter.getSchedule(iSchedulePresenter.getUsername(), iSchedulePresenter.getPassword(), iSchedulePresenter.getXqm(), iSchedulePresenter.getXnm());
+            iSchedulePresenter.getSchedule(iSchedulePresenter.getUsername(), iSchedulePresenter.getPassword(), iSchedulePresenter.getXnm(), iSchedulePresenter.getXqm());
         } else {
             Toast.makeText(getActivity(), R.string.not_logged_in, Toast.LENGTH_SHORT).show();
             showDialog(false);
@@ -156,4 +164,11 @@ public class ScheduleFragment extends BaseFragment implements IScheduleView, Swi
         schedule_layout = null;
     }
 
+    class StudyYeayChageReciver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            iSchedulePresenter.setXnmAndXqm();
+            onRefresh();
+        }
+    }
 }

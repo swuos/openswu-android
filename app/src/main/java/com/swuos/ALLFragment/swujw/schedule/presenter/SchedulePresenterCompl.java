@@ -16,6 +16,7 @@ import com.swuos.util.SALog;
 
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.Calendar;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -24,25 +25,30 @@ import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by 张孟尧 on 2016/8/3.
  */
 public class SchedulePresenterCompl implements ISchedulePresenter {
-    Context mContext;
-    IScheduleView iScheduleView;
-    TotalInfos totalInfos;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    String xnm;
-    String xqm;
+    private Context mContext;
+    private IScheduleView iScheduleView;
+    private TotalInfos totalInfos;
+    private SharedPreferences userInfosharedPreferences;
+    private SharedPreferences settingSharedPreferences;
+
+    private SharedPreferences.Editor editor;
+    private String xnm;
+    private String xqm;
 
 
     public SchedulePresenterCompl(Context mContext, IScheduleView iScheduleView) {
         this.mContext = mContext;
         this.iScheduleView = iScheduleView;
         this.totalInfos = TotalInfos.getInstance();
-        sharedPreferences = mContext.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        userInfosharedPreferences = mContext.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        settingSharedPreferences = mContext.getSharedPreferences("com.swuos.swuassistant_preferences", MODE_PRIVATE);
+        editor = userInfosharedPreferences.edit();
     }
 
 
@@ -78,10 +84,9 @@ public class SchedulePresenterCompl implements ISchedulePresenter {
 
     @Override
     public void initData() {
-        xqm = "2016";
-        xnm = "3";
+        setXnmAndXqm();
         if (!totalInfos.getSwuID().equals("")) {
-            totalInfos.setScheduleDataJson(sharedPreferences.getString("scheduleDataJson", ""));
+            totalInfos.setScheduleDataJson(userInfosharedPreferences.getString("scheduleDataJson", ""));
            /*判断为课程表从未被获取,开始获取课程表*/
             if (totalInfos.getScheduleDataJson().equals("")) {
                 getSchedule(totalInfos.getUserName(), totalInfos.getPassword(), xnm, xqm);
@@ -170,5 +175,49 @@ public class SchedulePresenterCompl implements ISchedulePresenter {
                            }
 
                 );
+    }
+
+    @Override
+    public void setXnmAndXqm() {
+        xnm = settingSharedPreferences.getString("set_study_year", "0");
+        xqm = settingSharedPreferences.getString("select_date", "0");
+        SharedPreferences.Editor setEditor = settingSharedPreferences.edit();
+        if (!xnm.matches("[0-9]+")) {
+            iScheduleView.showError("请输入正确的学年,如2016");
+            return;
+        }
+        if (xnm.equals("0")) {
+            Calendar calendar = Calendar.getInstance();
+            xnm = String.valueOf(calendar.get(Calendar.YEAR));
+            //如果是在一月份,则是第一学期,学年也要减一
+            if (calendar.get(Calendar.MONTH) <= 0) {
+                xqm = "3";
+                xnm = String.valueOf(calendar.get(Calendar.YEAR) - 1);
+            }
+            setEditor.putString("set_study_year", xnm);
+
+        }
+        if (xqm.equals("0")) {
+            Calendar calendar = Calendar.getInstance();
+            //大于8月份则是第一学期
+            if (calendar.get(Calendar.MONTH) >= 7)
+                xqm = "3";
+            else if (calendar.get(Calendar.MONTH) >= 1 && calendar.get(Calendar.MONTH) <= 6) {
+                xqm = "12";//在二月到7月之间属于第二学期
+                xnm = String.valueOf(calendar.get(Calendar.YEAR) - 1);
+            }
+
+            //如果是在一月份,则是第一学期,学年也要减一
+            if (calendar.get(Calendar.MONTH) <= 0) {
+                xqm = "3";
+                xnm = String.valueOf(calendar.get(Calendar.YEAR) - 1);
+            }
+            setEditor.putString("set_study_year", xnm);
+            setEditor.putString("select_date", xqm);
+
+        }
+
+        setEditor.apply();
+
     }
 }

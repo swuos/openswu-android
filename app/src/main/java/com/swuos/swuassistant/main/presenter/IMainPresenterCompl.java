@@ -48,7 +48,7 @@ public class IMainPresenterCompl {
             Intent statrtClassAlarmIntent = new Intent(context, ClassAlarmService.class);
             context.startService(statrtClassAlarmIntent);
         }
-        Boolean wifiNotification = settingSharedPreferences.getBoolean("wifi_notification_show", true);
+        Boolean wifiNotification = settingSharedPreferences.getBoolean("wifi_notification_show", false);
         if (wifiNotification) {
             WifiManager wifiManager = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
             int wifistate = wifiManager.getWifiState();

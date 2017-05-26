@@ -69,13 +69,13 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
 
         fragmentControl = new FragmentControl(getSupportFragmentManager());
         if (savedInstanceState == null) {
-            fragmentControl.fragmentSelection(R.id.nav_wifi);
+            fragmentControl.fragmentSelection(R.id.nav_schedule);
             arrayMap.put("wifiFragment", true);
 
             SALog.d("FragmentControl", "savedInstanceState == null");
         } else {
             SALog.d("FragmentControl", "savedInstanceState != null");
-            fragmentControl.fragmentStateCheck(savedInstanceState, getSupportFragmentManager(), R.id.nav_wifi);
+            fragmentControl.fragmentStateCheck(savedInstanceState, getSupportFragmentManager(), R.id.nav_schedule);
         }
         iMainPresenter.startUpdata();
 

@@ -34,6 +34,16 @@
     <string name="set_remind_time">设置提醒时间</string>
 
     <string name="wifi">WiFi</string>
+    <string-array name="study_date">
+        <item>第一学期</item>
+        <item>第二学期</item>
+        <item>第三学期</item>
+    </string-array>
+    <string-array name="study_date_data">
+        <item>3</item>
+        <item>12</item>
+        <item>16</item>
+    </string-array>
     <string-array name="headway_before_class_string">
         <item>10分钟</item>
         <item>15分钟</item>
@@ -57,6 +67,6 @@
     <string name="fab_name">Fab_Lib</string>
 
     <string name="schedule_transition">schedule_transition</string>
-    <string name="judgement_message">使用须知:\n默认每个课程的评价结果除了最后一项为B,其他项都为A.\n点击保存后,你仍然可以通过网页端教务系统来来修改\n点击提交即按照默认设置进行教评,且提交后无法修改.</string>
+    <string name="judgement_message">使用须知: 默认每个课程的评价结果除了最后一项为B,其他项都为A. \n点击保存后,你需要通过网页端教务系统来进行修改或提交操作\n也可以点击保存来重置提交状态.</string>
 
 </resources>

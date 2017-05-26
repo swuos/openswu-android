@@ -172,6 +172,7 @@ public class GradesNewFragment extends BaseFragment implements IGradeview, Swipe
         subjectRequiredCourseButton.setOnClickListener(this);
         cancleButton.setOnClickListener(this);
         enterButton.setOnClickListener(this);
+        judegmentButton.setVisibility(View.INVISIBLE);
         judegmentButton.setOnClickListener(this);
     }
 
@@ -408,13 +409,8 @@ public class GradesNewFragment extends BaseFragment implements IGradeview, Swipe
             case R.id.grade_filter_judegment:
                 popupWindow.dismiss();
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("一键教评").setMessage(R.string.judgement_message).setPositiveButton("提交", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        progressDialog.show();
-                        iGradePersenter.judgement(iGradePersenter.getUsername(), iGradePersenter.getPassword(), "1");
-                    }
-                }).setNegativeButton("保存", new DialogInterface.OnClickListener() {
+                builder.setTitle("一键教评").setMessage(R.string.judgement_message)
+                        .setNegativeButton("保存", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         progressDialog.show();
