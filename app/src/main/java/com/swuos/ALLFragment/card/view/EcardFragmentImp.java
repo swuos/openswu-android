@@ -154,7 +154,7 @@ public class EcardFragmentImp extends BaseFragment implements IEcardView, View.O
             @Override
             public void onClick(View v) {
                 //wifi ssid状态获取
-                WifiManager wifiManager = (WifiManager) getActivity().getSystemService(getActivity().WIFI_SERVICE);
+                WifiManager wifiManager = (WifiManager) getContext().getApplicationContext().getSystemService(getActivity().getApplication().WIFI_SERVICE);
                 WifiInfo wifiInfo = wifiManager.getConnectionInfo();
                 String wifiSsid = wifiInfo.toString();
                 if (!wifiSsid.contains("swu-wifi")) {

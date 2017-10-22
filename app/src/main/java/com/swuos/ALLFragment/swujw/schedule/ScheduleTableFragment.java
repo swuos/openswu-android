@@ -216,8 +216,8 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
 
             textView.setLayoutParams(layoutParams);
                 /*设置背景色*/
-            textView.setBackgroundResource(Constant.background[i % 6]);
-            textView.setTextColor(getResources().getColor(R.color.white));
+            textView.setBackgroundColor(Constant.backgroundcolor[i % 6]);
+            textView.setTextColor(0xffffffff);
             TextPaint tp = textView.getPaint();
             tp.setFakeBoldText(true);
             textView.setPadding(10, 0, 10, 0);
@@ -226,7 +226,7 @@ public class ScheduleTableFragment extends BaseFragment implements View.OnTouchL
             ScheduleData.ScheduleDetail scheduleDetail = new ScheduleData.ScheduleDetail();
             scheduleDetail.setScheduleItem(scheduleItem);
             scheduleDetail.setTextView(textView);
-            scheduleDetail.setColor(getResources().getColor(Constant.background[i % 6]));
+            scheduleDetail.setColor(Constant.backgroundcolor[i % 6]);
                 /*将新建的textview加入列表*/
             textViewList.add(scheduleDetail);
                 /*将新建的textview加入布局*/

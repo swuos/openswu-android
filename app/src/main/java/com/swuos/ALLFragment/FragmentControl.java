@@ -93,71 +93,51 @@ public class FragmentControl {
         switch (id) {
             case R.id.nav_schedule:
                 if (scheduleFragment == null) {
-                    SALog.d("FragmentControl", "新建scheduleFragment");
-
                     scheduleFragment = new ScheduleFragment();
                     transaction.add(R.id.content, scheduleFragment, Constant.FRAGMENTTAG[1]);
                 } else {
-                    SALog.d("FragmentControl", "重新scheduleFragment");
                     transaction.show(scheduleFragment);
                 }
 
                 break;
             case R.id.nav_grades:
-
-
                 if (gradesNewFragment == null) {
-                    SALog.d("FragmentControl", "新建gradesFragment");
-
                     gradesNewFragment = new GradesNewFragment();
                     transaction.add(R.id.content, gradesNewFragment, Constant.FRAGMENTTAG[2]);
                 } else {
-                    SALog.d("FragmentControl", "重新showgradesFragment");
                     transaction.show(gradesNewFragment);
                 }
                 break;
             case R.id.nav_library:
 
                 if (libraryFragment == null) {
-                    SALog.d("FragmentControl", "新建libraryFragment");
-
                     libraryFragment = new LibFragment();
                     transaction.add(R.id.content, libraryFragment, Constant.FRAGMENTTAG[6]);
                 } else {
-                    SALog.d("FragmentControl", "重新showlibraryFragment");
                     transaction.show(libraryFragment);
                 }
                 break;
             case R.id.nav_wifi:
                 if (wifiFragment == null) {
                     wifiFragment = new WifiFragment();
-                    SALog.d("FragmentControl", "新建WifiFragment");
-
                     transaction.add(R.id.content, wifiFragment, Constant.FRAGMENTTAG[7]);
                 } else {
-                    SALog.d("FragmentControl", "重新showWifiFragment");
                     transaction.show(wifiFragment);
                 }
                 break;
             case R.id.nav_ecard:
                 if (cardfragment == null) {
                     cardfragment = new EcardFragmentImp();
-                    SALog.d("FragmentControl", "新建cardfragment");
-
                     transaction.add(R.id.content, cardfragment, Constant.FRAGMENTTAG[8]);
                 } else {
-                    SALog.d("FragmentControl", "重新cardfragment");
                     transaction.show(cardfragment);
                 }
                 break;
             case R.id.nav_charge:
-
                 if (chargeFragment == null) {
-                    SALog.d("FragmentControl", "新建chargeFragment");
                     chargeFragment = new ChargeFragment();
                     transaction.add(R.id.content, chargeFragment, Constant.FRAGMENTTAG[5]);
                 } else {
-                    SALog.d("FragmentControl", "重新showchargeFragment");
                     transaction.show(chargeFragment);
                 }
 

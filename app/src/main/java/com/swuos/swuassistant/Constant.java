@@ -130,7 +130,14 @@ public class Constant {
     public static final String urlQuitnet = "http://opensource.desu.pub/openswu/quitnet";
 
 
-
+    public static final int[] backgroundcolor = {
+            0xffF77D8A,
+            0xffFE8D41,
+            0xff009900,
+            0xff13CA9A,
+            0xff6D9FF6,
+            0xffBA8ADE,
+            0xff98fffd};
     public static final int[] background = {R.color.colorclass1, R.color.colorclass2, R.color.colorclass3, R.color.colorclass4, R.color.colorclass5, R.color.colorclass6};
     public static final String[] SCHEDULE_WEEK_TITLE = {"整学期", "第一周", "第二周", "第三周", "第四周", "第五周", "第六周", "第七周", "第八周", "第九周", "第十周", "第十一周", "第十二周", "第十三周", "第十四周", "第十五周", "第十六周", "第十七周", "第十八周", "第十九周", "第二十周"};
     public static final String[] STARTIME = {"8:00", "8:50", "9:40", "10:40", "11:30", "12:30", "13:50", "14:30", "15:20", "16:10", "17:00", "19:00", "19:50", "20:40"};
@@ -149,7 +156,7 @@ public class Constant {
             100024, 100025, 100026, 100027, 100028, 100029,
             100001, 100002, 100003, 100004, 100005, 100006,
             100021, 100054, 100055, 100056,
-            100057, 100058, 100059, 100060, 100061,100063,
+            100057, 100058, 100059, 100060, 100061, 100063,
             100044, 100045, 100046, 100047, 100048, 100049, 100050, 100062, 100052, 100053};
     // 优秀
     public static final String A = "252BD170CD67B480E050C6DE977E4AD2";

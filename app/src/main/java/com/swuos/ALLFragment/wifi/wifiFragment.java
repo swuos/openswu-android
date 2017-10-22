@@ -11,7 +11,6 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -19,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.swuos.ALLFragment.BaseFragment;
 import com.swuos.ALLFragment.wifi.presenter.IWifiPresenetrCompl;
@@ -26,7 +26,6 @@ import com.swuos.ALLFragment.wifi.presenter.IWifiPresenter;
 import com.swuos.ALLFragment.wifi.view.IWifiFragmentView;
 import com.swuos.swuassistant.R;
 import com.swuos.util.SALog;
-
 
 
 /**
@@ -92,7 +91,6 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
         wifiUsername.setText("当前用户:" + iWifiPresenter.getUsername());
 
 
-
     }
 
 
@@ -124,14 +122,13 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
         swipeRefreshLayout.setRefreshing(false);
         login_button.setClickable(true);
         logout_button.setClickable(true);
-        Snackbar.make(view, result, Snackbar.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void changeWifiState(String state) {
         wifiStateTextView.setText(state);
     }
-
 
 
     private void setReceiver() {
@@ -153,16 +150,12 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
     }
 
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(wifiStateReciver);
         localBroadcastManager.unregisterReceiver(localRecevier);
     }
-
-
-
 
 
     /*设置广播接收刷新消息*/
@@ -182,8 +175,7 @@ public class WifiFragment extends BaseFragment implements IWifiFragmentView, Vie
         public void onReceive(Context context, Intent intent) {
 
             //            SALog.d("WifiStateReciver", intent.getAction());
-            WifiManager wifiManager = (WifiManager) context
-                    .getSystemService(Context.WIFI_SERVICE);
+            WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
             wifissid = wifiInfo.getSSID();
             int wifiState = wifiManager.getWifiState();

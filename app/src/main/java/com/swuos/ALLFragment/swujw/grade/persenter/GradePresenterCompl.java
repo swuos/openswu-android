@@ -12,6 +12,7 @@ import com.swuos.ALLFragment.swujw.grade.model.TeacherJudgementItem;
 import com.swuos.ALLFragment.swujw.grade.view.IGradeview;
 import com.swuos.ALLFragment.swujw.net.api.SwuJwApi;
 import com.swuos.ALLFragment.swujw.net.jsona.LoginJson;
+import com.swuos.ALLFragment.swujw.net.util.RSAUtil;
 import com.swuos.swuassistant.Constant;
 
 import java.net.SocketTimeoutException;
@@ -110,7 +111,7 @@ public class GradePresenterCompl implements IGradePersenter {
         data.put("xnm", xnm);
         data.put("xqm", xqm);
         String cache = getGradesDataJsonFromCache(xnm, xqm);
-        if (cache != null || !isFroceFromNet) {
+        if (cache != null && !isFroceFromNet) {
             totalInfos.setGradesDataJson(getGradesDataJsonFromCache(xnm, xqm));
             gradeItemList = Grades.getGradesList(totalInfos);
             Observable.just(gradeItemList).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<GradeItem>>() {
@@ -155,8 +156,9 @@ public class GradePresenterCompl implements IGradePersenter {
                         @Override
                         public Observable<?> call(Throwable throwable) {
                             if (throwable.getMessage().contains("登录超时")) {
-                                String swuLoginjsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\"}", username, password);
-                                return SwuJwApi.loginIswu().login(swuLoginjsons).flatMap(new Func1<LoginJson, Observable<?>>() {
+                                String swuLoginjsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\",\"businessServiceName\":\"uaaplogin\"}", username, password);
+
+                                return SwuJwApi.loginIswu().login(RSAUtil.encrypt(swuLoginjsons)).flatMap(new Func1<LoginJson, Observable<?>>() {
                                     @Override
                                     public Observable<?> call(LoginJson loginJson) {
                                         String tgt = loginJson.getData().getGetUserInfoByUserNameResponse().getReturnX().getInfo().getAttributes().getTgt();
@@ -229,8 +231,8 @@ public class GradePresenterCompl implements IGradePersenter {
                     public Observable<?> call(Throwable throwable) {
                         if (throwable.getMessage().contains("登录超时")) {
                             String swuLoginjsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\",\"businessServiceName\":\"uaaplogin\"}", username, password);
-                            String toBase64 = Base64.encodeToString(swuLoginjsons.getBytes(), Base64.DEFAULT);
-                            return SwuJwApi.loginIswu().login(toBase64).flatMap(new Func1<LoginJson, Observable<?>>() {
+
+                            return SwuJwApi.loginIswu().login(RSAUtil.encrypt(swuLoginjsons)).flatMap(new Func1<LoginJson, Observable<?>>() {
                                 @Override
                                 public Observable<?> call(LoginJson loginJson) {
                                     String tgt = loginJson.getData().getGetUserInfoByUserNameResponse().getReturnX().getInfo().getAttributes().getTgt();
@@ -329,8 +331,9 @@ public class GradePresenterCompl implements IGradePersenter {
                     @Override
                     public Observable<?> call(Throwable throwable) {
                         if (throwable.getMessage().contains("登录超时")) {
-                            String swuLoginjsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\"}", username, password);
-                            return SwuJwApi.loginIswu().login(swuLoginjsons).flatMap(new Func1<LoginJson, Observable<?>>() {
+                            String swuLoginjsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\",\"businessServiceName\":\"uaaplogin\"}", username, password);
+
+                            return SwuJwApi.loginIswu().login(RSAUtil.encrypt(swuLoginjsons)).flatMap(new Func1<LoginJson, Observable<?>>() {
                                 @Override
                                 public Observable<?> call(LoginJson loginJson) {
                                     String tgt = loginJson.getData().getGetUserInfoByUserNameResponse().getReturnX().getInfo().getAttributes().getTgt();

@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -221,8 +220,8 @@ public class GradesNewFragment extends BaseFragment implements IGradeview, Swipe
     @Override
     public void showError(String error) {
         showDialog(false);
-        //        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
-        Snackbar.make(gradesLayout, error, Snackbar.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+//        Snackbar.make(gradesLayout, error, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

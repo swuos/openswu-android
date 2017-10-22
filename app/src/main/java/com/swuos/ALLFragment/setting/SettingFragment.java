@@ -64,7 +64,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             }
         } else if ("wifi_notification_show".equals(preference.getKey())) {
             if (wifiNotificationCheckBoxPreference.isChecked()) {
-                WifiManager wifiManager = (WifiManager) getActivity().getSystemService(getActivity().WIFI_SERVICE);
+                WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().WIFI_SERVICE);
+
+
                 int wifistate = wifiManager.getWifiState();
                 if (wifistate == WifiManager.WIFI_STATE_ENABLED) {
                     Intent statrtWifiIntent = new Intent(getActivity(), WifiNotificationService.class);

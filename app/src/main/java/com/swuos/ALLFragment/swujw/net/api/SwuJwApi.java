@@ -5,6 +5,7 @@ import com.swuos.ALLFragment.swujw.net.interfacelmpl.JwGrade;
 import com.swuos.ALLFragment.swujw.net.interfacelmpl.JwGradeDetail;
 import com.swuos.ALLFragment.swujw.net.interfacelmpl.JwJudgement;
 import com.swuos.ALLFragment.swujw.net.interfacelmpl.JwSchedule;
+import com.swuos.ALLFragment.swujw.net.interfacelmpl.LoginIds;
 import com.swuos.ALLFragment.swujw.net.interfacelmpl.LoginIswu;
 import com.swuos.ALLFragment.swujw.net.interfacelmpl.LoginJw;
 import com.swuos.swuassistant.Constant;
@@ -37,6 +38,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class SwuJwApi {
 
     private static LoginIswu loginIswu;
+    private static LoginIds sLoginIds;
+
     private static LoginJw loginJw;
     private static JwSchedule jwSchedule;
     private static JwGrade jwGrade;
@@ -106,6 +109,32 @@ public class SwuJwApi {
         return loginIswu;
     }
 
+    public static LoginIds loginIds() {
+        if (sLoginIds == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://ids1.swu.edu.cn:81")
+                    .client(okHttpClient)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .addConverterFactory(gsonConverterFactory)
+                    .build();
+            sLoginIds = retrofit.create(LoginIds.class);
+        }
+        return sLoginIds;
+    }
+
+    public static LoginJw loginJw() {
+
+        if (loginJw == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://i.swu.edu.cn/")
+                    .client(okHttpClient)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .addConverterFactory(scalarsConverterFactory)
+                    .build();
+            loginJw = retrofit.create(LoginJw.class);
+        }
+        return loginJw;
+    }
     public static LoginJw loginJw(String cookies) {
         List<Cookie> cookies1 = new ArrayList<>();
         Cookie cookie = Cookie.parse(HttpUrl.parse("http://jw.swu.edu.cn"), cookies);

@@ -107,7 +107,7 @@ public class ScheduleFragment extends BaseFragment implements IScheduleView, Swi
         /*设置预加载页面数*/
         sceduleViewPager.setOffscreenPageLimit(1);
         /*第一次打开展示当前周的课表*/
-        sceduleViewPager.setCurrentItem(CurrentWeek.getweek());
+        sceduleViewPager.setCurrentItem(CurrentWeek.getweek(), true);
         sceduleViewPager.setOnTouchListener(new View.OnTouchListener() {
             /*避免scrollow没在顶部就允许下拉刷新*/
             @Override

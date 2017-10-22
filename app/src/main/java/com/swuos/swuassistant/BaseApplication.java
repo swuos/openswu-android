@@ -28,6 +28,7 @@ public class BaseApplication extends SkinBaseApplication {
         FIR.init(this);
         SkinConfig.setCanChangeStatusColor(true);
         SkinConfig.addSupportAttr("navigationViewMenu", new NavigationViewAttr());
+
         SkinConfig.addSupportAttr("CollapsingToolbarLayoutcontent",new CollapsingToolbarViewAttr());
     }
 

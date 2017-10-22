@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.swuos.ALLFragment.swujw.TotalInfos;
 import com.swuos.ALLFragment.swujw.net.api.SwuJwApi;
 import com.swuos.ALLFragment.swujw.net.jsona.LoginJson;
+import com.swuos.ALLFragment.swujw.net.util.RSAUtil;
 import com.swuos.ALLFragment.swujw.schedule.model.Schedule;
 import com.swuos.ALLFragment.swujw.schedule.model.ScheduleDatas;
 import com.swuos.ALLFragment.swujw.schedule.view.IScheduleView;
@@ -131,8 +132,7 @@ public class SchedulePresenterCompl implements ISchedulePresenter {
                     public Observable<?> call(Throwable throwable) {
                         if (throwable.getMessage().contains("登录超时")) {
                             String swuLoginjsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\",\"businessServiceName\":\"uaaplogin\"}", username, password);
-                            String toBase64 = Base64.encodeToString(swuLoginjsons.getBytes(), Base64.DEFAULT);
-                            return SwuJwApi.loginIswu().login(toBase64).flatMap(new Func1<LoginJson, Observable<?>>() {
+                            return SwuJwApi.loginIswu().login(RSAUtil.encrypt(swuLoginjsons)).flatMap(new Func1<LoginJson, Observable<?>>() {
                                 @Override
                                 public Observable<?> call(LoginJson loginJson) {
                                     String tgt = loginJson.getData().getGetUserInfoByUserNameResponse().getReturnX().getInfo().getAttributes().getTgt();

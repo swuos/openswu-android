@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.ArrayMap;
@@ -40,13 +41,13 @@ import com.swuos.util.SALog;
 import solid.ren.skinlibrary.loader.SkinManager;
 
 
-public class MainActivity extends BaseActivity implements IMainview, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class MainActivity extends BaseActivity implements IMainview, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private final String STATE_SAVE_IS_SHOW = "STATE_SAVE_IS_SHOW";
-    TextView nameTextView;
-    TextView swuIDTextView;
-    IMainPresenterCompl iMainPresenter;
-    View headerView;
-    NavigationView navigationView;
+    private TextView nameTextView;
+    private TextView swuIDTextView;
+    private IMainPresenterCompl iMainPresenter;
+    private View headerView;
+    private NavigationView navigationView;
     private TotalInfos totalInfo = TotalInfos.getInstance();
     private int fragmentPosition = R.id.nav_wifi;
     private FragmentControl fragmentControl;
@@ -54,6 +55,7 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
     private ArrayMap arrayMap = new ArrayMap();
     private Toolbar toolbar;
     private DrawerLayout drawer;
+    private BottomNavigationView mBottomNavigationView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -144,6 +146,7 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
         /*侧边栏显示姓名学号*/
         nameTextView = (TextView) headerView.findViewById(R.id.name);
         swuIDTextView = (TextView) headerView.findViewById(R.id.swuid);
+
         setNavigationViewHeader(totalInfo);
     }
 
@@ -332,10 +335,6 @@ public class MainActivity extends BaseActivity implements IMainview, NavigationV
             super.onBackPressed();
 
         }
-    }
-
-    public Toolbar getToolbar() {
-        return toolbar;
     }
 
 

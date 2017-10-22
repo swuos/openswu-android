@@ -68,5 +68,10 @@
 
     <string name="schedule_transition">schedule_transition</string>
     <string name="judgement_message">使用须知: 默认每个课程的评价结果除了最后一项为B,其他项都为A. \n点击保存后,你需要通过网页端教务系统来进行修改或提交操作\n也可以点击保存来重置提交状态.</string>
+    <string name="schedule_table">课程表</string>
+    <string name="library">图书馆</string>
+    <string name="one_card_all">一卡通</string>
+    <string name="grades">成绩</string>
+    <string name="charge">水电费</string>
 
 </resources>

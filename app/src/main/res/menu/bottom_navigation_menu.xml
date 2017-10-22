@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_grades"
+        android:icon="@drawable/ic_grades_chart"
+        android:title="@string/grades"/>
+    <item
+        android:id="@+id/nav_wifi"
+        android:icon="@drawable/ic_wifi"
+        android:title="@string/wifi"
+        />
+    <item
+        android:id="@+id/nav_schedule"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/schedule_table"/>
+    <!--<item-->
+    <!--android:id="@+id/nav_library"-->
+    <!--android:icon="@drawable/ic_32_science_book_study"-->
+    <!--android:title="@string/library"/>-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/nav_ecard"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_card"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="@string/one_card_all"/>&ndash;&gt;-->
+    <!--<item-->
+    <!--android:id="@+id/nav_charge"-->
+    <!--android:icon="@drawable/ic_wallet"-->
+    <!--android:title="@string/charge"/>-->
+</menu>
