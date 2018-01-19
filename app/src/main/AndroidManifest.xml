@@ -1,95 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.swuos.swuassistant"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.swuos.mobile">
 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:name=".BaseApplication"
+        android:name=".app.App"
         android:allowBackup="true"
-        android:icon="@mipmap/icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
-
-        <activity
-            android:name=".main.MainActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
-        <activity
-            android:name=".login.LoginActivity"
-            android:label="@string/app_name"
-            android:launchMode="standard"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".setting.SettingActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".about.AboutActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name="com.swuos.ALLFragment.card.view.ConsumeActivityImp"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
-        <activity android:name="com.swuos.ALLFragment.library.libsearchs.bookdetail.BookDetailActivity"/>
-        <activity
-            android:name="com.swuos.ALLFragment.swujw.schedule.SchedulDetialActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-
-        <activity android:name="com.swuos.ALLFragment.library.libsearchs.search.SearchActity"/>
-
-        <service android:name="com.swuos.Service.ClassAlarmService"/>
-        <service android:name="com.swuos.Service.ScheduleNotificationService"/>
-        <service android:name="com.swuos.Service.WifiNotificationService"></service>
-
-        <receiver android:name="com.swuos.widget.wifi.wifi_widgets">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="WIDGET_LOGIN"/>
-                <action android:name="WIDGET_LOGOUT"/>
-                <action android:name="WIDGET_LOGINFO"/>
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/wifi_widgets_info"/>
-        </receiver>
-
-        <receiver android:name="com.swuos.BroacastReceiver.MwifiBroadcast">
-            <intent-filter android:priority="100">
-                <action android:name="NOTIFICATION_LOGIN"/>
-                <action android:name="NOTIFICATION_LOGOUT"/>
-                <action android:name="android.net.wifi.STATE_CHANGE"/>
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
-
-            </intent-filter>
-        </receiver>
-
-        <meta-data
-            android:name="BUG_HD_SDK_GENERAL_KEY"
-            android:value="cd41ce86222f389887a06882d79a08bf"/>
-
-
-        <meta-data
-            android:name="com.swuos.ALLFragment.library.libsearchs.search.model.GlideV.CustomGllideMoudle"
-            android:value="GlideModule"/>
-
+        <activity android:name=".app.exception.ExceptionActivity"/>
     </application>
 
 </manifest>

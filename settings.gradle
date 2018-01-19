@@ -1,1 +1,1 @@
-include ':app', ':polylinechart'
+include ':polylinechart', ':app'
