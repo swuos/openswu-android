@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.swuos.mobile.app.App;
+import com.swuos.mobile.utils.LoggerKt;
 import com.swuos.mobile.utils.json.JsonUtil;
 
 import org.json.JSONException;
@@ -11,6 +12,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
+import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,6 +31,7 @@ public class HttpRequester {
     private ApiUrl apiUrl;
     private RequestBody requestBody;
     private HttpMethod method;
+    private static final String TAG = "WEB";
 
     private ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -72,10 +75,12 @@ public class HttpRequester {
                 try {
                     Response response = client.newCall(request).execute();
                     if (response == null) {
+                        LoggerKt.lgD(TAG, String.format(Locale.getDefault(), "code: %d, result: %s", apiUrl.getLogId(), "RESULT_BODY_EMPTY"));
                         postResult(listener, ErrorCode.RESULT_BODY_EMPTY, null);
                     } else {
                         if (response.isSuccessful()) {
                             String result = response.body().string();
+                            LoggerKt.lgD(TAG, String.format(Locale.getDefault(), "code: %d, result: %s", apiUrl.getLogId(), result));
                             if (dataCls == String.class) {
                                 //noinspection unchecked
                                 postResult(listener, ErrorCode.RESULT_DATA_OK, (Data) result);
@@ -85,14 +90,17 @@ public class HttpRequester {
                                 postResult(listener, ErrorCode.RESULT_DATA_OK, data);
                             }
                         } else {
+                            LoggerKt.lgD(TAG, String.format(Locale.getDefault(), "code: %d, result: %s", apiUrl.getLogId(), "RESULT_NET_ERROR"));
                             postResult(listener, ErrorCode.RESULT_NET_ERROR, null);
                         }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    LoggerKt.lgD(TAG, String.format(Locale.getDefault(), "code: %d, result: %s", apiUrl.getLogId(), "RESULT_IO_EXCEPTION"));
                     postResult(listener, ErrorCode.RESULT_IO_EXCEPTION, null);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    LoggerKt.lgD(TAG, String.format(Locale.getDefault(), "code: %d, result: %s", apiUrl.getLogId(), "RESULT_JSON_PARSE_EXCEPTION"));
                     postResult(listener, ErrorCode.RESULT_JSON_PARSE_EXCEPTION, null);
                 }
             }
