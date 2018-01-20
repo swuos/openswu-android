@@ -8,6 +8,7 @@ import com.swuos.mobile.BuildConfig;
 import com.swuos.mobile.app.exception.ExceptionCaughtAdapter;
 import com.swuos.mobile.models.StackModel;
 import com.swuos.mobile.models.cache.CacheModel;
+import com.swuos.mobile.models.http.HttpModel;
 import com.swuos.mobile.models.network.NetworkModel;
 import com.swuos.mobile.models.user.UserModel;
 import com.swuos.mobile.utils.CommonUtils;
@@ -106,6 +107,7 @@ public class App extends Application {
     }
 
     private void initModels(List<BaseModel> modelList) {
+        modelList.add(new HttpModel());             //http执行环境
         modelList.add(new StackModel());            //activity栈管理
         modelList.add(new NetworkModel());          //网络状态变化管理
         modelList.add(new UserModel());             //用户管理器

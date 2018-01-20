@@ -1,9 +1,9 @@
 package com.swuos.mobile.api;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.swuos.mobile.app.App;
+import com.swuos.mobile.models.http.HttpModel;
 import com.swuos.mobile.utils.LoggerKt;
 import com.swuos.mobile.utils.json.JsonUtil;
 
@@ -13,9 +13,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.util.Locale;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -32,8 +29,7 @@ public class HttpRequester {
     private RequestBody requestBody;
     private HttpMethod method;
     private static final String TAG = "WEB";
-
-    private ExecutorService executorService = Executors.newCachedThreadPool();
+    private HttpModel httpModel = App.getInstance().getModel(HttpModel.class);
 
     public ApiUrl getApiUrl() {
         return apiUrl;
@@ -60,7 +56,7 @@ public class HttpRequester {
     }
 
     public <Data> void execute(@NonNull final OnHttpResultListener<Data> listener) {
-        executorService.execute(new Runnable() {
+        httpModel.getExecutor().execute(new Runnable() {
             @Override
             public void run() {
                 @SuppressWarnings("unchecked")
@@ -108,7 +104,7 @@ public class HttpRequester {
     }
 
     private <Data> void postResult(@NonNull final OnHttpResultListener<Data> listener, final int code, final Data data) {
-        App.getHandler().post(new Runnable() {
+        httpModel.getHandler().post(new Runnable() {
             @Override
             public void run() {
                 listener.onResult(code, data);
