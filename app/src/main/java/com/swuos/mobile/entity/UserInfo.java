@@ -10,7 +10,7 @@ import com.swuos.mobile.utils.json.JsonField;
  * Created by wangyu on 2018/1/20.
  */
 
-public class UserInfo implements Parcelable {
+public class UserInfo implements Parcelable, Cloneable {
     @JsonField("")
     private String studentId;
     @JsonField("")
@@ -62,4 +62,14 @@ public class UserInfo implements Parcelable {
             return new UserInfo[size];
         }
     };
+
+    @Override
+    public UserInfo clone() {
+        try {
+            return (UserInfo) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
