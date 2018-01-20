@@ -40,7 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TAG = this.getClass().getName();
+        TAG = this.getClass().getSimpleName();
         stackModel = App.getInstance().getModel(StackModel.class);
         stackModel.registerActivity(this);
         mIsDestroy = false;

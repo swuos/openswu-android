@@ -2,7 +2,7 @@ package com.swuos.mobile.models;
 
 import android.app.Application;
 
-import com.swuos.mobile.MainActivity;
+import com.swuos.mobile.ui.MainActivity;
 import com.swuos.mobile.app.BaseActivity;
 import com.swuos.mobile.app.BaseModel;
 import com.swuos.mobile.utils.LoggerKt;

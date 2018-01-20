@@ -17,10 +17,12 @@ import com.swuos.mobile.utils.injector.ModelInjector;
 public abstract class BaseFragment extends Fragment {
     private boolean isDestroy = false;
     private long mInsertDt = System.currentTimeMillis();
+    protected String TAG;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TAG = this.getClass().getSimpleName();
         isDestroy = false;
         ModelInjector.injectModel(this);
     }
