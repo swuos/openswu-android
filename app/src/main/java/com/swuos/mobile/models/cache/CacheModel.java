@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import com.swuos.mobile.app.App;
 import com.swuos.mobile.app.BaseModel;
 import com.swuos.mobile.entity.UserInfo;
+import com.swuos.mobile.entity.UserWifiInfo;
+import com.swuos.mobile.models.user.OnUserStateChangeListener;
+import com.swuos.mobile.models.user.SimpleUserStateChangeListener;
 import com.swuos.mobile.models.user.UserModel;
 import com.swuos.mobile.utils.injector.Model;
 import com.swuos.mobile.utils.json.JsonUtil;
@@ -38,16 +41,30 @@ public class CacheModel extends BaseModel {
     @Override
     public void onModelCreate(Application application) {
         super.onModelCreate(application);
-        initCache();//todo 需要实现监听登录后的通知逻辑
+        userModel.addOnUserStateChangeListener(new SimpleUserStateChangeListener() {
+            @Override
+            public void onLogin(UserInfo userInfo) {
+                initCache();
+            }
+
+            @Override
+            public void onLogout(UserInfo userInfo) {
+                initCache();
+            }
+        });
     }
 
     private void initCache() {
-        UserInfo userInfo = userModel.getUserInfo();
         String userId;
-        if (userInfo == null) {
+        if (userModel.isNeedLogin()) {
             userId = GUEST_ID;
         } else {
-            userId = userInfo.getStudentId();
+            UserInfo userInfo = userModel.getUserInfo();
+            if (userInfo == null) {
+                userId = GUEST_ID;
+            } else {
+                userId = userInfo.getStudentId();
+            }
         }
         String cacheKey = CACHE_NAME + userId;
         sp = App.getInstance().getSharedPreferences(cacheKey, Context.MODE_PRIVATE);
