@@ -129,9 +129,14 @@ public class App extends Application {
      */
     @SuppressWarnings("unchecked")
     public <Model extends BaseModel> Model getModel(Class<Model> model) {
-        Model result = (Model) modelsMap.get(model.getName());
+        return getModel(model.getName());
+    }
+
+    @SuppressWarnings("unchecked")
+    public <Model extends BaseModel> Model getModel(String modelName) {
+        Model result = (Model) modelsMap.get(modelName);
         if (result == null) {
-            throw new NullPointerException("无法获取到已注册的" + model.getName() + "，请确保目标Model为后台常驻Model类型");
+            throw new NullPointerException("无法获取到已注册的" + modelName + "，请确保目标Model为后台常驻Model类型");
         }
         return result;
     }
