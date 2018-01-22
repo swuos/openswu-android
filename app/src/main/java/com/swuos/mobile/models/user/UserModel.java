@@ -16,6 +16,7 @@ import com.swuos.mobile.app.BaseModel;
 import com.swuos.mobile.entity.AccountInfo;
 import com.swuos.mobile.entity.UserInfo;
 import com.swuos.mobile.models.cache.CacheKey;
+import com.swuos.mobile.utils.encode.RSAUtil;
 import com.swuos.mobile.utils.json.JsonUtil;
 
 import org.json.JSONException;
@@ -63,25 +64,26 @@ public class UserModel extends BaseModel {
         }
     }
 
-    public void login(AccountInfo accountInfo, @NonNull OnResultListener<UserInfo> listener) {
+    public void login(AccountInfo accountInfo, @NonNull final OnResultListener<UserInfo> listener) {
+        String swuLoginJsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\",\"businessServiceName\":\"uaaplogin\"}", accountInfo.getUserName(), accountInfo.getUserPwd());
         RequestBody body = new FormBody.Builder()
-                .add("userName", accountInfo.getUserName())
-                .add("userPwd", accountInfo.getUserPwd())
+                .add("serviceInfo", RSAUtil.encrypt(swuLoginJsons))
                 .build();
         HttpRequester httpRequester = new HttpRequester.Builder(ApiUrl.LOGIN_URL)
                 .body(body)
                 .method(HttpMethod.POST)
                 .build();
         httpRequester.execute(new OnHttpResultListener<UserInfo>() {
-                    @Override
-                    public void onResult(int code, UserInfo userInfo) {
-                        // TODO: 2018/1/20
-                    }
-                });
+            @Override
+            public void onResult(int code, UserInfo userInfo) {
+                listener.onResult(code, userInfo);
+            }
+        });
     }
 
     @Nullable
     public UserInfo getUserInfo() {
+        if (mUserInfo == null) return null;
         return mUserInfo.clone();
     }
 }
