@@ -3,7 +3,6 @@ package com.swuos.mobile.models.user;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.swuos.mobile.api.ApiUrl;
@@ -14,7 +13,6 @@ import com.swuos.mobile.api.OnResultListener;
 import com.swuos.mobile.app.BaseModel;
 import com.swuos.mobile.entity.AccountInfo;
 import com.swuos.mobile.entity.UserInfo;
-import com.swuos.mobile.models.cache.CacheKey;
 import com.swuos.mobile.utils.encode.RSAUtil;
 import com.swuos.mobile.utils.json.JsonUtil;
 
@@ -101,7 +99,7 @@ public class UserModel extends BaseModel {
     @Nullable
     private UserInfo readUserInfo() {
         UserInfo userInfo;
-        String userInfoString = sp.getString(CacheKey.CURRENT_USER.getKey(), "");
+        String userInfoString = sp.getString(UserCacheKey.CURRENT_USER.getKey(), "");
         try {
             JSONObject jsonObject = new JSONObject(userInfoString);
             userInfo = JsonUtil.toObject(jsonObject, UserInfo.class);
@@ -113,13 +111,13 @@ public class UserModel extends BaseModel {
     }
 
     public void saveUserInfo(UserInfo userInfo) {
-        spEditor.putString(CacheKey.CURRENT_USER.getKey(), JsonUtil.toJSONObject(userInfo).toString()).apply();
+        spEditor.putString(UserCacheKey.CURRENT_USER.getKey(), JsonUtil.toJSONObject(userInfo).toString()).apply();
     }
 
     @Nullable
     private AccountInfo readAccountInfo() {
         AccountInfo accountInfo;
-        String accountString = sp.getString(CacheKey.LAST_ACCOUNT.getKey(), "");
+        String accountString = sp.getString(UserCacheKey.LAST_ACCOUNT.getKey(), "");
         try {
             JSONObject jsonObject = new JSONObject(accountString);
             accountInfo = JsonUtil.toObject(jsonObject, AccountInfo.class);
@@ -131,7 +129,7 @@ public class UserModel extends BaseModel {
     }
 
     private void saveAccountInfo(AccountInfo accountInfo) {
-        spEditor.putString(CacheKey.LAST_ACCOUNT.getKey(), JsonUtil.toJSONObject(accountInfo).toString()).apply();
+        spEditor.putString(UserCacheKey.LAST_ACCOUNT.getKey(), JsonUtil.toJSONObject(accountInfo).toString()).apply();
     }
 
     /**
