@@ -33,11 +33,13 @@ import okhttp3.RequestBody;
 public class UserModel extends BaseModel {
 
     private static final String USER_CACHE_NAME = "user_info";
+    private static final String GUEST_ID = "1001";//为bugly统计配置，逻辑上不存在访客
     private SharedPreferences sp;
     private SharedPreferences.Editor spEditor;
 
     private UserInfo mUserInfo;
     private boolean isNeedLogin = false;
+    private BuglyProxy buglyProxy;
 
     private List<OnUserStateChangeListener> onUserStateChangeListenerList = new ArrayList<>();
 
@@ -48,6 +50,7 @@ public class UserModel extends BaseModel {
         spEditor = sp.edit();
         spEditor.apply();
         initUserInfo();
+        buglyProxy = new BuglyProxy(this);
     }
 
     @Override
@@ -146,6 +149,14 @@ public class UserModel extends BaseModel {
         return mUserInfo.clone();
     }
 
+    public String getUserId() {
+        if (getUserInfo() == null) {
+            return GUEST_ID;
+        } else {
+            return getUserInfo().getStudentId();
+        }
+    }
+
     /**
      * 注册用户状态变化监听事件
      * @param listener  回调
@@ -180,21 +191,4 @@ public class UserModel extends BaseModel {
         }
     }
 
-    /**
-     * wifi登录
-     */
-    private void notifyUserWifiLogin() {
-        for (OnUserStateChangeListener listener : onUserStateChangeListenerList) {
-            listener.onWifiLogin(null);
-        }
-    }
-
-    /**
-     * wifi登出
-     */
-    private void notifyUserWifiLogout() {
-        for (OnUserStateChangeListener listener : onUserStateChangeListenerList) {
-            listener.onWifiLogout(null);
-        }
-    }
 }

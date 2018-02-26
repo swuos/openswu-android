@@ -14,6 +14,7 @@ import com.swuos.mobile.models.user.UserModel;
 import com.swuos.mobile.utils.CommonUtils;
 import com.swuos.mobile.utils.LoggerKt;
 import com.swuos.mobile.utils.injector.ModelInjector;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,9 +78,18 @@ public class App extends Application {
 
     private void initExceptionCatcher() {
         if (isDebug) {
+            //debug版本   启用崩溃日志捕获
             Thread.UncaughtExceptionHandler handler = Thread.getDefaultUncaughtExceptionHandler();
             ExceptionCaughtAdapter exceptionCaughtAdapter = new ExceptionCaughtAdapter(handler);
             Thread.setDefaultUncaughtExceptionHandler(exceptionCaughtAdapter);
+        } else {
+            try {
+                // 正式版本  启用崩溃提交
+                // TODO: 2018/2/26 appId未配置
+                CrashReport.initCrashReport(this, "", false);
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
         }
     }
 

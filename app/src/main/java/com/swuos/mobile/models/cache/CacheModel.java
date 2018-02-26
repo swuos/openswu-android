@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 import com.swuos.mobile.app.App;
 import com.swuos.mobile.app.BaseModel;
 import com.swuos.mobile.entity.UserInfo;
-import com.swuos.mobile.entity.UserWifiInfo;
-import com.swuos.mobile.models.user.OnUserStateChangeListener;
 import com.swuos.mobile.models.user.SimpleUserStateChangeListener;
 import com.swuos.mobile.models.user.UserModel;
 import com.swuos.mobile.utils.injector.Model;

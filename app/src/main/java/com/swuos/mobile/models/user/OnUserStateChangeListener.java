@@ -1,7 +1,6 @@
 package com.swuos.mobile.models.user;
 
 import com.swuos.mobile.entity.UserInfo;
-import com.swuos.mobile.entity.UserWifiInfo;
 
 /**
  * 用户状态变化
@@ -22,14 +21,4 @@ public interface OnUserStateChangeListener {
      * @param userInfo
      */
     void onLogout(UserInfo userInfo);
-
-    /**
-     * WiFi登录
-     */
-    void onWifiLogin(UserWifiInfo wifiInfo);
-
-    /**
-     * WiFi登出
-     */
-    void onWifiLogout(UserWifiInfo wifiInfo);
 }

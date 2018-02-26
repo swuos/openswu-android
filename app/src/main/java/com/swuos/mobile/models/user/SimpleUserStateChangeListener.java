@@ -1,7 +1,6 @@
 package com.swuos.mobile.models.user;
 
 import com.swuos.mobile.entity.UserInfo;
-import com.swuos.mobile.entity.UserWifiInfo;
 
 /**
  * SimpleUserStateChangeListener
