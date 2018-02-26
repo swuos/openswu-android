@@ -10,10 +10,14 @@ import com.swuos.mobile.api.HttpMethod;
 import com.swuos.mobile.api.HttpRequester;
 import com.swuos.mobile.api.OnHttpResultListener;
 import com.swuos.mobile.api.OnResultListener;
+import com.swuos.mobile.app.App;
 import com.swuos.mobile.app.BaseModel;
 import com.swuos.mobile.entity.AccountInfo;
 import com.swuos.mobile.entity.UserInfo;
+import com.swuos.mobile.models.StackModel;
+import com.swuos.mobile.models.cache.CacheModel;
 import com.swuos.mobile.utils.encode.RSAUtil;
+import com.swuos.mobile.utils.injector.Model;
 import com.swuos.mobile.utils.json.JsonUtil;
 
 import org.json.JSONException;

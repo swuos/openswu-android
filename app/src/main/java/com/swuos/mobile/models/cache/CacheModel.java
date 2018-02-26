@@ -71,7 +71,7 @@ public class CacheModel extends BaseModel {
     }
 
     /**
-     * 将lis的数据放入缓存中
+     * 将list的数据放入缓存中
      *
      * @param key  缓存的KEY
      * @param list 需要缓存的数据

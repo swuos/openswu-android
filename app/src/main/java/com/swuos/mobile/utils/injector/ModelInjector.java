@@ -32,7 +32,7 @@ public class ModelInjector {
 
                     Class<?> type = field.getType();
                     if (!BaseModel.class.isAssignableFrom(type)) {
-                        throw new RuntimeException("@Model 只能在BaseJModel子类中使用");
+                        throw new RuntimeException("@Model 只能在BaseModel子类中使用");
                     }
 
                     @SuppressWarnings("unchecked")

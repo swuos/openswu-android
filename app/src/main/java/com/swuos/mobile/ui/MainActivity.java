@@ -1,6 +1,7 @@
 package com.swuos.mobile.ui;
 
 import android.os.Bundle;
+import android.widget.RelativeLayout;
 
 import com.swuos.mobile.R;
 import com.swuos.mobile.api.OnResultListener;
