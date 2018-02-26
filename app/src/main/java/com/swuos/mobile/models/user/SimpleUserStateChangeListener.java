@@ -17,14 +17,4 @@ public class SimpleUserStateChangeListener implements OnUserStateChangeListener 
     public void onLogout(UserInfo userInfo) {
 
     }
-
-    @Override
-    public void onWifiLogin(UserWifiInfo wifiInfo) {
-
-    }
-
-    @Override
-    public void onWifiLogout(UserWifiInfo wifiInfo) {
-
-    }
 }
