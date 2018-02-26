@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import com.swuos.mobile.app.App;
 import com.swuos.mobile.app.BaseModel;
 import com.swuos.mobile.entity.UserInfo;
-import com.swuos.mobile.models.user.SimpleUserStateChangeListener;
+import com.swuos.mobile.models.user.OnUserStateChangeListener;
 import com.swuos.mobile.models.user.UserModel;
 import com.swuos.mobile.utils.injector.Model;
 import com.swuos.mobile.utils.json.JsonUtil;
@@ -34,12 +34,12 @@ public class CacheModel extends BaseModel {
     @Model
     private UserModel userModel;
 
-    private static final String GUEST_ID = "-1";//未登录时使用访客缓存，主要避免空指针问题。业务逻辑上并没有访客
+    private static final String GUEST_ID = "1001";//未登录时使用访客缓存，主要避免空指针问题。业务逻辑上并没有访客
 
     @Override
     public void onModelCreate(Application application) {
         super.onModelCreate(application);
-        userModel.addOnUserStateChangeListener(new SimpleUserStateChangeListener() {
+        userModel.addOnUserStateChangeListener(new OnUserStateChangeListener() {
             @Override
             public void onLogin(UserInfo userInfo) {
                 initCache();
