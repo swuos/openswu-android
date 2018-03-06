@@ -6,5 +6,5 @@ package com.swuos.mobile.api;
  */
 
 public interface OnResultListener<T> extends ErrorCode {
-    void onResult(int code, T t);
+    void onResult(int code, T t, String msg);
 }

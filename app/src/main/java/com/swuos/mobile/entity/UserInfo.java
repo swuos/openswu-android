@@ -15,6 +15,7 @@ public class UserInfo implements Parcelable, Cloneable {
     private String studentId;
     @JsonField("")
     private String studentName;
+    private String token;
 
     public String getStudentId() {
         return studentId;
@@ -32,36 +33,13 @@ public class UserInfo implements Parcelable, Cloneable {
         this.studentName = studentName;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getToken() {
+        return token;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.studentId);
-        dest.writeString(this.studentName);
+    public void setToken(String token) {
+        this.token = token;
     }
-
-    public UserInfo() {
-    }
-
-    protected UserInfo(Parcel in) {
-        this.studentId = in.readString();
-        this.studentName = in.readString();
-    }
-
-    public static final Parcelable.Creator<UserInfo> CREATOR = new Parcelable.Creator<UserInfo>() {
-        @Override
-        public UserInfo createFromParcel(Parcel source) {
-            return new UserInfo(source);
-        }
-
-        @Override
-        public UserInfo[] newArray(int size) {
-            return new UserInfo[size];
-        }
-    };
 
     @Override
     public UserInfo clone() {
@@ -72,4 +50,37 @@ public class UserInfo implements Parcelable, Cloneable {
             return null;
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.studentId);
+        dest.writeString(this.studentName);
+        dest.writeString(this.token);
+    }
+
+    public UserInfo() {
+    }
+
+    protected UserInfo(Parcel in) {
+        this.studentId = in.readString();
+        this.studentName = in.readString();
+        this.token = in.readString();
+    }
+
+    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
+        @Override
+        public UserInfo createFromParcel(Parcel source) {
+            return new UserInfo(source);
+        }
+
+        @Override
+        public UserInfo[] newArray(int size) {
+            return new UserInfo[size];
+        }
+    };
 }

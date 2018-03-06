@@ -6,7 +6,7 @@ package com.swuos.mobile.api;
  */
 
 public interface ErrorCode {
-    int RESULT_DATA_OK = 0;//请求成功
+    int RESULT_DATA_OK = 200;//请求成功
     int RESULT_NET_ERROR = -1;//网络错误
     int RESULT_JSON_PARSE_EXCEPTION = -2;//json解析错误
     int RESULT_IO_EXCEPTION = -3;//io异常

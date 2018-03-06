@@ -26,7 +26,7 @@ public class MainActivity extends BaseActivity {
         accountInfo.setUserPwd("iforgetit123");
         userModel.login(accountInfo, new OnResultListener<UserInfo>() {
             @Override
-            public void onResult(int code, UserInfo userInfo) {
+            public void onResult(int code, UserInfo userInfo, String msg) {
                 dismissProgressDialog();
             }
         });

@@ -6,6 +6,6 @@ package com.swuos.mobile.api
  */
 enum class ApiUrl(val url: String, val logId: Int) {
     TEST_URL("http://www.baidu.com", 100),
-    LOGIN_URL("http://i.swu.edu.cn/remote/service/process", 101),
+    LOGIN_URL("http://{server_url}/token", 101),
     LOGOUT_URL("www.baidu.com", 102)
 }

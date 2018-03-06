@@ -5,19 +5,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 
-import com.swuos.mobile.api.ApiUrl;
-import com.swuos.mobile.api.HttpMethod;
-import com.swuos.mobile.api.HttpRequester;
-import com.swuos.mobile.api.OnHttpResultListener;
+import com.swuos.mobile.api.ErrorCode;
 import com.swuos.mobile.api.OnResultListener;
-import com.swuos.mobile.app.App;
 import com.swuos.mobile.app.BaseModel;
 import com.swuos.mobile.entity.AccountInfo;
 import com.swuos.mobile.entity.UserInfo;
-import com.swuos.mobile.models.StackModel;
-import com.swuos.mobile.models.cache.CacheModel;
-import com.swuos.mobile.utils.encode.RSAUtil;
-import com.swuos.mobile.utils.injector.Model;
 import com.swuos.mobile.utils.json.JsonUtil;
 
 import org.json.JSONException;
@@ -25,9 +17,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.FormBody;
-import okhttp3.RequestBody;
 
 /**
  * 用户管理器
@@ -71,28 +60,17 @@ public class UserModel extends BaseModel {
     }
 
     public void login(final AccountInfo accountInfo, @Nullable final OnResultListener<UserInfo> listener) {
-        String swuLoginJsons = String.format("{\"serviceAddress\":\"https://uaaap.swu.edu.cn/cas/ws/acpInfoManagerWS\",\"serviceType\":\"soap\",\"serviceSource\":\"td\",\"paramDataFormat\":\"xml\",\"httpMethod\":\"POST\",\"soapInterface\":\"getUserInfoByUserName\",\"params\":{\"userName\":\"%s\",\"passwd\":\"%s\",\"clientId\":\"yzsfwmh\",\"clientSecret\":\"1qazz@WSX3edc$RFV\",\"url\":\"http://i.swu.edu.cn\"},\"cDataPath\":[],\"namespace\":\"\",\"xml_json\":\"\",\"businessServiceName\":\"uaaplogin\"}", accountInfo.getUserName(), accountInfo.getUserPwd());
-        RequestBody body = new FormBody.Builder()
-                .add("serviceInfo", RSAUtil.encrypt(swuLoginJsons))
-                .build();
-        HttpRequester httpRequester = new HttpRequester.Builder(ApiUrl.LOGIN_URL)
-                .body(body)
-                .method(HttpMethod.POST)
-                .build();
-        httpRequester.execute(new OnHttpResultListener<UserInfo>() {
-            @Override
-            public void onResult(int code, UserInfo userInfo) {
-                if (code == RESULT_DATA_OK) {
-                    saveAccountInfo(accountInfo);
-                    mUserInfo = userInfo;
-                    saveUserInfo(userInfo);
-                    if (listener != null) listener.onResult(RESULT_DATA_OK, userInfo);
-                    notifyUserLogin();
-                } else {
-                    if (listener != null) listener.onResult(code, null);
-                }
+        LoginRequester loginRequester = new LoginRequester(accountInfo, (code, userInfo, msg) -> {
+            if (code == ErrorCode.RESULT_DATA_OK) {
+                saveAccountInfo(accountInfo);
+                saveUserInfo(userInfo);
+                if (listener != null) listener.onResult(ErrorCode.RESULT_DATA_OK, userInfo, msg);
+                notifyUserLogin();
+            } else {
+                if (listener != null) listener.onResult(code, null, msg);
             }
         });
+        loginRequester.execute();
     }
 
     public void loginQuiet() {
@@ -118,6 +96,7 @@ public class UserModel extends BaseModel {
     }
 
     public void saveUserInfo(UserInfo userInfo) {
+        mUserInfo = userInfo.clone();
         spEditor.putString(UserCacheKey.CURRENT_USER.getKey(), JsonUtil.toJSONObject(userInfo).toString()).apply();
     }
 
