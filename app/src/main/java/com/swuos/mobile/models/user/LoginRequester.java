@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import okhttp3.FormBody;
 
 /**
- *
+ * 登录请求
  * Created by wangyu on 2018/3/6.
  */
 
@@ -30,6 +30,7 @@ public class LoginRequester extends HttpRequester<UserInfo> {
 
     @Override
     protected UserInfo onDumpData(JSONObject jsonObject) throws JSONException {
+        //手动组装userInfo
         UserInfo userInfo = new UserInfo();
         userInfo.setStudentId(accountInfo.getUserName());
         userInfo.setStudentName(accountInfo.getUserName());
@@ -50,7 +51,7 @@ public class LoginRequester extends HttpRequester<UserInfo> {
     }
 
     @Override
-    protected String appendUrl(String url) {
+    protected String appendUrl(String url) {//重写此方法拼接用户名密码
         url = url + "/" + accountInfo.getUserName() + "/" + accountInfo.getUserPwd();
         return url;
     }
@@ -58,6 +59,6 @@ public class LoginRequester extends HttpRequester<UserInfo> {
     @NonNull
     @Override
     protected FormBody.Builder onPutParams(FormBody.Builder builder) {
-        return builder;
+        return builder;//get请求直接返回builder
     }
 }
