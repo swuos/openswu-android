@@ -75,19 +75,19 @@ public abstract class BaseRequester {
             try {
                 Response response = client.newCall(request).execute();
                 if (response == null) {
-                    httpResultParser.onResult(ErrorCode.RESULT_BODY_EMPTY, null, "");
+                    httpModel.getHandler().post(() -> httpResultParser.onResult(ErrorCode.RESULT_BODY_EMPTY, null, ""));
                 } else {
                     if (response.isSuccessful()) {
                         ResponseBody body = response.body();
                         String result = body != null ? body.string() : "";
-                        httpResultParser.onResult(response.code(), result, "");
+                        httpModel.getHandler().post(() -> httpResultParser.onResult(response.code(), result, ""));
                     } else {
-                        httpResultParser.onResult(ErrorCode.RESULT_NET_ERROR, "", "");
+                        httpModel.getHandler().post(() -> httpResultParser.onResult(ErrorCode.RESULT_NET_ERROR, "", ""));
                     }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                httpResultParser.onError(e);
+                httpModel.getHandler().post(() -> httpResultParser.onError(e));
             }
         });
     }
