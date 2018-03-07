@@ -1,0 +1,20 @@
+<resources>
+
+    <style name="Translucent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowBackground">@color/translucent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppTheme" parent="BaseTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="mainActivityTheme" parent="AppTheme">
+        <item name="android:statusBarColor">@color/translucent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+</resources>

@@ -10,4 +10,15 @@
             <enum name="circle" value="2"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="TabItemView">
+        <attr name="itemImage" format="reference"/>
+        <attr name="itemImageSelected" format="reference"/>
+
+        <attr name="itemText" format="string"/>
+        <attr name="itemTextColor" format="color"/>
+        <attr name="itemTextColorSelected" format="color"/>
+
+        <attr name="isItemSelected" format="boolean"/>
+    </declare-styleable>
 </resources>

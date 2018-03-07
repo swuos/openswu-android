@@ -1,14 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.swuos.mobile.ui.MainActivity">
+    android:background="@color/appBackground"
+    android:clipChildren="false"
+    android:orientation="vertical"
+    tools:context=".ui.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@color/white"/>
 
-</RelativeLayout>
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/lineSize"
+        android:background="@color/lineColor" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.swuos.mobile.view.TabItemView
+            android:id="@+id/tab_course_table"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:itemImage="@mipmap/tabbar_icn_nolsy"
+            app:itemImageSelected="@mipmap/tabbar_icn_selsy"
+            app:itemText="@string/main_bottom_course_table"
+            app:itemTextColor="@color/textGray"
+            app:itemTextColorSelected="@color/colorPrimary" />
+
+        <com.swuos.mobile.view.TabItemView
+            android:id="@+id/tab_score"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:itemImage="@mipmap/tabbar_icn_nolsy"
+            app:itemImageSelected="@mipmap/tabbar_icn_selsy"
+            app:itemText="@string/main_bottom_score"
+            app:itemTextColor="@color/textGray"
+            app:itemTextColorSelected="@color/colorPrimary" />
+
+        <com.swuos.mobile.view.TabItemView
+            android:id="@+id/tab_mine"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:itemImage="@mipmap/tabbar_icn_nolsy"
+            app:itemImageSelected="@mipmap/tabbar_icn_selsy"
+            app:itemText="@string/main_bottom_mine"
+            app:itemTextColor="@color/textGray"
+            app:itemTextColorSelected="@color/colorPrimary" />
+    </LinearLayout>
+</LinearLayout>
