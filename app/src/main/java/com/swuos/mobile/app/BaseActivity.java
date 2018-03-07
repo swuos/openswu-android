@@ -15,6 +15,7 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.swuos.mobile.models.StackModel;
@@ -41,6 +42,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TextView textView = new TextView(this);
+        textView.setText(this.getClass().getSimpleName());
+        setContentView(textView);
         TAG = this.getClass().getSimpleName();
         stackModel = App.getInstance().getModel(StackModel.class);
         stackModel.registerActivity(this);

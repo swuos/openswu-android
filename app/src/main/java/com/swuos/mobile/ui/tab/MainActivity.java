@@ -1,4 +1,4 @@
-package com.swuos.mobile.ui;
+package com.swuos.mobile.ui.tab;
 
 import android.os.Bundle;
 import android.support.annotation.IntRange;

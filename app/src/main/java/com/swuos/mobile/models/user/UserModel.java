@@ -155,7 +155,10 @@ public class UserModel extends BaseModel {
         return isNeedLogin;
     }
 
-    @Nullable
+    /**
+     * 用户对象可为空，要注意使用逻辑
+     * @return
+     */
     public UserInfo getUserInfo() {
         if (mUserInfo == null) return null;
         return mUserInfo.clone();

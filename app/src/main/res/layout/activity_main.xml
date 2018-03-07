@@ -7,7 +7,7 @@
     android:background="@color/appBackground"
     android:clipChildren="false"
     android:orientation="vertical"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.tab.MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
