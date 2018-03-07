@@ -59,10 +59,17 @@ public class UserModel extends BaseModel {
         isNeedLogin = mUserInfo == null;
     }
 
+    /**
+     * 登录
+     * @param accountInfo   账号信息
+     * @param listener      回调
+     */
     public void login(final AccountInfo accountInfo, @Nullable final OnResultListener<UserInfo> listener) {
+        if (!isNeedLogin) throw new RuntimeException("请勿重复调用登录");
         LoginRequester loginRequester = new LoginRequester(accountInfo, (code, userInfo, msg) -> {
             if (code == ErrorCode.RESULT_DATA_OK) {
                 saveAccountInfo(accountInfo);
+                isNeedLogin = false;
                 saveUserInfo(userInfo);
                 if (listener != null) listener.onResult(ErrorCode.RESULT_DATA_OK, userInfo, msg);
                 notifyUserLogin();
@@ -79,6 +86,24 @@ public class UserModel extends BaseModel {
             throw new IllegalArgumentException("找不到lastAccountInfo");
         }
         login(accountInfo, null);
+    }
+
+    /**
+     * 登出，目前没有接口，LogoutRequester逻辑是模拟操作
+     * @param listener   回调
+     */
+    public void logout(@Nullable OnResultListener<JSONObject> listener) {
+        if (isNeedLogin) throw new RuntimeException("请勿重复调用退出");
+        new LogoutRequester((code, jsonObject, msg) -> {
+            if (code == ErrorCode.RESULT_DATA_OK) {
+                notifyUserLogout();
+                clearUserInfo();
+                initUserInfo();
+            }
+            if (listener != null) {
+                listener.onResult(code, jsonObject, msg);
+            }
+        }).execute();
     }
 
     @Nullable
@@ -98,6 +123,10 @@ public class UserModel extends BaseModel {
     public void saveUserInfo(UserInfo userInfo) {
         mUserInfo = userInfo.clone();
         spEditor.putString(UserCacheKey.CURRENT_USER.getKey(), JsonUtil.toJSONObject(userInfo).toString()).apply();
+    }
+
+    public void clearUserInfo() {
+        spEditor.putString(UserCacheKey.CURRENT_USER.getKey(), "{}");
     }
 
     @Nullable
