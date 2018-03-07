@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity implements TabItemView.OnTabItemS
         tabs.add(tabCourseTable);
         tabs.add(tabScore);
         tabs.add(tabMine);
-        setIndexWithoutException(0);
+        getHandler().post(() -> setIndexWithoutException(0));
     }
 
     /**
