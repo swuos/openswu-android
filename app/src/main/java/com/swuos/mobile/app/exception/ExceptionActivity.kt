@@ -4,6 +4,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import com.swuos.mobile.app.App
 import com.swuos.mobile.utils.lgE
@@ -41,8 +43,13 @@ class ExceptionActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val scrollView = ScrollView(this)
+        val linearLayout = LinearLayout(this)
+        linearLayout.orientation = LinearLayout.VERTICAL
+        scrollView.addView(linearLayout)
+        setContentView(scrollView)
         mExceptionView = TextView(this)
-        setContentView(mExceptionView)
+        linearLayout.addView(mExceptionView)
         mExceptionView.setTextColor(Color.RED)
         handlerIntent(intent, false)
     }
