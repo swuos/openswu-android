@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -244,5 +245,13 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public void logD(String msg) {
         LoggerKt.lgD(getClass().getSimpleName(), msg);
+    }
+
+    /**
+     * 获取handler对象
+     * @return  app的全局handler
+     */
+    protected Handler getHandler() {
+        return App.getHandler();
     }
 }

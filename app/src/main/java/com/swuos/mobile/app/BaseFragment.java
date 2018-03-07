@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 
 import com.swuos.mobile.utils.injector.ModelInjector;
@@ -49,6 +51,18 @@ public abstract class BaseFragment extends Fragment {
         return mInsertDt;
     }
 
+    public void showToast(@StringRes int resId) {
+        if (getBaseActivity() != null) {
+            getBaseActivity().showToast(resId);
+        }
+    }
+
+    public void showToast(String toast) {
+        if (getBaseActivity() != null) {
+            getBaseActivity().showToast(toast);
+        }
+    }
+
     public void showProgressDialog() {
         showProgressDialog("");
     }
@@ -75,5 +89,13 @@ public abstract class BaseFragment extends Fragment {
      */
     public void startActivityForResult(Class<? extends Activity> cls, int requestCode) {
         startActivityForResult(new Intent(getBaseActivity(), cls), requestCode);
+    }
+
+    /**
+     * 获取handler
+     * @return  app的handler
+     */
+    protected Handler getHandler() {
+        return App.getHandler();
     }
 }
