@@ -21,4 +21,8 @@
 
         <attr name="isItemSelected" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="StatusBar">
+        <attr name="statusBackground" format="reference"/>
+        <attr name="targetVersion" format="integer"/>
+    </declare-styleable>
 </resources>

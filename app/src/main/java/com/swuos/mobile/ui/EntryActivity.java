@@ -1,5 +1,6 @@
 package com.swuos.mobile.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -22,24 +23,12 @@ public class EntryActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // TODO: 2018/3/12 启动页逻辑待确认
         if (userModel.isNeedLogin()) {
-            startLogin();
+            postStartActivity(LoginActivity.class, 2000);
         } else {
-            startMain();
+            userModel.loginQuiet();
+            postStartActivity(MainActivity.class, 2000);
         }
-    }
-
-    private void startLogin() {
-        getHandler().postDelayed(() -> {
-            startActivity(LoginActivity.class);
-            finish();
-        }, 2000);
-    }
-
-    private void startMain() {
-        getHandler().postDelayed(() -> {
-            startActivity(MainActivity.class);
-            finish();
-        }, 2000);
     }
 }

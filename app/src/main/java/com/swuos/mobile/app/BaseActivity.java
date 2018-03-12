@@ -186,10 +186,38 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void startActivity(Class<? extends Activity> cls) {
         startActivity(new Intent(this, cls));
     }
+
+    /**
+     * 延时启动页面，默认关闭当前页
+     *
+     * @param cls   需启动页面
+     * @param delay 延时
+     */
+    public void postStartActivity(Class<? extends Activity> cls, long delay) {
+        postStartActivity(cls, delay, true);
+    }
+
+    /**
+     * 延迟启动
+     *
+     * @param cls           需启动页面
+     * @param delay         延时
+     * @param finishCurrent 启动后是否关闭当前页
+     */
+    public void postStartActivity(Class<? extends Activity> cls, long delay, boolean finishCurrent) {
+        getHandler().postDelayed(() -> {
+            startActivity(cls);
+            if (finishCurrent) {
+                finish();
+            }
+        }, delay);
+    }
+
     /**
      * 启动Activity
-     * @param cls           需要启动的页面
-     * @param requestCode   请求码
+     *
+     * @param cls         需要启动的页面
+     * @param requestCode 请求码
      */
     public void startActivityForResult(Class<? extends Activity> cls, int requestCode) {
         startActivityForResult(new Intent(this, cls), requestCode);
@@ -253,7 +281,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 获取handler对象
-     * @return  app的全局handler
+     *
+     * @return app的全局handler
      */
     protected Handler getHandler() {
         return App.getHandler();

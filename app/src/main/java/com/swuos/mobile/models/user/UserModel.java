@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.swuos.mobile.api.ErrorCode;
 import com.swuos.mobile.api.OnResultListener;
+import com.swuos.mobile.app.App;
 import com.swuos.mobile.app.BaseModel;
 import com.swuos.mobile.entity.AccountInfo;
 import com.swuos.mobile.entity.UserInfo;
@@ -89,21 +90,19 @@ public class UserModel extends BaseModel {
     }
 
     /**
-     * 登出，目前没有接口，LogoutRequester逻辑是模拟操作
+     * 登出，目前没有接口，模拟操作
      * @param listener   回调
      */
-    public void logout(@Nullable OnResultListener<JSONObject> listener) {
+    public void logout(@Nullable OnResultListener<Void> listener) {
         if (isNeedLogin) throw new RuntimeException("请勿重复调用退出");
-        new LogoutRequester((code, jsonObject, msg) -> {
-            if (code == ErrorCode.RESULT_DATA_OK) {
-                notifyUserLogout();
-                clearUserInfo();
-                initUserInfo();
-            }
+        App.getHandler().postDelayed(() -> {
+            notifyUserLogout();
+            clearUserInfo();
+            initUserInfo();
             if (listener != null) {
-                listener.onResult(code, jsonObject, msg);
+                listener.onResult(ErrorCode.RESULT_DATA_OK, null, "");
             }
-        }).execute();
+        }, 1000);
     }
 
     @Nullable

@@ -28,11 +28,17 @@ public class MainActivity extends BaseActivity implements TabItemView.OnTabItemS
     private long mBackPressedTime = System.currentTimeMillis() - EXIT_TIME_INTERVAL;
 
     private Toolbar toolbar;
-
+    /**
+     * 课程表
+     */
     private TabItemView tabCourseTable;
-
+    /**
+     * 查成绩
+     */
     private TabItemView tabScore;
-
+    /**
+     * 个人
+     */
     private TabItemView tabMine;
     /**
      * 底部选项卡列表
