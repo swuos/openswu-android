@@ -170,9 +170,6 @@ public abstract class SimpleBaseAdapter<Data, VH extends SimpleBaseAdapter.ViewH
 
         final void setItemView(View itemView) {
             this.itemView = itemView;
-            onFindViewById(itemView);
         }
-
-        abstract void onFindViewById(View itemView);
     }
 }
