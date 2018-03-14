@@ -124,7 +124,7 @@ public class UserModel extends BaseModel {
         spEditor.putString(UserCacheKey.CURRENT_USER.getKey(), JsonUtil.toJSONObject(userInfo).toString()).apply();
     }
 
-    public void clearUserInfo() {
+    private void clearUserInfo() {
         spEditor.putString(UserCacheKey.CURRENT_USER.getKey(), "{}");
     }
 
@@ -164,10 +164,11 @@ public class UserModel extends BaseModel {
     }
 
     public String getUserId() {
-        if (getUserInfo() == null) {
+        UserInfo userInfo = getUserInfo();
+        if (userInfo == null) {
             return GUEST_ID;
         } else {
-            return getUserInfo().getStudentId();
+            return userInfo.getStudentId();
         }
     }
 

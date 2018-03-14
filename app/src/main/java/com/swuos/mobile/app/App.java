@@ -4,6 +4,7 @@ import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.jianyuyouhun.permission.library.EZPermission;
 import com.swuos.mobile.BuildConfig;
 import com.swuos.mobile.app.exception.ExceptionCaughtAdapter;
 import com.swuos.mobile.models.StackModel;
@@ -73,7 +74,7 @@ public class App extends Application {
      * 第三方框架初始化
      */
     protected void initDependencies() {
-
+        EZPermission.Companion.init(this);
     }
 
     private void initExceptionCatcher() {

@@ -1,9 +1,13 @@
 package com.swuos.mobile.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.jianyuyouhun.permission.library.EZPermission;
+import com.jianyuyouhun.permission.library.OnRequestPermissionResultListener;
+import com.jianyuyouhun.permission.library.PRequester;
 import com.swuos.mobile.app.BaseActivity;
 import com.swuos.mobile.models.user.UserModel;
 import com.swuos.mobile.ui.tab.MainActivity;
@@ -23,7 +27,33 @@ public class EntryActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: 2018/3/12 启动页逻辑待确认
+        requestPermission();
+    }
+
+    /**
+     * 申请存储权限
+     */
+    private void requestPermission() {
+        EZPermission.Companion.getInstance().requestPermission(
+                this,
+                new PRequester(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                new OnRequestPermissionResultListener() {
+                    @Override
+                    public void onRequestSuccess(String s) {
+                        judgeForwardUI();
+                    }
+
+                    @Override
+                    public void onRequestFailed(String s) {
+                        judgeForwardUI();
+                    }
+                });
+    }
+
+    /**
+     * 判断登录状态
+     */
+    private void judgeForwardUI() {
         if (userModel.isNeedLogin()) {
             postStartActivity(LoginActivity.class, 2000);
         } else {
