@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +18,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jianyuyouhun.permission.library.EZPermission;
 import com.swuos.mobile.models.StackModel;
 import com.swuos.mobile.utils.LoggerKt;
 import com.swuos.mobile.utils.injector.ModelInjector;
@@ -91,18 +89,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         stackModel.unregisterActivity(this);
         mIsDestroy = true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EZPermission.Companion.getInstance().onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        EZPermission.Companion.getInstance().onActivityResult(this, requestCode, resultCode, data);
     }
 
     public void showProgressDialog() {
