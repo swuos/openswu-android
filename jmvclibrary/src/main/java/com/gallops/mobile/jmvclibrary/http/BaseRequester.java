@@ -53,7 +53,7 @@ public abstract class BaseRequester<T> {
             try {
                 if (code == HTTP_OK) {
                     JSONObject jsonObject = new JSONObject(content);
-                    BaseRequester.this.onResult(parseCode(jsonObject), jsonObject, parseMessage(jsonObject));
+                    BaseRequester.this.onResult(parseCode(jsonObject), parseResult(jsonObject), parseMessage(jsonObject));
                 } else {
                     BaseRequester.this.onResult(code, null, "");
                 }
@@ -163,8 +163,8 @@ public abstract class BaseRequester<T> {
     /**
      * 获取要打印的请求参数
      *
-     * @param params  表单
-     * @return  拼接后的参数字符串
+     * @param params 表单
+     * @return 拼接后的参数字符串
      */
     protected String logParams(Map<String, Object> params) {
         StringBuilder builder = new StringBuilder();
@@ -180,7 +180,7 @@ public abstract class BaseRequester<T> {
     /**
      * request预处理
      *
-     * @param reqBuilder    reqBuilder
+     * @param reqBuilder reqBuilder
      */
     protected void preHandleRequest(@NonNull Request.Builder reqBuilder) {
 
@@ -189,8 +189,8 @@ public abstract class BaseRequester<T> {
     /**
      * url拼接额外字段，一般在GET请求下会使用到
      *
-     * @param url   url
-     * @return  newUrl
+     * @param url url
+     * @return newUrl
      */
     protected String appendUrl(String url) {
         return url;
@@ -199,7 +199,7 @@ public abstract class BaseRequester<T> {
     /**
      * 设置请求方式
      *
-     * @return  {@link HttpMethod})
+     * @return {@link HttpMethod})
      */
     @NonNull
     protected HttpMethod setMethod() {
@@ -220,7 +220,7 @@ public abstract class BaseRequester<T> {
     /**
      * 设置请求url
      *
-     * @return  url拼接路由得到的请求地址
+     * @return url拼接路由得到的请求地址
      */
     protected String setReqUrl() {
         return getApi().getApiUrl() + setRoute().getRoute();
@@ -231,7 +231,7 @@ public abstract class BaseRequester<T> {
     /**
      * 设置请求路由
      *
-     * @return  {@link RouteInterface}
+     * @return {@link RouteInterface}
      */
     @NonNull
     protected abstract RouteInterface setRoute();
@@ -239,21 +239,32 @@ public abstract class BaseRequester<T> {
     /**
      * 统一解析请求的code码
      *
+     * @param jsonObject jsonObject
+     * @return code
+     */
+    protected int parseCode(JSONObject jsonObject) {
+        return jsonObject.optBoolean("success") ? ErrorCode.RESULT_DATA_OK : ErrorCode.RESULT_FAILED;
+    }
+
+    /**
+     * 统一解析请求的result
+     *
      * @param jsonObject    jsonObject
      * @return  code
      */
-    protected int parseCode(JSONObject jsonObject) {
-        return jsonObject.optInt("code");
+    protected JSONObject parseResult(JSONObject jsonObject) {
+        //这里做一下处理,因为服务器返回的只有 success字段来表示结果是否正确.
+        return jsonObject.optJSONObject("result");
     }
 
     /**
      * 统一解析请求的message
      *
-     * @param jsonObject    jsonObject
-     * @return  msg
+     * @param jsonObject jsonObject
+     * @return msg
      */
     protected String parseMessage(JSONObject jsonObject) {
-        return jsonObject.optString("msg");
+        return jsonObject.optString("message");
     }
 
     /**

@@ -20,6 +20,7 @@ public class AccountInfo implements Parcelable ,Cloneable{
         return swuId;
     }
 
+    // TODO: 2018/5/11 全局数据持有问题
     public void setSwuId(String swuId) {
         this.swuId = swuId;
     }

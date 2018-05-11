@@ -7,6 +7,7 @@ package com.gallops.mobile.jmvclibrary.http;
 
 public interface ErrorCode {
     int RESULT_DATA_OK = 0;//请求成功
+    int RESULT_FAILED = 1;//请求失败
     int RESULT_NET_ERROR = -1;//网络错误
     int RESULT_JSON_PARSE_EXCEPTION = -2;//json解析错误
     int RESULT_IO_EXCEPTION = -3;//io异常

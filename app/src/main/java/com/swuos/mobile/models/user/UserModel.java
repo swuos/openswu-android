@@ -70,9 +70,9 @@ public class UserModel extends BaseModel {
      * @param  password,String phoneNumber 账号信息
      * @param listener   回调
      */
-    public void login(String password,String phoneNumber,@Nullable final OnResultListener<LoginInfo> listener) {
+    public void login(String phoneNumber,String password,@Nullable final OnResultListener<LoginInfo> listener) {
         if (!isNeedLogin) throw new RuntimeException("请勿重复调用登录");
-        LoginRequester loginRequester = new LoginRequester(password,phoneNumber,(code, userInfo, msg) -> {
+        LoginRequester loginRequester = new LoginRequester(phoneNumber,password,(code, userInfo, msg) -> {
             if (code == ErrorCode.RESULT_DATA_OK) {
                 accountInfo = new AccountInfo();
                 accountInfo.setPassword(password);

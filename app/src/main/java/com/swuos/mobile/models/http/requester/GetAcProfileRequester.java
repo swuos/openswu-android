@@ -43,12 +43,6 @@ public class GetAcProfileRequester extends AcHostRequester<BaseInfo> {
     }
 
     @Override
-    protected void preHandleRequest(@NonNull Request.Builder reqBuilder) {
-        super.preHandleRequest(reqBuilder);
-        reqBuilder.addHeader("acToken", getUserModel().getAccountInfo().getAcToken());
-    }
-
-    @Override
     protected void onPutParams(@NonNull Map<String, Object> params) {
 
     }
