@@ -4,30 +4,29 @@ import android.support.annotation.NonNull;
 
 import com.gallops.mobile.jmvclibrary.http.HttpMethod;
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
-import com.gallops.mobile.jmvclibrary.http.RouteInterface;
+import com.gallops.mobile.jmvclibrary.http.annotation.RequestMethod;
 import com.swuos.mobile.api.FreegattyHostRequester;
+import com.swuos.mobile.api.Route;
 import com.swuos.mobile.api.RouteEnum;
-import com.swuos.mobile.app.App;
 import com.swuos.mobile.entity.AllWeeksClass;
 import com.swuos.mobile.entity.ClassItemDetail;
-import com.swuos.mobile.models.user.UserModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
 
-import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 
 /**
  * 注册请求
  * Created by wangyu on 2018/3/6.
  */
 
+@RequestMethod(HttpMethod.GET)
+@Route(RouteEnum.ROUTE_GET_SCHEDULE)
 public class GetScheduleRequester extends FreegattyHostRequester<AllWeeksClass> {
     private String swuId, academicYear, term;
 
@@ -40,7 +39,7 @@ public class GetScheduleRequester extends FreegattyHostRequester<AllWeeksClass> 
     }
 
     @Override
-    protected AllWeeksClass onDumpData(JSONObject jsonObject) throws JSONException {
+    protected AllWeeksClass onDumpData(@NonNull JSONObject jsonObject) throws JSONException {
         //registerInfo
         AllWeeksClass allWeeksClass = new AllWeeksClass();
         ArrayList<AllWeeksClass.WeekClasses> weekClassesArrayList = new ArrayList<>();
@@ -73,34 +72,16 @@ public class GetScheduleRequester extends FreegattyHostRequester<AllWeeksClass> 
         return allWeeksClass;
     }
 
-    @NonNull
     @Override
-    protected HttpMethod setMethod() {
-        return HttpMethod.GET;
-    }
-
-    @Override
-    protected void preHandleRequest(Request.Builder reqBuilder) {
+    protected void preHandleRequest(@NonNull Request.Builder reqBuilder) {
         super.preHandleRequest(reqBuilder);
-        reqBuilder.addHeader("acToken", App.getInstance().getModel(UserModel.class).getAccountInfo().getAcToken());
-    }
-
-    @NonNull
-    @Override
-    protected RouteInterface setRoute() {
-        return RouteEnum.ROUTE_GET_SCHEDULE;
+        reqBuilder.addHeader("acToken", getUserModel().getAccountInfo().getAcToken());
     }
 
     @Override
-    protected String appendUrl(String url) {
-        return url + "?swuid=" + swuId + "&academicYear=" + academicYear + "&term=" + term;
-    }
-
-    @NonNull
-    @Override
-    protected RequestBody onPutParams(FormBody.Builder builder) {
-        if (builder == null)
-            return FormBody.create(MediaType.parse("application/json"), "");
-        return null;//get请求直接返回builder
+    protected void onPutParams(@NonNull Map<String, Object> params) {
+        params.put("swuid", swuId);
+        params.put("academicYear", academicYear);
+        params.put("term", term);
     }
 }

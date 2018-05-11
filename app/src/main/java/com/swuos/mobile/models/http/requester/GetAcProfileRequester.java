@@ -4,8 +4,11 @@ import android.support.annotation.NonNull;
 
 import com.gallops.mobile.jmvclibrary.http.HttpMethod;
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
-import com.gallops.mobile.jmvclibrary.http.RouteInterface;
+import com.gallops.mobile.jmvclibrary.http.annotation.BodyCreator;
+import com.gallops.mobile.jmvclibrary.http.annotation.RequestMethod;
+import com.gallops.mobile.jmvclibrary.http.creator.JsonBodyCreator;
 import com.swuos.mobile.api.AcHostRequester;
+import com.swuos.mobile.api.Route;
 import com.swuos.mobile.api.RouteEnum;
 import com.swuos.mobile.app.App;
 import com.swuos.mobile.entity.BaseInfo;
@@ -14,16 +17,18 @@ import com.swuos.mobile.models.user.UserModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import okhttp3.FormBody;
-import okhttp3.MediaType;
+import java.util.Map;
+
 import okhttp3.Request;
-import okhttp3.RequestBody;
 
 /**
  * 注册请求
  * Created by wangyu on 2018/3/6.
  */
 
+@Route(RouteEnum.GET_AC_PROFILE)
+@RequestMethod(HttpMethod.GET)
+@BodyCreator(JsonBodyCreator.class)
 public class GetAcProfileRequester extends AcHostRequester<BaseInfo> {
     private String swuId, academicYear, term;
 
@@ -37,29 +42,14 @@ public class GetAcProfileRequester extends AcHostRequester<BaseInfo> {
        return new BaseInfo() ;
     }
 
-    @NonNull
     @Override
-    protected HttpMethod setMethod() {
-        return HttpMethod.GET;
-    }
-
-    @Override
-    protected void preHandleRequest(Request.Builder reqBuilder) {
+    protected void preHandleRequest(@NonNull Request.Builder reqBuilder) {
         super.preHandleRequest(reqBuilder);
-        reqBuilder.addHeader("acToken", App.getInstance().getModel(UserModel.class).getAccountInfo().getAcToken());
+        reqBuilder.addHeader("acToken", getUserModel().getAccountInfo().getAcToken());
     }
 
-    @NonNull
     @Override
-    protected RouteInterface setRoute() {
-        return RouteEnum.GET_AC_PROFILE;
-    }
+    protected void onPutParams(@NonNull Map<String, Object> params) {
 
-    @NonNull
-    @Override
-    protected RequestBody onPutParams(FormBody.Builder builder) {
-        if (builder == null)
-            return FormBody.create(MediaType.parse("application/json"), "");
-        return null;//get请求直接返回builder
     }
 }

@@ -1,9 +1,12 @@
 package com.gallops.mobile.jmvclibrary.http;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.gallops.mobile.jmvclibrary.app.JApp;
+import com.gallops.mobile.jmvclibrary.http.annotation.BodyCreator;
+import com.gallops.mobile.jmvclibrary.http.annotation.RequestMethod;
+import com.gallops.mobile.jmvclibrary.http.creator.FormBodyCreator;
+import com.gallops.mobile.jmvclibrary.http.creator.BodyCreateAction;
 import com.gallops.mobile.jmvclibrary.models.HttpModel;
 import com.gallops.mobile.jmvclibrary.utils.Logger;
 
@@ -11,20 +14,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
-import okhttp3.FormBody;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSink;
-import okio.Okio;
 
-import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 import static java.net.HttpURLConnection.HTTP_OK;
 
 /**
@@ -32,9 +31,16 @@ import static java.net.HttpURLConnection.HTTP_OK;
  * Created by wangyu on 2018/3/6.
  */
 
-public abstract class BaseRequester {
+@BodyCreator(FormBodyCreator.class)
+public abstract class BaseRequester<T> {
 
     private static final String TAG = "WEB";
+
+    protected OnResultListener<T> listener;
+
+    public BaseRequester(@NonNull OnResultListener<T> listener) {
+        this.listener = listener;
+    }
 
     private HttpResultParser httpResultParser = new HttpResultParser() {
         @Override
@@ -47,7 +53,7 @@ public abstract class BaseRequester {
             try {
                 if (code == HTTP_OK) {
                     JSONObject jsonObject = new JSONObject(content);
-                    BaseRequester.this.onResult(parseCode(jsonObject), parseResult(jsonObject), parseMessage(jsonObject));
+                    BaseRequester.this.onResult(parseCode(jsonObject), jsonObject, parseMessage(jsonObject));
                 } else {
                     BaseRequester.this.onResult(code, null, "");
                 }
@@ -57,7 +63,7 @@ public abstract class BaseRequester {
         }
 
         @Override
-        void onError(Exception e) {
+        public void onError(Exception e) {
             if (JApp.isDebug()) {//调试模式下打印web请求日志
                 String string = String.format(Locale.getDefault(), "response, logCode = %d, url = %s, error = %s", setRoute().getLogId(), setReqUrl(), e);
                 Logger.i(TAG, string);
@@ -74,17 +80,26 @@ public abstract class BaseRequester {
         HttpModel httpModel = getHttpModel();
         httpModel.getExecutor().execute(() -> {
             OkHttpClient client = new OkHttpClient();
-            RequestBody requestBody =null;
-            if (setMethod().getMethod().equals("POST"))
-
-                requestBody=onPutParams(null);
+            Map<String, Object> params = new HashMap<>();
+            onPutParams(params);
+            HttpMethod method = setMethod();
+            RequestBody requestBody = null;
+            String url = appendUrl(setReqUrl());
+            switch (method) {
+                case GET:
+                    url = appendGetParams(url, params);
+                    break;
+                case POST:
+                    requestBody = onBuildRequestBody(params);
+                    break;
+            }
             Request.Builder reqBuilder = new Request.Builder()
-                    .url(appendUrl(setReqUrl()))
+                    .url(url)
                     .method(setMethod().getMethod(), requestBody);
             preHandleRequest(reqBuilder);
             Request request = reqBuilder.build();
-            if (JApp.isDebug()&&setMethod().getMethod().equals("POST")) {
-                String string = String.format(Locale.getDefault(), "request, logCode = %d, url = %s", setRoute().getLogId(), setReqUrl() + "\n"+logPostParams(requestBody));
+            if (JApp.isDebug()) {
+                String string = String.format(Locale.getDefault(), "request, logCode = %d, url = %s", setRoute().getLogId(), setReqUrl() + "?" + logParams(params));
                 Logger.i(TAG, string);
             }
             try {
@@ -107,46 +122,67 @@ public abstract class BaseRequester {
         });
     }
 
-    /**
-     * 获取要打印的请求参数
-     *
-     * @param body  表单
-     * @return  拼接后的参数字符串
-     */
-    private String logGetParams(FormBody body) {
+    @NonNull
+    protected RequestBody onBuildRequestBody(Map<String, Object> params) {
+        RequestBody body = null;
+        Class<?> cls = this.getClass();
+        while (cls != null && cls != Object.class) {
+            BodyCreator creator = cls.getAnnotation(BodyCreator.class);
+            if (creator == null) {
+                cls = cls.getSuperclass();
+            } else {
+                try {
+                    BodyCreateAction requestBodyCreator = creator.value().newInstance();
+                    body = requestBodyCreator.onCreate(params);
+                } catch (InstantiationException e) {
+                    throw new RuntimeException(e);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            }
+        }
+        //noinspection ConstantConditions
+        return body;
+    }
+
+    private String appendGetParams(String url, Map<String, Object> params) {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < body.size(); i++) {
-            builder.append(body.name(i))
+        for (String key : params.keySet()) {
+            builder.append(key)
                     .append("=")
-                    .append(body.value(i))
+                    .append(params.get(key))
                     .append("&");
         }
-        String result = builder.toString();
-        if (result.endsWith("&")) result = result.substring(0, result.length() - 1);
-        return result;
+        url = url + "?" + builder.toString();
+        return url;
     }
+
+    protected abstract void onPutParams(@NonNull Map<String, Object> params);
+
     /**
      * 获取要打印的请求参数
      *
-     * @param body  表单
+     * @param params  表单
      * @return  拼接后的参数字符串
      */
-    private String logPostParams(RequestBody body) {
-        Buffer buffer=new Buffer();
-        try {
-            body.writeTo(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
+    protected String logParams(Map<String, Object> params) {
+        StringBuilder builder = new StringBuilder();
+        for (String key : params.keySet()) {
+            builder.append(key)
+                    .append("=")
+                    .append(params.get(key))
+                    .append("&");
         }
-
-        return buffer.readUtf8();
+        return builder.toString();
     }
+
     /**
      * request预处理
      *
      * @param reqBuilder    reqBuilder
      */
-    protected void preHandleRequest(Request.Builder reqBuilder) {
+    protected void preHandleRequest(@NonNull Request.Builder reqBuilder) {
 
     }
 
@@ -166,7 +202,20 @@ public abstract class BaseRequester {
      * @return  {@link HttpMethod})
      */
     @NonNull
-    protected abstract HttpMethod setMethod();
+    protected HttpMethod setMethod() {
+        HttpMethod method = HttpMethod.GET;
+        Class<?> cls = this.getClass();
+        while (cls != null && cls != Object.class) {
+            RequestMethod requestMethod = cls.getAnnotation(RequestMethod.class);
+            if (requestMethod == null) {
+                cls = cls.getSuperclass();
+            } else {
+                method = requestMethod.value();
+                break;
+            }
+        }
+        return method;
+    }
 
     /**
      * 设置请求url
@@ -188,32 +237,13 @@ public abstract class BaseRequester {
     protected abstract RouteInterface setRoute();
 
     /**
-     * 传入参数
-     *
-     * @return  {@link FormBody.Builder}
-     */
-    @NonNull
-    protected abstract RequestBody onPutParams(@Nullable FormBody.Builder builder);
-
-    /**
      * 统一解析请求的code码
      *
      * @param jsonObject    jsonObject
      * @return  code
      */
     protected int parseCode(JSONObject jsonObject) {
-        //这里做一下处理,因为服务器返回的只有 success字段来表示结果是否正确.
-        return jsonObject.optBoolean("success")?ErrorCode.RESULT_DATA_OK:HTTP_BAD_REQUEST;
-    }
-    /**
-     * 统一解析请求的result
-     *
-     * @param jsonObject    jsonObject
-     * @return  code
-     */
-    protected JSONObject parseResult(JSONObject jsonObject) {
-        //这里做一下处理,因为服务器返回的只有 success字段来表示结果是否正确.
-        return jsonObject.optJSONObject("result");
+        return jsonObject.optInt("code");
     }
 
     /**
@@ -223,8 +253,19 @@ public abstract class BaseRequester {
      * @return  msg
      */
     protected String parseMessage(JSONObject jsonObject) {
-        return jsonObject.optString("message");
+        return jsonObject.optString("msg");
     }
+
+    /**
+     * 请求失败了
+     *
+     * @param exception 失败原因
+     */
+    protected void onError(Exception exception) {
+        exception.printStackTrace();
+        listener.onResult(OnResultListener.RESULT_NET_ERROR, null, exception.getMessage());
+    }
+
 
     /**
      * 请求成功了  服务器已经返回结果
@@ -232,14 +273,15 @@ public abstract class BaseRequester {
      * @param code    请求成功的HTTP返回吗，，一般code等于200表示请求成功
      * @param content 从服务器获取到的数据
      */
-    protected abstract void onResult(int code, @NonNull JSONObject content, String msg) throws JSONException;
+    protected void onResult(int code, JSONObject content, String msg) throws JSONException {
+        T data = null;
+        if (code == OnResultListener.RESULT_DATA_OK) {
+            data = onDumpData(content);
+        }
+        listener.onResult(code, data, msg);
+    }
 
-    /**
-     * 请求失败了
-     *
-     * @param exception 失败原因
-     */
-    protected abstract void onError(Exception exception);
+    protected abstract T onDumpData(@NonNull JSONObject jsonObject) throws JSONException;
 
     /**
      * 获取http执行环境管理器

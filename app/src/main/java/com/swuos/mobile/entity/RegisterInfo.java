@@ -12,11 +12,11 @@ import com.gallops.mobile.jmvclibrary.utils.json.JsonField;
  */
 
 public class RegisterInfo implements Parcelable, Cloneable {
-    @JsonField("")
+    @JsonField("nickname")
     private String nickname;
-    @JsonField("")
+    @JsonField("avatar")
     private String avatar;
-    @JsonField("")
+    @JsonField("acToken")
     private String acToken;
 
     public String getNickname() {
