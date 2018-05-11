@@ -2,19 +2,14 @@ package com.swuos.mobile.models.http.requester;
 
 import android.support.annotation.NonNull;
 
-import com.gallops.mobile.jmvclibrary.http.ApiInterface;
 import com.gallops.mobile.jmvclibrary.http.HttpMethod;
-import com.gallops.mobile.jmvclibrary.http.HttpRequester;
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
 import com.gallops.mobile.jmvclibrary.http.RouteInterface;
+import com.swuos.mobile.api.FreegattyHostRequester;
+import com.swuos.mobile.api.RouteEnum;
 import com.swuos.mobile.app.App;
 import com.swuos.mobile.entity.AllScoreItem;
-import com.swuos.mobile.entity.AllWeeksClass;
-import com.swuos.mobile.entity.ClassItemDetail;
 import com.swuos.mobile.entity.ScoreItem;
-import com.swuos.mobile.models.http.FreegattyApiHostUrl;
-import com.swuos.mobile.models.http.RouteGetSchedule;
-import com.swuos.mobile.models.http.RouteGetScore;
 import com.swuos.mobile.models.user.UserModel;
 
 import org.json.JSONArray;
@@ -33,7 +28,7 @@ import okhttp3.RequestBody;
  * Created by wangyu on 2018/3/6.
  */
 
-public class GetScoreRequester extends HttpRequester<AllScoreItem> {
+public class GetScoreRequester extends FreegattyHostRequester<AllScoreItem> {
     private String swuId, academicYear, term;
 
     public GetScoreRequester(String swuId, String academicYear, String term, @NonNull OnResultListener<AllScoreItem> listener) {
@@ -77,23 +72,11 @@ public class GetScoreRequester extends HttpRequester<AllScoreItem> {
         reqBuilder.addHeader("acToken", App.getInstance().getModel(UserModel.class).getAccountInfo().getAcToken());
     }
 
-    @Override
-    protected ApiInterface getApi() {
-        return new FreegattyApiHostUrl();
-    }
-
     @NonNull
     @Override
     protected RouteInterface setRoute() {
-        return RouteGetScore.ROUTE_GET_SCORE;
+        return RouteEnum.ROUTE_GET_SCORE;
     }
-
-
-    @Override
-    protected String setReqUrl() {
-        return super.setReqUrl();
-    }
-
 
     @Override
     protected String appendUrl(String url) {

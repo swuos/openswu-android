@@ -2,27 +2,17 @@ package com.swuos.mobile.models.http.requester;
 
 import android.support.annotation.NonNull;
 
-import com.gallops.mobile.jmvclibrary.http.ApiInterface;
 import com.gallops.mobile.jmvclibrary.http.HttpMethod;
-import com.gallops.mobile.jmvclibrary.http.HttpRequester;
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
 import com.gallops.mobile.jmvclibrary.http.RouteInterface;
+import com.swuos.mobile.api.AcHostRequester;
+import com.swuos.mobile.api.RouteEnum;
 import com.swuos.mobile.app.App;
-import com.swuos.mobile.entity.AccountInfo;
-import com.swuos.mobile.entity.AllWeeksClass;
 import com.swuos.mobile.entity.BaseInfo;
-import com.swuos.mobile.entity.ClassItemDetail;
-import com.swuos.mobile.models.http.ApiHostUrl;
-import com.swuos.mobile.models.http.FreegattyApiHostUrl;
-import com.swuos.mobile.models.http.RouteGetAcProfile;
-import com.swuos.mobile.models.http.RouteGetSchedule;
 import com.swuos.mobile.models.user.UserModel;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -34,7 +24,7 @@ import okhttp3.RequestBody;
  * Created by wangyu on 2018/3/6.
  */
 
-public class GetAcProfileRequester extends HttpRequester<BaseInfo> {
+public class GetAcProfileRequester extends AcHostRequester<BaseInfo> {
     private String swuId, academicYear, term;
 
     public GetAcProfileRequester(@NonNull OnResultListener<BaseInfo> listener) {
@@ -59,26 +49,10 @@ public class GetAcProfileRequester extends HttpRequester<BaseInfo> {
         reqBuilder.addHeader("acToken", App.getInstance().getModel(UserModel.class).getAccountInfo().getAcToken());
     }
 
-    @Override
-    protected ApiInterface getApi() {
-        return new ApiHostUrl();
-    }
-
     @NonNull
     @Override
     protected RouteInterface setRoute() {
-        return RouteGetAcProfile.GET_AC_PROFILE;
-    }
-
-    @Override
-    protected String setReqUrl() {
-        return super.setReqUrl();
-    }
-
-
-    @Override
-    protected String appendUrl(String url) {
-        return url;
+        return RouteEnum.GET_AC_PROFILE;
     }
 
     @NonNull

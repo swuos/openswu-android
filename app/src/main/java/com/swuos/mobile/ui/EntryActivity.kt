@@ -4,12 +4,9 @@ import android.Manifest
 import android.os.Bundle
 import com.gallops.mobile.jmvclibrary.app.BaseActivity
 import com.gallops.mobile.jmvclibrary.utils.kt.proxy.bindModel
-
 import com.jianyuyouhun.permission.library.EZPermission
 import com.jianyuyouhun.permission.library.PRequester
 import com.swuos.mobile.R
-import com.swuos.mobile.app.App
-
 import com.swuos.mobile.models.user.UserModel
 import com.swuos.mobile.ui.tab.MainActivity
 import com.swuos.mobile.ui.user.LoginActivity
@@ -21,10 +18,8 @@ import com.swuos.mobile.ui.user.LoginActivity
  */
 
 class EntryActivity : BaseActivity() {
-    override fun getLayoutResId(): Int {
-        return R.layout.a_entry;
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+
+    override fun getLayoutResId(): Int = R.layout.a_entry
 
     private val userModel by bindModel(UserModel::class.java)
 

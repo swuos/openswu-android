@@ -2,15 +2,12 @@ package com.swuos.mobile.models.http.requester;
 
 import android.support.annotation.NonNull;
 
-import com.gallops.mobile.jmvclibrary.http.ApiInterface;
 import com.gallops.mobile.jmvclibrary.http.HttpMethod;
-import com.gallops.mobile.jmvclibrary.http.HttpRequester;
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
 import com.gallops.mobile.jmvclibrary.http.RouteInterface;
-import com.gallops.mobile.jmvclibrary.utils.json.JsonUtil;
+import com.swuos.mobile.api.AcHostRequester;
+import com.swuos.mobile.api.RouteEnum;
 import com.swuos.mobile.entity.RegisterInfo;
-import com.swuos.mobile.models.http.ApiHostUrl;
-import com.swuos.mobile.models.http.RouteRegister;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +21,7 @@ import okhttp3.RequestBody;
  * Created by wangyu on 2018/3/6.
  */
 
-public class RegisterRequester extends HttpRequester<RegisterInfo> {
+public class RegisterRequester extends AcHostRequester<RegisterInfo> {
 
 
     String phoneNumber;
@@ -56,26 +53,10 @@ public class RegisterRequester extends HttpRequester<RegisterInfo> {
         return HttpMethod.POST;
     }
 
-    @Override
-    protected ApiInterface getApi() {
-        return new ApiHostUrl();
-    }
-
     @NonNull
     @Override
     protected RouteInterface setRoute() {
-        return RouteRegister.ROUTE_REGISTER;
-    }
-
-    @Override
-    protected String setReqUrl() {
-        return super.setReqUrl();
-    }
-
-
-    @Override
-    protected String appendUrl(String url) {
-        return url;
+        return RouteEnum.ROUTE_REGISTER;
     }
 
     @NonNull

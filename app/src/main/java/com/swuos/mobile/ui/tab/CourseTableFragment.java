@@ -31,6 +31,7 @@ import com.gallops.mobile.jmvclibrary.http.ErrorCode;
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
 import com.gallops.mobile.jmvclibrary.utils.CommonUtils;
 import com.gallops.mobile.jmvclibrary.utils.DateUtils;
+import com.gallops.mobile.jmvclibrary.utils.injector.Model;
 import com.jianyuyouhun.inject.annotation.FindViewById;
 import com.jianyuyouhun.inject.annotation.OnClick;
 import com.swuos.mobile.R;
@@ -77,6 +78,8 @@ public class CourseTableFragment extends BaseFragment {
     LinearLayout loginedLayout;
     @FindViewById(R.id.unlogin)
     LinearLayout unloginLayout;
+    @Model
+    private CacheModel cacheModel;
     private AllWeeksClass weeksClass;
     private String term;//当前课表所在的学期
     private String academicYear;//当前课表所在学年
@@ -294,8 +297,8 @@ public class CourseTableFragment extends BaseFragment {
                 public void onClick(View v) {
                     academicYear = tempAcademicYear;
                     term = tempTerm;
-                    JApp.getInstance().getModel(CacheModel.class).putString(Key.ACADEMICYEAR, academicYear);
-                    JApp.getInstance().getModel(CacheModel.class).putString(Key.TERM, term);
+                    cacheModel.putString(Key.ACADEMICYEAR, academicYear);
+                    cacheModel.putString(Key.TERM, term);
                     getSchedule(true);
                     String swuId = App.getInstance().getModel(UserModel.class).getSwuId();
                     if (!TextUtils.isEmpty(swuId)) {
@@ -505,8 +508,8 @@ public class CourseTableFragment extends BaseFragment {
 
     private void initData() {
         userModel = JApp.getInstance().getModel(UserModel.class);
-        academicYear = JApp.getInstance().getModel(CacheModel.class).getString(Key.ACADEMICYEAR, getCurrtAcademicYear());
-        term = JApp.getInstance().getModel(CacheModel.class).getString(Key.TERM, getCurrentTerm());
+        academicYear = cacheModel.getString(Key.ACADEMICYEAR, getCurrtAcademicYear());
+        term = cacheModel.getString(Key.TERM, getCurrentTerm());
     }
 
     private void initChoosePreviewWeeks() {
@@ -603,13 +606,13 @@ public class CourseTableFragment extends BaseFragment {
 //            }
 //
 //            weeksClass.setWeekClasses(arrayList);
-//            JApp.getInstance().getModel(CacheModel.class).putObject(Key.SCHEDULE, weeksClass);
+//            cacheModel.putObject(Key.SCHEDULE, weeksClass);
 //        }
 
         if (isForce) {
             weeksClass = null;
         } else
-            weeksClass = JApp.getInstance().getModel(CacheModel.class).getObject(Key.SCHEDULE, AllWeeksClass.class);
+            weeksClass = cacheModel.getObject(Key.SCHEDULE, AllWeeksClass.class);
 
         if (weeksClass == null) {
             showProgressDialog("正在获取");
@@ -619,7 +622,7 @@ public class CourseTableFragment extends BaseFragment {
                     dismissProgressDialog();
                     if (code == ErrorCode.RESULT_DATA_OK) {
                         weeksClass = allWeeksClass;
-                        JApp.getInstance().getModel(CacheModel.class).putObject(Key.SCHEDULE, weeksClass);
+                        cacheModel.putObject(Key.SCHEDULE, weeksClass);
                         getHandler().post(new Runnable() {
                             @Override
                             public void run() {
@@ -693,10 +696,10 @@ public class CourseTableFragment extends BaseFragment {
         int currntYear = DateUtils.getCurrntYear();
         int month = DateUtils.getCurrntMonth();
         if (month < 9) {
-            JApp.getInstance().getModel(CacheModel.class).putString(Key.ACADEMICYEAR, "" + (currntYear - 1));
+            cacheModel.putString(Key.ACADEMICYEAR, "" + (currntYear - 1));
             return "" + (currntYear - 1);
         } else {
-            JApp.getInstance().getModel(CacheModel.class).putString(Key.ACADEMICYEAR, "" + currntYear);
+            cacheModel.putString(Key.ACADEMICYEAR, "" + currntYear);
             return currntYear + "";
         }
     }
@@ -704,10 +707,10 @@ public class CourseTableFragment extends BaseFragment {
     private String getCurrentTerm() {
         int month = DateUtils.getCurrntMonth();
         if (month < 9) {
-            JApp.getInstance().getModel(CacheModel.class).putString(Key.TERM, "" + 2);
+            cacheModel.putString(Key.TERM, "" + 2);
             return "" + 2;
         } else {
-            JApp.getInstance().getModel(CacheModel.class).putString(Key.TERM, "" + 3);
+            cacheModel.putString(Key.TERM, "" + 3);
             return "" + 3;
         }
     }

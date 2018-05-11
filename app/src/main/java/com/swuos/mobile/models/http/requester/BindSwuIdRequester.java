@@ -2,18 +2,13 @@ package com.swuos.mobile.models.http.requester;
 
 import android.support.annotation.NonNull;
 
-import com.gallops.mobile.jmvclibrary.http.ApiInterface;
 import com.gallops.mobile.jmvclibrary.http.HttpMethod;
-import com.gallops.mobile.jmvclibrary.http.HttpRequester;
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
 import com.gallops.mobile.jmvclibrary.http.RouteInterface;
-import com.gallops.mobile.jmvclibrary.utils.json.JsonUtil;
+import com.swuos.mobile.api.AcHostRequester;
 import com.swuos.mobile.app.App;
+import com.swuos.mobile.api.RouteEnum;
 import com.swuos.mobile.entity.BaseInfo;
-import com.swuos.mobile.entity.RegisterInfo;
-import com.swuos.mobile.models.http.ApiHostUrl;
-import com.swuos.mobile.models.http.RouteBind;
-import com.swuos.mobile.models.http.RouteRegister;
 import com.swuos.mobile.models.user.UserModel;
 
 import org.json.JSONException;
@@ -29,7 +24,7 @@ import okhttp3.RequestBody;
  * Created by wangyu on 2018/3/6.
  */
 
-public class BindSwuIdRequester extends HttpRequester<BaseInfo> {
+public class BindSwuIdRequester extends AcHostRequester<BaseInfo> {
 
     private String swuId;
     private String password;
@@ -61,26 +56,10 @@ public class BindSwuIdRequester extends HttpRequester<BaseInfo> {
         return HttpMethod.POST;
     }
 
-    @Override
-    protected ApiInterface getApi() {
-        return new ApiHostUrl();
-    }
-
     @NonNull
     @Override
     protected RouteInterface setRoute() {
-        return RouteBind.ROUTE_BIND;
-    }
-
-    @Override
-    protected String setReqUrl() {
-        return super.setReqUrl();
-    }
-
-
-    @Override
-    protected String appendUrl(String url) {
-        return url;
+        return RouteEnum.ROUTE_BIND;
     }
 
     @NonNull

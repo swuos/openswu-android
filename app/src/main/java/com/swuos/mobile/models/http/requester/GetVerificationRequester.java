@@ -2,18 +2,12 @@ package com.swuos.mobile.models.http.requester;
 
 import android.support.annotation.NonNull;
 
-import com.gallops.mobile.jmvclibrary.http.ApiInterface;
 import com.gallops.mobile.jmvclibrary.http.HttpMethod;
-import com.gallops.mobile.jmvclibrary.http.HttpRequester;
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
 import com.gallops.mobile.jmvclibrary.http.RouteInterface;
-import com.gallops.mobile.jmvclibrary.utils.json.JsonUtil;
+import com.swuos.mobile.api.RouteEnum;
+import com.swuos.mobile.api.VerificationHostRequester;
 import com.swuos.mobile.entity.BaseInfo;
-import com.swuos.mobile.entity.RegisterInfo;
-import com.swuos.mobile.models.http.ApiHostUrl;
-import com.swuos.mobile.models.http.RouteRegister;
-import com.swuos.mobile.models.http.RouteSendVerificationCode;
-import com.swuos.mobile.models.http.VerificationApiHostUrl;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +21,7 @@ import okhttp3.RequestBody;
  * Created by wangyu on 2018/3/6.
  */
 
-public class GetVerificationRequester extends HttpRequester<BaseInfo> {
+public class GetVerificationRequester extends VerificationHostRequester<BaseInfo> {
 
     String phoneNumber;
 
@@ -50,26 +44,10 @@ public class GetVerificationRequester extends HttpRequester<BaseInfo> {
         return HttpMethod.POST;
     }
 
-    @Override
-    protected ApiInterface getApi() {
-        return new VerificationApiHostUrl();
-    }
-
     @NonNull
     @Override
     protected RouteInterface setRoute() {
-        return RouteSendVerificationCode.ROUTE_SEND_VERIFICATION_CODE;
-    }
-
-    @Override
-    protected String setReqUrl() {
-        return super.setReqUrl();
-    }
-
-
-    @Override
-    protected String appendUrl(String url) {
-        return url;
+        return RouteEnum.ROUTE_SEND_VERIFICATION_CODE;
     }
 
     @NonNull
