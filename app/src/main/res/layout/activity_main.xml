@@ -9,13 +9,6 @@
     android:orientation="vertical"
     tools:context=".ui.tab.MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@color/white"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -38,8 +31,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:itemImage="@mipmap/tabbar_icn_nolsy"
-            app:itemImageSelected="@mipmap/tabbar_icn_selsy"
+            app:itemImage="@mipmap/icon_normal_schedule"
+            app:itemImageSelected="@mipmap/icon_select_schedule"
             app:itemText="@string/main_bottom_course_table"
             app:itemTextColor="@color/textGray"
             app:itemTextColorSelected="@color/colorPrimary" />
@@ -49,8 +42,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:itemImage="@mipmap/tabbar_icn_nolsy"
-            app:itemImageSelected="@mipmap/tabbar_icn_selsy"
+            app:itemImage="@mipmap/icon_normal_library"
+            app:itemImageSelected="@mipmap/icon_select_library"
             app:itemText="@string/main_bottom_score"
             app:itemTextColor="@color/textGray"
             app:itemTextColorSelected="@color/colorPrimary" />
@@ -60,8 +53,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:itemImage="@mipmap/tabbar_icn_nolsy"
-            app:itemImageSelected="@mipmap/tabbar_icn_selsy"
+            app:itemImage="@mipmap/icon_normal_mine"
+            app:itemImageSelected="@mipmap/icon_select_mine"
             app:itemText="@string/main_bottom_mine"
             app:itemTextColor="@color/textGray"
             app:itemTextColorSelected="@color/colorPrimary" />

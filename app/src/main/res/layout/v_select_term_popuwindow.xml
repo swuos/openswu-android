@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/firstTerm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第一学期" />
+
+    <TextView
+        android:id="@+id/sec_term"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第二学期" />
+
+    <TextView
+        android:id="@+id/thrterm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第三学期" />
+</LinearLayout>

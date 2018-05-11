@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#4f87ff</color>
+    <color name="colorPrimaryDark">#2f5199</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>
     <color name="appBackground">#f7f7f7</color>
@@ -9,4 +9,28 @@
     <color name="textGray">#999999</color>
     <color name="commonPressed">#11222222</color>
     <color name="translucent">#00000000</color>
+    <color name="FF4F87FF">#FF4F87FF</color>
+    <color name="FF565656">#565656</color>
+    <color name="FF3d3d3d">#FF3d3d3d</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="ffd3d3d3">#ffd3d3d3</color>
+    <color name="schedule_day_date_bg">#565656</color>
+    <color name="ffF9F9F9">#F9F9F9</color>
+    <color name="colorGrey">#ffE1E1E1</color>
+    <color name="black">#ff000000</color>
+    <color name="ffefefef">#ffefefef</color>
+    <color name="fff3f6f8">#fff3f6f8</color>
+    <color name="ffe9e9e9">#ffe9e9e9</color>
+    <color name="fff6f6f6">#f6f6f6</color>
+    <color name="ffc2c2c2">#c2c2c2</color>
+    <color name="ffBFBFBF">#BFBFBF</color>
+    <color name="ff6D6D6D">#ff6D6D6D</color>
+    <color name="ffF3F6F8">#ffF3F6F8</color>
+    <color name="ffD8D8D">#ffD8D8D8</color>
+    <color name="fff6f9ff">#f6f9ff</color>
+    <color name="ffb3b4b5">#b3b4b5</color>
+    <color name="ffebebeb">#ebebeb</color>
+    <color name="ff9cbcff">#9cbcff</color>
+    <color name="ffe2e2e2">#ffe2e2e2</color>
+    <color name="fff2f2f2">#f2f2f2</color>
 </resources>

@@ -1,6 +1,7 @@
 package com.swuos.mobile.models.user;
 
-import com.swuos.mobile.entity.UserInfo;
+import com.swuos.mobile.entity.AccountInfo;
+import com.swuos.mobile.entity.LoginInfo;
 
 /**
  * 用户状态变化
@@ -11,14 +12,14 @@ public interface OnUserStateChangeListener {
     /**
      * 账号登录
      *
-     * @param userInfo
+     * @param accountInfo
      */
-    void onLogin(UserInfo userInfo);
+    void onLogin(AccountInfo accountInfo);
 
     /**
      * 账号登出
      *
-     * @param userInfo
+     * @param accountInfo
      */
-    void onLogout(UserInfo userInfo);
+    void onLogout(AccountInfo accountInfo);
 }

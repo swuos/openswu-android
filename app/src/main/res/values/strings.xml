@@ -3,6 +3,6 @@
     <string name="exit_application">再按一次退出应用</string>
 
     <string name="main_bottom_course_table">课表</string>
-    <string name="main_bottom_score">成绩</string>
-    <string name="main_bottom_mine">个人</string>
+    <string name="main_bottom_score">图书馆</string>
+    <string name="main_bottom_mine">我的</string>
 </resources>

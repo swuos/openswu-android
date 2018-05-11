@@ -5,29 +5,26 @@ import android.support.annotation.IntRange;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 
+import com.gallops.mobile.jmvclibrary.app.BaseActivity;
+import com.gallops.mobile.jmvclibrary.app.JApp;
+import com.gallops.mobile.jmvclibrary.utils.CommonUtils;
+import com.gallops.mobile.jmvclibrary.utils.injector.Model;
 import com.swuos.mobile.R;
-import com.swuos.mobile.app.App;
-import com.swuos.mobile.app.BaseActivity;
+
 import com.swuos.mobile.models.user.UserModel;
-import com.swuos.mobile.ui.tab.CourseTableFragment;
-import com.swuos.mobile.ui.tab.MineFragment;
-import com.swuos.mobile.ui.tab.ScoreFragment;
-import com.swuos.mobile.utils.CommonUtils;
-import com.swuos.mobile.utils.injector.Model;
+
 import com.swuos.mobile.view.TabItemView;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class MainActivity extends BaseActivity implements TabItemView.OnTabItemStateWillChangeDelegate  {
 
     private static final long EXIT_TIME_INTERVAL = 2000;
 
     private long mBackPressedTime = System.currentTimeMillis() - EXIT_TIME_INTERVAL;
-
-    private Toolbar toolbar;
     /**
      * 课程表
      */
@@ -51,18 +48,20 @@ public class MainActivity extends BaseActivity implements TabItemView.OnTabItemS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         initView();
     }
 
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_main;
+    }
+
     private void initView() {
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         tabCourseTable = findViewById(R.id.tab_course_table);
         tabScore = findViewById(R.id.tab_score);
         tabMine = findViewById(R.id.tab_mine);
         tabCourseTable.setFragmentClass(CourseTableFragment.class);
-        tabScore.setFragmentClass(ScoreFragment.class);
+        tabScore.setFragmentClass(LibraryFragment.class);
         tabMine.setFragmentClass(MineFragment.class);
         tabCourseTable.setDelegate(this);
         tabScore.setDelegate(this);
@@ -78,7 +77,7 @@ public class MainActivity extends BaseActivity implements TabItemView.OnTabItemS
      * 选中某项标签
      */
     private void setIndexWithoutException(@IntRange(from = 0) int index) {
-        if (App.isDebug()) {
+        if (JApp.isDebug()) {
             if (index >= tabs.size() || index < 0) {
                 throw new RuntimeException("index >= tabs.size() || index < 0, current index = " + index);
             }
@@ -115,7 +114,6 @@ public class MainActivity extends BaseActivity implements TabItemView.OnTabItemS
                         fragmentTransaction.attach(fragmentByTag);
                     }
                 }
-                toolbar.setTitle(tabs.get(index).getText());
             } else if (tab.isItemSelected()) {
                 tab.setItemSelected(false);
                 // 移除tab

@@ -2,13 +2,18 @@ package com.swuos.mobile.ui
 
 import android.Manifest
 import android.os.Bundle
+import com.gallops.mobile.jmvclibrary.app.BaseActivity
+import com.gallops.mobile.jmvclibrary.utils.kt.proxy.bindModel
+
 import com.jianyuyouhun.permission.library.EZPermission
 import com.jianyuyouhun.permission.library.PRequester
-import com.swuos.mobile.app.BaseActivity
+import com.swuos.mobile.R
+import com.swuos.mobile.app.App
+
 import com.swuos.mobile.models.user.UserModel
 import com.swuos.mobile.ui.tab.MainActivity
 import com.swuos.mobile.ui.user.LoginActivity
-import com.swuos.mobile.utils.kt.proxy.bindModel
+
 
 /**
  * 启动页
@@ -16,6 +21,10 @@ import com.swuos.mobile.utils.kt.proxy.bindModel
  */
 
 class EntryActivity : BaseActivity() {
+    override fun getLayoutResId(): Int {
+        return R.layout.a_entry;
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val userModel by bindModel(UserModel::class.java)
 
@@ -28,6 +37,7 @@ class EntryActivity : BaseActivity() {
      * 申请存储权限
      */
     private fun requestPermission() {
+        EZPermission.init(application)
         EZPermission.instance.requestPermission(
                 this,
                 PRequester(Manifest.permission.WRITE_EXTERNAL_STORAGE),
@@ -44,10 +54,10 @@ class EntryActivity : BaseActivity() {
      */
     private fun judgeForwardUI() {
         if (!userModel.isNeedLogin) {
-            postStartActivity(LoginActivity::class.java, 2000)
+            postStartActivity(MainActivity::class.java, 10)
         } else {
             //            userModel.loginQuiet()
-            postStartActivity(MainActivity::class.java, 2000)
+            postStartActivity(LoginActivity::class.java, 1000)
         }
     }
 }

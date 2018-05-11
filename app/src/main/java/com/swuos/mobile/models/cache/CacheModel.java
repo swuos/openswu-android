@@ -4,13 +4,16 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.swuos.mobile.app.App;
-import com.swuos.mobile.app.BaseModel;
-import com.swuos.mobile.entity.UserInfo;
+
+import com.gallops.mobile.jmvclibrary.app.BaseModel;
+
+import com.gallops.mobile.jmvclibrary.app.JApp;
+import com.gallops.mobile.jmvclibrary.utils.injector.Model;
+import com.gallops.mobile.jmvclibrary.utils.json.JsonUtil;
+import com.swuos.mobile.entity.AccountInfo;
 import com.swuos.mobile.models.user.OnUserStateChangeListener;
 import com.swuos.mobile.models.user.UserModel;
-import com.swuos.mobile.utils.injector.Model;
-import com.swuos.mobile.utils.json.JsonUtil;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,16 +42,20 @@ public class CacheModel extends BaseModel {
     @Override
     public void onModelCreate(Application application) {
         super.onModelCreate(application);
+        initCache();
         userModel.addOnUserStateChangeListener(new OnUserStateChangeListener() {
             @Override
-            public void onLogin(UserInfo userInfo) {
+            public void onLogin(AccountInfo accountInfo) {
                 initCache();
+
             }
 
             @Override
-            public void onLogout(UserInfo userInfo) {
+            public void onLogout(AccountInfo accountInfo) {
                 initCache();
+
             }
+
         });
     }
 
@@ -57,15 +64,15 @@ public class CacheModel extends BaseModel {
         if (userModel.isNeedLogin()) {
             userId = GUEST_ID;
         } else {
-            UserInfo userInfo = userModel.getUserInfo();
-            if (userInfo == null) {
+            AccountInfo accountInfo = userModel.getAccountInfo();
+            if (accountInfo == null) {
                 userId = GUEST_ID;
             } else {
-                userId = userInfo.getStudentId();
+                userId = accountInfo.getPhoneNumber();
             }
         }
         String cacheKey = CACHE_NAME + userId;
-        sp = App.getInstance().getSharedPreferences(cacheKey, Context.MODE_PRIVATE);
+        sp = JApp.getInstance().getSharedPreferences(cacheKey, Context.MODE_PRIVATE);
         spEditor = sp.edit();
         spEditor.apply();
     }

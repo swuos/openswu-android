@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="lineSize">1px</dimen>
+    <dimen name="v_bottom_i_h">40dp</dimen>
+    <dimen name="each_class_hight">60dp</dimen>
+    <dimen name="each_class_hightcuttwo">59dp</dimen>
+    <dimen name="table_width">30dp</dimen>
 </resources>

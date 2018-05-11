@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 
-import com.swuos.mobile.api.ErrorCode;
-import com.swuos.mobile.api.OnResultListener;
-import com.swuos.mobile.app.App;
-import com.swuos.mobile.app.BaseModel;
+import com.gallops.mobile.jmvclibrary.app.BaseModel;
+import com.gallops.mobile.jmvclibrary.app.JApp;
+import com.gallops.mobile.jmvclibrary.http.ErrorCode;
+import com.gallops.mobile.jmvclibrary.http.OnResultListener;
+import com.gallops.mobile.jmvclibrary.utils.json.JsonUtil;
 import com.swuos.mobile.entity.AccountInfo;
-import com.swuos.mobile.entity.UserInfo;
-import com.swuos.mobile.utils.json.JsonUtil;
+import com.swuos.mobile.entity.LoginInfo;
+import com.swuos.mobile.entity.RegisterInfo;
+import com.swuos.mobile.models.http.requester.LoginRequester;
+import com.swuos.mobile.models.http.requester.RegisterRequester;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +35,7 @@ public class UserModel extends BaseModel {
     private SharedPreferences sp;
     private SharedPreferences.Editor spEditor;
 
-    private UserInfo mUserInfo;
+    private AccountInfo accountInfo;
     private boolean isNeedLogin = false;
     private BuglyProxy buglyProxy;
 
@@ -44,7 +48,7 @@ public class UserModel extends BaseModel {
         spEditor = sp.edit();
         spEditor.apply();
         initUserInfo();
-        buglyProxy = new BuglyProxy(this);
+//        buglyProxy = new BuglyProxy(this);
     }
 
     @Override
@@ -56,22 +60,27 @@ public class UserModel extends BaseModel {
     }
 
     private void initUserInfo() {
-        mUserInfo = readUserInfo();
-        isNeedLogin = mUserInfo == null;
+        accountInfo = readAccountInfo();
+        isNeedLogin = accountInfo == null;
     }
 
     /**
      * 登录
-     * @param accountInfo   账号信息
-     * @param listener      回调
+     *
+     * @param  password,String phoneNumber 账号信息
+     * @param listener   回调
      */
-    public void login(final AccountInfo accountInfo, @Nullable final OnResultListener<UserInfo> listener) {
+    public void login(String password,String phoneNumber,@Nullable final OnResultListener<LoginInfo> listener) {
         if (!isNeedLogin) throw new RuntimeException("请勿重复调用登录");
-        LoginRequester loginRequester = new LoginRequester(accountInfo, (code, userInfo, msg) -> {
+        LoginRequester loginRequester = new LoginRequester(password,phoneNumber,(code, userInfo, msg) -> {
             if (code == ErrorCode.RESULT_DATA_OK) {
+                accountInfo = new AccountInfo();
+                accountInfo.setPassword(password);
+                accountInfo.setPhoneNumber(phoneNumber);
+                accountInfo.setAcToken(userInfo.getAcToken());
                 saveAccountInfo(accountInfo);
                 isNeedLogin = false;
-                saveUserInfo(userInfo);
+//                saveUserInfo(userInfo);
                 if (listener != null) listener.onResult(ErrorCode.RESULT_DATA_OK, userInfo, msg);
                 notifyUserLogin();
             } else {
@@ -81,21 +90,42 @@ public class UserModel extends BaseModel {
         loginRequester.execute();
     }
 
-    public void loginQuiet() {
-        AccountInfo accountInfo = readAccountInfo();
-        if (accountInfo == null) {
-            throw new IllegalArgumentException("找不到lastAccountInfo");
-        }
-        login(accountInfo, null);
+
+    public void register(String phoneNumber,String password,String verificationCode, @Nullable final OnResultListener<RegisterInfo> listener) {
+        if (!isNeedLogin) throw new RuntimeException("请勿重复调用登录");
+        RegisterRequester loginRequester = new RegisterRequester(phoneNumber,password,verificationCode, (code, registerInfo, msg) -> {
+            if (code == ErrorCode.RESULT_DATA_OK) {
+                accountInfo = new AccountInfo();
+                accountInfo.setPassword(password);
+                accountInfo.setPhoneNumber(phoneNumber);
+                saveAccountInfo(accountInfo);
+                isNeedLogin = false;
+
+                if (listener != null)
+                    listener.onResult(ErrorCode.RESULT_DATA_OK, registerInfo, msg);
+                notifyUserLogin();
+            } else {
+                if (listener != null) listener.onResult(code, null, msg);
+            }
+        });
+        loginRequester.execute();
     }
+//    public void loginQuiet() {
+//        AccountInfo accountInfo = readAccountInfo();
+//        if (accountInfo == null) {
+//            throw new IllegalArgumentException("找不到lastAccountInfo");
+//        }
+//        login(accountInfo, null);
+//    }
 
     /**
      * 登出，目前没有接口，模拟操作
-     * @param listener   回调
+     *
+     * @param listener 回调
      */
     public void logout(@Nullable OnResultListener<Void> listener) {
         if (isNeedLogin) throw new RuntimeException("请勿重复调用退出");
-        App.getHandler().postDelayed(() -> {
+        JApp.getHandler().postDelayed(() -> {
             notifyUserLogout();
             clearUserInfo();
             initUserInfo();
@@ -106,26 +136,29 @@ public class UserModel extends BaseModel {
     }
 
     @Nullable
-    private UserInfo readUserInfo() {
-        UserInfo userInfo;
+    private AccountInfo readUserInfo() {
+        AccountInfo accountInfo;
         String userInfoString = sp.getString(UserCacheKey.CURRENT_USER.getKey(), "");
         try {
             JSONObject jsonObject = new JSONObject(userInfoString);
-            userInfo = JsonUtil.toObject(jsonObject, UserInfo.class);
+            accountInfo = JsonUtil.toObject(jsonObject, AccountInfo.class);
         } catch (JSONException e) {
             e.printStackTrace();
-            userInfo = null;
+            accountInfo = null;
         }
-        return userInfo;
+        return accountInfo;
     }
 
-    public void saveUserInfo(UserInfo userInfo) {
-        mUserInfo = userInfo.clone();
-        spEditor.putString(UserCacheKey.CURRENT_USER.getKey(), JsonUtil.toJSONObject(userInfo).toString()).apply();
+    public void saveUserInfo(AccountInfo accountInfo) {
+        accountInfo = accountInfo.clone();
+        spEditor.putString(UserCacheKey.CURRENT_USER.getKey(), JsonUtil.toJSONObject(accountInfo).toString()).apply();
     }
 
     private void clearUserInfo() {
         spEditor.putString(UserCacheKey.CURRENT_USER.getKey(), "{}");
+        spEditor.clear();
+        spEditor.apply();
+        spEditor.commit();
     }
 
     @Nullable
@@ -142,12 +175,13 @@ public class UserModel extends BaseModel {
         return accountInfo;
     }
 
-    private void saveAccountInfo(AccountInfo accountInfo) {
+    public void saveAccountInfo(AccountInfo accountInfo) {
         spEditor.putString(UserCacheKey.LAST_ACCOUNT.getKey(), JsonUtil.toJSONObject(accountInfo).toString()).apply();
     }
 
     /**
      * 是否需要登录
+     *
      * @return
      */
     public boolean isNeedLogin() {
@@ -156,25 +190,27 @@ public class UserModel extends BaseModel {
 
     /**
      * 用户对象可为空，要注意使用逻辑
+     *
      * @return
      */
-    public UserInfo getUserInfo() {
-        if (mUserInfo == null) return null;
-        return mUserInfo.clone();
+    public AccountInfo getAccountInfo() {
+        if (accountInfo == null) return null;
+        return accountInfo;
     }
 
-    public String getUserId() {
-        UserInfo userInfo = getUserInfo();
-        if (userInfo == null) {
+    public String getSwuId() {
+        AccountInfo accountInfo = getAccountInfo();
+        if (accountInfo == null) {
             return GUEST_ID;
         } else {
-            return userInfo.getStudentId();
+            return accountInfo.getSwuId();
         }
     }
 
     /**
      * 注册用户状态变化监听事件
-     * @param listener  回调
+     *
+     * @param listener 回调
      */
     public void addOnUserStateChangeListener(OnUserStateChangeListener listener) {
         onUserStateChangeListenerList.add(listener);
@@ -182,7 +218,8 @@ public class UserModel extends BaseModel {
 
     /**
      * 注销用户状态变化监听事件
-     * @param listener  回调
+     *
+     * @param listener 回调
      */
     public void removeOnUserStateChangeListener(OnUserStateChangeListener listener) {
         onUserStateChangeListenerList.remove(listener);
@@ -193,7 +230,7 @@ public class UserModel extends BaseModel {
      */
     private void notifyUserLogin() {
         for (OnUserStateChangeListener listener : onUserStateChangeListenerList) {
-            listener.onLogin(mUserInfo.clone());
+            listener.onLogin(accountInfo.clone());
         }
     }
 
@@ -202,7 +239,7 @@ public class UserModel extends BaseModel {
      */
     private void notifyUserLogout() {
         for (OnUserStateChangeListener listener : onUserStateChangeListenerList) {
-            listener.onLogout(mUserInfo.clone());
+            listener.onLogout(accountInfo.clone());
         }
     }
 

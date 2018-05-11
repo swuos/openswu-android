@@ -1,8 +1,10 @@
 package com.swuos.mobile.models.user
 
-import com.swuos.mobile.app.App
-import com.swuos.mobile.entity.UserInfo
-import com.swuos.mobile.utils.lgD
+import com.gallops.mobile.jmvclibrary.app.JApp
+import com.gallops.mobile.jmvclibrary.utils.kt.lgD
+import com.swuos.mobile.entity.AccountInfo
+import com.swuos.mobile.entity.LoginInfo
+
 import com.tencent.bugly.crashreport.CrashReport
 
 /**
@@ -12,15 +14,18 @@ import com.tencent.bugly.crashreport.CrashReport
 class BuglyProxy(private val userModel: UserModel) {
     private val TAG = BuglyProxy::javaClass.name
     private val onUserStateChangeListener: OnUserStateChangeListener = object : OnUserStateChangeListener {
-        override fun onLogin(userInfo: UserInfo?) {
-            lgD(TAG, "bugly account login: " + userInfo?.studentId)
+        override fun onLogin(accountInfo: AccountInfo?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            lgD(TAG, "bugly account login: " + accountInfo?.swuId)
             setBugly()
         }
 
-        override fun onLogout(userInfo: UserInfo?) {
-            lgD(TAG, "bugly account logout: " + userInfo?.studentId)
+        override fun onLogout(accountInfo: AccountInfo?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            lgD(TAG, "bugly account logout: " + accountInfo?.swuId)
             setBugly()
         }
+
     }
 
     init {
@@ -29,8 +34,8 @@ class BuglyProxy(private val userModel: UserModel) {
     }
 
     private fun setBugly() {
-        if (!App.isDebug()) {
-            CrashReport.setUserId(userModel.userId + "")
+        if (!JApp.isDebug()) {
+            CrashReport.setUserId(userModel.swuId + "")
         }
     }
 }

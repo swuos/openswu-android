@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/weeks_select_dialog_bg"
+    android:elevation="10dp"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="周数选择"
+        android:textColor="@color/FF565656"
+        android:textSize="20dp" />
+
+    <LinearLayout
+        android:id="@+id/weeks_item_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/ffc2c2c2"
+        android:orientation="vertical"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/ffc2c2c2"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/single_week"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1px"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="单周"
+            android:textColor="@color/FF565656"
+            android:textSize="19dp" />
+
+        <Button
+            android:id="@+id/double_week"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1px"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="双周"
+            android:textColor="@color/FF565656"
+            android:textSize="19dp" />
+
+        <Button
+            android:id="@+id/all_week"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1px"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="全选"
+            android:textColor="@color/FF565656"
+            android:textSize="19dp" />
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ffc2c2c2"
+        android:orientation="horizontal">
+
+        <Button
+            android:padding="10dp"
+            android:id="@+id/negetive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1px"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/positive_negetive_button_bg"
+
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="取消"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp" />
+
+        <Button
+            android:padding="10dp"
+            android:id="@+id/positive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1px"
+            android:layout_marginTop="1px"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="确定"
+            android:background="@drawable/positive_negetive_button_bg"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

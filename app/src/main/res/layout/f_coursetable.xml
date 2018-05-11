@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/statusbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/logined_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/schedule_table_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/status_bar"
+                android:background="@color/colorPrimary"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/schedule_weeks_im"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:src="@mipmap/add_more" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/schedule_weeks"
+                            android:layout_width="100dp"
+                            android:layout_height="30dp"
+                            android:clickable="true"
+                            android:drawableRight="@drawable/schedule_week_more"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:text="第 6 周"
+                            android:textColor="#ffffff"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/schedule_years"
+                            android:layout_width="100dp"
+                            android:layout_height="20dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:text="大三 第2学期"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/table_frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:translationZ="-1dp">
+
+
+                <HorizontalScrollView
+                    android:id="@+id/choose_week"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/choose_week_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/ffefefef"
+                        android:orientation="horizontal" />
+                </HorizontalScrollView>
+
+                <LinearLayout
+                    android:id="@+id/table_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/week_days"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:background="@color/ffF9F9F9"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/day"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_gravity="top|center">
+
+                            <TextView
+                                android:id="@+id/z0"
+                                android:layout_width="@dimen/table_width"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/z1"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="周一"
+                                android:textColor="@color/schedule_day_date_bg" />
+
+                            <TextView
+                                android:id="@+id/z2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="周二"
+                                android:textColor="@color/schedule_day_date_bg" />
+
+                            <TextView
+                                android:id="@+id/z3"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="周三"
+                                android:textColor="@color/schedule_day_date_bg" />
+
+                            <TextView
+                                android:id="@+id/z4"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="周四"
+                                android:textColor="@color/schedule_day_date_bg" />
+
+                            <TextView
+                                android:id="@+id/z5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="周五"
+                                android:textColor="@color/schedule_day_date_bg" />
+
+                            <TextView
+                                android:id="@+id/z6"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="周六"
+                                android:textColor="@color/schedule_day_date_bg" />
+
+                            <TextView
+                                android:id="@+id/z7"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="周日"
+                                android:textColor="@color/schedule_day_date_bg" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/date"
+                            android:layout_width="match_parent"
+                            android:layout_height="16dp">
+
+                            <TextView
+                                android:id="@+id/d0"
+                                android:layout_width="@dimen/table_width"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:id="@+id/d1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="10-1"
+                                android:textColor="@color/schedule_day_date_bg"
+                                android:textSize="8sp" />
+
+                            <TextView
+                                android:id="@+id/d2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="10-2"
+                                android:textColor="@color/schedule_day_date_bg"
+                                android:textSize="8sp" />
+
+                            <TextView
+                                android:id="@+id/d3"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="10-3"
+                                android:textColor="@color/schedule_day_date_bg"
+                                android:textSize="8sp" />
+
+                            <TextView
+                                android:id="@+id/d4"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="10-4"
+                                android:textColor="@color/schedule_day_date_bg"
+                                android:textSize="8sp" />
+
+                            <TextView
+                                android:id="@+id/d5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="10-5"
+                                android:textColor="@color/schedule_day_date_bg"
+                                android:textSize="8sp" />
+
+                            <TextView
+                                android:id="@+id/d6"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="10-6"
+                                android:textColor="@color/schedule_day_date_bg"
+                                android:textSize="8sp" />
+
+                            <TextView
+                                android:id="@+id/d7"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="fill"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="10-7"
+                                android:textColor="@color/schedule_day_date_bg"
+                                android:textSize="8sp" />
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <com.swuos.mobile.view.ObservableScrollView
+                        android:id="@+id/schedule_table_ScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:overScrollMode="never"
+                        android:scrollbars="none"
+                        android:translationZ="-1dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white">
+
+                            <LinearLayout
+                                android:id="@+id/classs"
+                                android:layout_width="@dimen/table_width"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/classs1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+                                    android:gravity="fill"
+                                    android:text="1"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+                                    android:gravity="fill"
+                                    android:text="2"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+
+                                    android:gravity="fill"
+                                    android:text="3"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+                                    android:gravity="fill"
+                                    android:text="4"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+
+                                    android:gravity="fill"
+                                    android:text="5"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+
+                                    android:gravity="fill"
+                                    android:text="6"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+
+                                    android:gravity="fill"
+                                    android:text="7"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+
+                                    android:gravity="fill"
+                                    android:text="8"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+
+                                    android:gravity="fill"
+                                    android:text="9"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+
+                                    android:gravity="fill"
+                                    android:text="10"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+
+                                    android:gravity="fill"
+                                    android:text="11"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+
+                                    android:gravity="fill"
+                                    android:text="12"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+                                    android:gravity="fill"
+                                    android:text="13"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/each_class_hight"
+                                    android:layout_gravity="center"
+                                    android:gravity="fill"
+                                    android:text="14"
+                                    android:textColor="@color/schedule_day_date_bg" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/each_class_hightcuttwo"
+                                    android:background="@drawable/dot_line" />
+
+                            </LinearLayout>
+
+                            <FrameLayout
+                                android:id="@+id/class_table"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/table_width"
+                                android:layout_toRightOf="@+id/classs">
+
+                            </FrameLayout>
+                        </FrameLayout>
+                    </com.swuos.mobile.view.ObservableScrollView>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/unlogin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="90dp"
+                android:src="@mipmap/no_login" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:textColor="@color/ffBFBFBF"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="暂无课表，点击登录校园账号导入课表" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

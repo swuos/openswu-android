@@ -6,9 +6,10 @@ import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
 import android.widget.ImageView
+import com.gallops.mobile.jmvclibrary.utils.CommonUtils
+import com.gallops.mobile.jmvclibrary.utils.kt.on16orAbove
 import com.swuos.mobile.R
-import com.swuos.mobile.utils.CommonUtils
-import com.swuos.mobile.utils.kt.on16orAbove
+
 
 /**
  * 状态栏占位控件,用于适配不同版本的状态栏高度问题，使用方式 {

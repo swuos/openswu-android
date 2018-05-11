@@ -12,8 +12,8 @@ import android.net.NetworkInfo;
 import android.support.v4.app.ActivityCompat;
 
 
-import com.swuos.mobile.app.BaseModel;
-import com.swuos.mobile.utils.LoggerKt;
+import com.gallops.mobile.jmvclibrary.app.BaseModel;
+import com.gallops.mobile.jmvclibrary.utils.kt.LoggerKt;
 
 import java.util.ArrayList;
 import java.util.List;
