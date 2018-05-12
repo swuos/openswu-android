@@ -3,6 +3,7 @@ package com.swuos.mobile.app;
 import com.gallops.mobile.jmvclibrary.app.BaseModel;
 import com.gallops.mobile.jmvclibrary.app.JApp;
 import com.gallops.mobile.jmvclibrary.models.HttpModel;
+import com.jianyuyouhun.permission.library.EZPermission;
 import com.swuos.mobile.BuildConfig;
 import com.swuos.mobile.api.ApiConfig;
 import com.swuos.mobile.models.cache.CacheModel;
@@ -18,8 +19,8 @@ public class App extends JApp {
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    protected void initDependencies() {
+        EZPermission.Companion.init(this);
     }
 
     @Override

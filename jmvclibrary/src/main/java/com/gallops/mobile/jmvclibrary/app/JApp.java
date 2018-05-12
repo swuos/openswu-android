@@ -100,7 +100,6 @@ public abstract class JApp extends Application {
         } else {
             try {
                 // 正式版本  启用崩溃提交
-                // TODO: 2018/2/26 appId未配置
                 CrashReport.initCrashReport(this, buglyId, false);
             } catch (Throwable e) {
                 e.printStackTrace();

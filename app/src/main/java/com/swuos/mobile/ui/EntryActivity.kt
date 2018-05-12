@@ -32,7 +32,6 @@ class EntryActivity : BaseActivity() {
      * 申请存储权限
      */
     private fun requestPermission() {
-        EZPermission.init(application)
         EZPermission.instance.requestPermission(
                 this,
                 PRequester(Manifest.permission.WRITE_EXTERNAL_STORAGE),

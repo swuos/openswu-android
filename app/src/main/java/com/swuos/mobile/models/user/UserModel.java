@@ -155,10 +155,7 @@ public class UserModel extends BaseModel {
     }
 
     private void clearUserInfo() {
-        spEditor.putString(UserCacheKey.CURRENT_USER.getKey(), "{}");
-        spEditor.clear();
-        spEditor.apply();
-        spEditor.commit();
+        spEditor.putString(UserCacheKey.CURRENT_USER.getKey(), "").apply();
     }
 
     @Nullable
