@@ -8,7 +8,7 @@ import android.os.Parcelable;
  * Created by wangyu on 2018/1/20.
  */
 
-public class AccountInfo implements Parcelable ,Cloneable{
+public class AccountInfo implements Parcelable, Cloneable{
 
     private String phoneNumber;//手机号
     private String password;//密码
@@ -20,7 +20,6 @@ public class AccountInfo implements Parcelable ,Cloneable{
         return swuId;
     }
 
-    // TODO: 2018/5/11 全局数据持有问题
     public void setSwuId(String swuId) {
         this.swuId = swuId;
     }

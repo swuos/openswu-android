@@ -2,7 +2,6 @@ package com.swuos.mobile.ui.tab;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,12 +39,15 @@ import com.swuos.mobile.app.Key;
 import com.swuos.mobile.entity.AllWeeksClass;
 import com.swuos.mobile.entity.BaseInfo;
 import com.swuos.mobile.entity.ClassItemDetail;
+import com.swuos.mobile.entity.WeekClasses;
 import com.swuos.mobile.models.cache.CacheModel;
 import com.swuos.mobile.models.http.requester.BindSwuIdRequester;
 import com.swuos.mobile.models.http.requester.GetAcProfileRequester;
 import com.swuos.mobile.models.http.requester.GetScheduleRequester;
 import com.swuos.mobile.models.user.UserModel;
 import com.swuos.mobile.view.WeekClassPreview;
+
+import java.util.List;
 
 import static android.widget.LinearLayout.VERTICAL;
 
@@ -80,7 +82,7 @@ public class CourseTableFragment extends BaseFragment {
     LinearLayout unloginLayout;
     @Model
     private CacheModel cacheModel;
-    private AllWeeksClass weeksClass;
+    private List<WeekClasses> weeksClass;
     private String term;//当前课表所在的学期
     private String academicYear;//当前课表所在学年
     private String tempTerm;//临时保存当前课表所在的学期
@@ -515,11 +517,11 @@ public class CourseTableFragment extends BaseFragment {
     private void initChoosePreviewWeeks() {
         int weekPreviewWidth = CommonUtils.getScreenWidth() / 5;
         chooseWeekContainer.removeAllViews();
-        for (int i = 0; i < weeksClass.getWeekClasses().size(); i++) {
-            AllWeeksClass.WeekClasses weekClasses = weeksClass.getWeekClasses().get(i);
+        for (int i = 0; i < weeksClass.size(); i++) {
+            WeekClasses weekClasses = weeksClass.get(i);
             int[][] preview = new int[4][5];
-            for (int j = 0; j < weekClasses.getWeekitem().size(); j++) {
-                ClassItemDetail classItemDetail = weekClasses.getWeekitem().get(j);
+            for (int j = 0; j < weekClasses.getWeekItem().size(); j++) {
+                WeekClasses.WeekItem classItemDetail = weekClasses.getWeekItem().get(j);
                 if (classItemDetail.getDay() > 5)
                     continue;
                 int dayofweek = classItemDetail.getDay() - 1;
@@ -600,7 +602,7 @@ public class CourseTableFragment extends BaseFragment {
 //                        classItemDetails.add(classItemDetail);
 //                    }
 //                }
-//                weekClasses.setWeekitem(classItemDetails);
+//                weekClasses.setWeekItem(classItemDetails);
 //                weekClasses.setWeekSort(k + 1);
 //                arrayList.add(weekClasses);
 //            }
@@ -612,16 +614,16 @@ public class CourseTableFragment extends BaseFragment {
         if (isForce) {
             weeksClass = null;
         } else
-            weeksClass = cacheModel.getObject(Key.SCHEDULE, AllWeeksClass.class);
+            weeksClass = cacheModel.getList(Key.SCHEDULE, WeekClasses.class);
 
         if (weeksClass == null) {
             showProgressDialog("正在获取");
-            GetScheduleRequester getScheduleRequester = new GetScheduleRequester(userModel.getSwuId(), academicYear, term, new OnResultListener<AllWeeksClass>() {
+            GetScheduleRequester getScheduleRequester = new GetScheduleRequester(userModel.getSwuId(), academicYear, term, new OnResultListener<List<WeekClasses>>() {
                 @Override
-                public void onResult(int code, AllWeeksClass allWeeksClass, String msg) {
+                public void onResult(int code, List<WeekClasses> weekClasses, String msg) {
                     dismissProgressDialog();
                     if (code == ErrorCode.RESULT_DATA_OK) {
-                        weeksClass = allWeeksClass;
+                        weeksClass = weekClasses;
                         cacheModel.putObject(Key.SCHEDULE, weeksClass);
                         getHandler().post(new Runnable() {
                             @Override
@@ -643,9 +645,9 @@ public class CourseTableFragment extends BaseFragment {
         mTableFrameLayout.removeAllViews();
         mClazzWidth = (getActivity().getResources().getDisplayMetrics().widthPixels - getResources().getDimensionPixelSize(R.dimen.table_width)) / 7;
         mClazzHeight = getResources().getDimensionPixelSize(R.dimen.each_class_hight);
-        AllWeeksClass.WeekClasses currentWeekClasses = weeksClass.getWeekClasses().get(currentSelectWeek);
-        for (int i = 0; i < currentWeekClasses.getWeekitem().size(); i++) {
-            ClassItemDetail classItemDetail = currentWeekClasses.getWeekitem().get(i);
+        WeekClasses currentWeekClasses = weeksClass.get(currentSelectWeek);
+        for (int i = 0; i < currentWeekClasses.getWeekItem().size(); i++) {
+            WeekClasses.WeekItem classItemDetail = currentWeekClasses.getWeekItem().get(i);
             /*设置新的布局参数*/
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(RelativeLayout.LayoutParams
                     .WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -668,7 +670,7 @@ public class CourseTableFragment extends BaseFragment {
             /*设置背景色*/
             textView.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.shape_class_bg));
             textView.getBackground().setColorFilter(backgroundcolor[i % 7], PorterDuff.Mode.ADD);
-            textView.setTag(currentWeekClasses.getWeekitem().size() - 1);
+            textView.setTag(currentWeekClasses.getWeekItem().size() - 1);
             textView.setTextColor(0xffffffff);
             textView.setTextSize(12);
             textView.setPadding(10, 0, 10, 0);

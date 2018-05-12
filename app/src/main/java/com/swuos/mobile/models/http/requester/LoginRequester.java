@@ -3,6 +3,7 @@ package com.swuos.mobile.models.http.requester;
 import android.support.annotation.NonNull;
 
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
+import com.gallops.mobile.jmvclibrary.http.RouteInterface;
 import com.gallops.mobile.jmvclibrary.http.annotation.BodyCreator;
 import com.gallops.mobile.jmvclibrary.http.creator.JsonBodyCreator;
 import com.swuos.mobile.api.AcHostRequester;
