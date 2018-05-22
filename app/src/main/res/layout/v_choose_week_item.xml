@@ -36,7 +36,7 @@
             android:textSize="13dp" />
     </LinearLayout>
 
-    <com.swuos.mobile.view.WeekClassPreview
+    <com.swuos.mobile.widgets.WeekClassPreview
         android:id="@+id/week_class_preview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

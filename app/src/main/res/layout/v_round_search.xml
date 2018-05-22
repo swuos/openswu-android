@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_lib_search_root"
+    android:layout_gravity="center"
+    android:layout_width="210dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/library_search_bg"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
+    <ImageView
+        android:layout_marginLeft="4dp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/iv_lib_search_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/library_search"/>
+
+    <!--marginRight = 16dp = iv_lib_search_icon's width-->
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_lib_search_hint"
+        android:textColor="@color/white"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="16dp"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="搜索更多"/>
+
+
+    <EditText
+        android:maxLines="1"
+        android:paddingLeft="9dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:id="@+id/et_lib_search_input"
+        android:layout_marginRight="16dp"
+        android:background="@null"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="#c8ffffff"
+        android:textColorHint="#c8ffffff"
+       />
+
+
+</LinearLayout>

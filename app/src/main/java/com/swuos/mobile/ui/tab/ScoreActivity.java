@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -26,9 +25,7 @@ import com.swuos.mobile.app.App;
 import com.swuos.mobile.entity.AllScoreItem;
 import com.swuos.mobile.models.http.requester.GetScoreRequester;
 import com.swuos.mobile.models.user.UserModel;
-import com.swuos.mobile.view.ScoreRecycleviewAdapter;
-
-import java.io.LineNumberReader;
+import com.swuos.mobile.adapter.ScoreRecycleviewAdapter;
 
 import static android.widget.LinearLayout.VERTICAL;
 

@@ -1,11 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">app</string>
-    <string name="exit_application">再按一次退出应用</string>
-
-    <string name="main_bottom_course_table">课表</string>
-    <string name="main_bottom_score">图书馆</string>
-    <string name="main_bottom_mine">我的</string>
-
 
     <!-- library start -->
     <string name="lib_search_hint">搜索更多书籍</string>
@@ -19,6 +13,6 @@
     <string name="lib_publisher">出版社信息:</string>
     <string name="lib_search">搜索</string>
     <string name="lib_back">还书时间:%s</string>
-
     <!-- library end -->
+
 </resources>

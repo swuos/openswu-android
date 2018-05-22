@@ -47,11 +47,13 @@ class EntryActivity : BaseActivity() {
      * 判断登录状态
      */
     private fun judgeForwardUI() {
-        if (!userModel.isNeedLogin) {
-            postStartActivity(MainActivity::class.java, 10)
-        } else {
-            //            userModel.loginQuiet()
-            postStartActivity(LoginActivity::class.java, 1000)
-        }
+        // todo 登录有问题  临时注释掉 记得修改回来
+//        if (!userModel.isNeedLogin) {
+//            postStartActivity(MainActivity::class.java, 10)
+//        } else {
+//            //            userModel.loginQuiet()
+//            postStartActivity(LoginActivity::class.java, 1000)
+//        }
+        postStartActivity(MainActivity::class.java, 10)
     }
 }

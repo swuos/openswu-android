@@ -1,4 +1,4 @@
-package com.swuos.mobile.view;
+package com.swuos.mobile.adapter;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;

@@ -36,16 +36,14 @@ import com.jianyuyouhun.inject.annotation.OnClick;
 import com.swuos.mobile.R;
 import com.swuos.mobile.app.App;
 import com.swuos.mobile.app.Key;
-import com.swuos.mobile.entity.AllWeeksClass;
 import com.swuos.mobile.entity.BaseInfo;
-import com.swuos.mobile.entity.ClassItemDetail;
 import com.swuos.mobile.entity.WeekClasses;
 import com.swuos.mobile.models.cache.CacheModel;
 import com.swuos.mobile.models.http.requester.BindSwuIdRequester;
 import com.swuos.mobile.models.http.requester.GetAcProfileRequester;
 import com.swuos.mobile.models.http.requester.GetScheduleRequester;
 import com.swuos.mobile.models.user.UserModel;
-import com.swuos.mobile.view.WeekClassPreview;
+import com.swuos.mobile.widgets.WeekClassPreview;
 
 import java.util.List;
 

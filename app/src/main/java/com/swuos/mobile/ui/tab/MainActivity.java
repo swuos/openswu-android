@@ -14,7 +14,8 @@ import com.swuos.mobile.R;
 
 import com.swuos.mobile.models.user.UserModel;
 
-import com.swuos.mobile.view.TabItemView;
+import com.swuos.mobile.ui.lib.LibraryFragment;
+import com.swuos.mobile.widgets.TabItemView;
 
 import java.util.ArrayList;
 import java.util.List;

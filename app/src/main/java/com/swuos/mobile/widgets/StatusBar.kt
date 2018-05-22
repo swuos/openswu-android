@@ -1,4 +1,4 @@
-package com.swuos.mobile.view
+package com.swuos.mobile.widgets
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi

@@ -13,7 +13,10 @@ enum class RouteEnum(private val r: String, private val l: Int) : RouteInterface
     ROUTE_GET_SCHEDULE("/api/schedule/search", 103),
     ROUTE_BIND("/ac/bindSwuac", 104),
     ROUTE_GET_SCORE("/api/grade/search", 1030),
-    GET_AC_PROFILE("/ac/profile", 1031);
+    GET_AC_PROFILE("/ac/profile", 1031),
+    GET_LIB_POPULAR("/mock/17/api/lib/popular", 1051),
+    GET_LIB_BOOKSHELF("/mock/17/api/lib/bookshelf", 1052),
+    GET_LIB_SEARCH("/mock/17/api/lib/search", 1053);
     override fun getRoute(): String = r
     override fun getLogId(): Int = l
 }

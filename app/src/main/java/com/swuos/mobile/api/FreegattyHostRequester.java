@@ -28,6 +28,7 @@ public abstract class FreegattyHostRequester<T> extends HttpRequester<T> {
     @Override
     protected void preHandleRequest(@NonNull Request.Builder reqBuilder) {
         super.preHandleRequest(reqBuilder);
-        reqBuilder.addHeader("acToken", getUserModel().getAccountInfo().getAcToken());
+        // todo NPE异常，临时注释掉 记得处理该异常
+//        reqBuilder.addHeader("acToken", getUserModel().getAccountInfo().getAcToken());
     }
 }

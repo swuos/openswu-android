@@ -1,4 +1,4 @@
-package com.swuos.mobile.view;
+package com.swuos.mobile.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -18,7 +18,6 @@ import android.net.Uri;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import com.swuos.mobile.R;
 

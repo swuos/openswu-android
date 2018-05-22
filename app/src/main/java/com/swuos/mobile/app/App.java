@@ -9,6 +9,7 @@ import com.swuos.mobile.api.ApiConfig;
 import com.swuos.mobile.models.cache.CacheModel;
 import com.swuos.mobile.models.network.NetworkModel;
 import com.swuos.mobile.models.user.UserModel;
+import com.swuos.mobile.utils.DisplayUtils;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class App extends JApp {
     @Override
     protected void initDependencies() {
         EZPermission.Companion.init(this);
+        DisplayUtils.init(getApplicationContext());
     }
 
     @Override

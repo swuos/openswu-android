@@ -9,7 +9,8 @@ import com.gallops.mobile.jmvclibrary.http.ApiInterface;
 
 public class ApiConfig {
     public static String AC_HOST = "http://ac.xenoeye.org";
-    public static String FREEGATTY_HOST = "http://118.25.5.239:10080";
+    // TODO: 2018/5/19 端口10080修改为3000
+    public static String FREEGATTY_HOST = "http://118.25.5.239:3000";
     public static String VERIFICATION_HOST = "http://119.27.174.160";
 
     public static class AcHostApi extends ApiConfig implements ApiInterface {
