@@ -34,7 +34,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'com.github.jianyuyouhun:ViewInjector:1.0'
+    compile 'com.github.jianyuyouhun:ViewInjector:1.2.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
     implementation files('libs/bugly_crash_release__2.1.1.jar')

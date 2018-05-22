@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import com.gallops.mobile.jmvclibrary.app.BaseFragment;
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
+import com.gallops.mobile.jmvclibrary.utils.injector.Model;
 import com.jianyuyouhun.inject.annotation.FindViewById;
 import com.jianyuyouhun.inject.annotation.OnClick;
 import com.swuos.mobile.R;
 import com.swuos.mobile.app.App;
 import com.swuos.mobile.models.user.UserModel;
+import com.swuos.mobile.ui.user.LoginActivity;
 import com.swuos.mobile.ui.user.SecrityActivity;
 
 
@@ -45,6 +47,8 @@ public class MineFragment extends BaseFragment {
     LinearLayout aboutUsLayout;
     @FindViewById(R.id.logout)
     Button logoutButton;
+    @Model
+    private UserModel userModel;
 
     @Override
     protected int getLayoutResId() {
@@ -89,11 +93,10 @@ public class MineFragment extends BaseFragment {
     }
 
     private void logout() {
-        App.getInstance().getModel(UserModel.class).logout(new OnResultListener<Void>() {
-            @Override
-            public void onResult(int code, Void aVoid, String msg) {
-                getActivity().finish();
-            }
+        showProgressDialog("正在退出...");
+        userModel.logout((code, aVoid, msg) -> {
+            dismissProgressDialog();
+            LoginActivity.startActivity(getContext());
         });
     }
 }

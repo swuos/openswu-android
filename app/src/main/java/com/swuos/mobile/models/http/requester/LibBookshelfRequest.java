@@ -42,7 +42,7 @@ public class LibBookshelfRequest extends FreegattyHostRequester<List<LibBookshel
     }
 
     @Override
-    public void onPutParams(@NonNull Map params) {
+    protected void onPutParams(@NonNull Map<String, Object> params) {
         params.put("swuId", swuId);
     }
 

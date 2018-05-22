@@ -27,6 +27,7 @@ public abstract class VerificationHostRequester<T> extends HttpRequester<T> {
     @Override
     protected void preHandleRequest(@NonNull Request.Builder reqBuilder) {
         super.preHandleRequest(reqBuilder);
+        // TODO: 2018/5/22 第一次打开app时没有账号 崩溃
         reqBuilder.addHeader("acToken", getUserModel().getAccountInfo().getAcToken());
     }
 }

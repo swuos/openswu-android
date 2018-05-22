@@ -13,7 +13,7 @@ import com.swuos.mobile.R
 
 /**
  * 状态栏占位控件,用于适配不同版本的状态栏高度问题，使用方式 {
- *          <com.swuos.mobile.view.StatusBar
+ *          <com.swuos.mobile.widgets.StatusBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:targetVersion="21"                      目标版本（19——26）
