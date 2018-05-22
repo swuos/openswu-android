@@ -2,6 +2,7 @@ package com.swuos.mobile.models.http.requester;
 
 import android.support.annotation.NonNull;
 
+import com.gallops.mobile.jmvclibrary.http.HttpMethod;
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
 import com.gallops.mobile.jmvclibrary.http.RouteInterface;
 import com.gallops.mobile.jmvclibrary.http.annotation.BodyCreator;
@@ -40,6 +41,12 @@ public class LoginRequester extends AcHostRequester<LoginInfo> {
     @Override
     protected void preHandleRequest(@NonNull Request.Builder reqBuilder) {
         //覆盖掉父类自动填充token逻辑
+    }
+
+    @NonNull
+    @Override
+    protected HttpMethod setMethod() {
+        return HttpMethod.POST;
     }
 
     @Override

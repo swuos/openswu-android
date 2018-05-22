@@ -26,6 +26,11 @@ public class App extends JApp {
     }
 
     @Override
+    protected String setBuglyId() {
+        return "98b389a3de";
+    }
+
+    @Override
     protected boolean setDebugMode() {
         return BuildConfig.DEBUG;
     }
