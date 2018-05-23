@@ -155,7 +155,7 @@ public class UserModel extends BaseModel {
     }
 
     private void clearUserInfo() {
-        spEditor.putString(UserCacheKey.CURRENT_USER.getKey(), "").apply();
+        spEditor.putString(UserCacheKey.LAST_ACCOUNT.getKey(), "").apply();
     }
 
     @Nullable
@@ -173,6 +173,7 @@ public class UserModel extends BaseModel {
     }
 
     public void saveAccountInfo(AccountInfo accountInfo) {
+       this.accountInfo=accountInfo;
         spEditor.putString(UserCacheKey.LAST_ACCOUNT.getKey(), JsonUtil.toJSONObject(accountInfo).toString()).apply();
     }
 

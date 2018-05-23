@@ -152,6 +152,7 @@ public class CourseTableFragment extends BaseFragment {
         } else {
             unloginLayout.setVisibility(View.GONE);
             loginedLayout.setVisibility(View.VISIBLE);
+            setAcademic();
             initView();
             getSchedule(false);
 
@@ -419,7 +420,6 @@ public class CourseTableFragment extends BaseFragment {
                 animation.getCurrentPlayTime();
             }
         }).start();
-//        tableFrameLayout.addShadow();
         if (moreOptionsWindow == null) {
             FrameLayout fullFrameLayout = new FrameLayout(getContext());
             FrameLayout.LayoutParams frameLayoutLp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
@@ -622,7 +622,7 @@ public class CourseTableFragment extends BaseFragment {
                     dismissProgressDialog();
                     if (code == ErrorCode.RESULT_DATA_OK) {
                         weeksClass = weekClasses;
-                        cacheModel.putObject(Key.SCHEDULE, weeksClass);
+                        cacheModel.putList(Key.SCHEDULE, weeksClass);
                         getHandler().post(new Runnable() {
                             @Override
                             public void run() {
@@ -634,6 +634,9 @@ public class CourseTableFragment extends BaseFragment {
                 }
             });
             getScheduleRequester.execute();
+        }else {
+            initChoosePreviewWeeks();
+            padingTable();
         }
 
 

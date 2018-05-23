@@ -2,6 +2,7 @@ package com.swuos.mobile.models.http.requester;
 
 import android.support.annotation.NonNull;
 
+import com.gallops.mobile.jmvclibrary.http.HttpMethod;
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
 import com.gallops.mobile.jmvclibrary.http.annotation.BodyCreator;
 import com.gallops.mobile.jmvclibrary.http.creator.JsonBodyCreator;
@@ -14,6 +15,7 @@ import com.swuos.mobile.entity.RegisterInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.Map;
 
 import okhttp3.Request;
@@ -37,6 +39,12 @@ public class RegisterRequester extends AcHostRequester<RegisterInfo> {
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.verificationCode = verificationCode;
+    }
+
+    @NonNull
+    @Override
+    protected HttpMethod setMethod() {
+        return HttpMethod.POST;
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.swuos.mobile.api.AcHostRequester;
 import com.swuos.mobile.api.Route;
 import com.swuos.mobile.api.RouteEnum;
 import com.swuos.mobile.app.App;
+import com.swuos.mobile.entity.AccountInfo;
 import com.swuos.mobile.entity.BaseInfo;
 import com.swuos.mobile.models.user.UserModel;
 
@@ -38,8 +39,10 @@ public class GetAcProfileRequester extends AcHostRequester<BaseInfo> {
 
     @Override
     protected BaseInfo onDumpData(JSONObject jsonObject) throws JSONException {
-       App.getInstance().getModel(UserModel.class).getAccountInfo().setSwuId(jsonObject.optString("swuid"));
-       return new BaseInfo() ;
+        AccountInfo accountInfo = App.getInstance().getModel(UserModel.class).getAccountInfo();
+        accountInfo.setSwuId(jsonObject.optString("swuid"));
+        App.getInstance().getModel(UserModel.class).saveAccountInfo(accountInfo);
+        return new BaseInfo();
     }
 
     @Override

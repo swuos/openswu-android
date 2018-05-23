@@ -25,7 +25,7 @@ public class ApiConfig {
                 break;
             case TEST:
                 AC_HOST = "http://119.27.174.160";
-                FREEGATTY_HOST = "http://118.25.5.239:3000";
+                FREEGATTY_HOST = "http://118.25.5.239:10080";
                 VERIFICATION_HOST = "http://119.27.174.160";
                 break;
         }

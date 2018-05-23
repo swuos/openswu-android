@@ -81,7 +81,7 @@ public abstract class JApp extends Application {
      * @return
      */
     protected String setBuglyId() {
-        return "";
+        return buglyId;
     }
 
     /**

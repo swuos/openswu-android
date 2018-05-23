@@ -14,6 +14,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -80,6 +85,11 @@ public abstract class BaseRequester<T> {
         HttpModel httpModel = getHttpModel();
         httpModel.getExecutor().execute(() -> {
             OkHttpClient client = new OkHttpClient();
+//            OkHttpClient.Builder cb=new OkHttpClient.Builder();
+//            Proxy proxy=new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.72.236.239",8888));
+//            cb.proxy(proxy);
+//            client=cb.build();
+
             Map<String, Object> params = new HashMap<>();
             onPutParams(params);
             HttpMethod method = setMethod();
