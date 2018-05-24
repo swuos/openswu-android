@@ -1,9 +1,7 @@
 package com.swuos.mobile.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
-public class ScoreItem implements Parcelable, Cloneable {
+public class ScoreItem  {
    private String score;
    private String lessonName;
    private String academicYear;
@@ -77,50 +75,5 @@ public class ScoreItem implements Parcelable, Cloneable {
         this.lessonType = lessonType;
     }
 
-    public static Creator<ScoreItem> getCREATOR() {
-        return CREATOR;
-    }
 
-    public ScoreItem() {
-    }
-
-    protected ScoreItem(Parcel in) {
-        score = in.readString();
-        lessonName = in.readString();
-        academicYear = in.readString();
-        term = in.readString();
-        gradePoint = in.readString();
-        credit = in.readString();
-        examType = in.readString();
-        lessonType = in.readString();
-    }
-
-    public static final Creator<ScoreItem> CREATOR = new Creator<ScoreItem>() {
-        @Override
-        public ScoreItem createFromParcel(Parcel in) {
-            return new ScoreItem(in);
-        }
-
-        @Override
-        public ScoreItem[] newArray(int size) {
-            return new ScoreItem[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(score);
-        dest.writeString(lessonName);
-        dest.writeString(academicYear);
-        dest.writeString(term);
-        dest.writeString(gradePoint);
-        dest.writeString(credit);
-        dest.writeString(examType);
-        dest.writeString(lessonType);
-    }
 }

@@ -90,12 +90,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="1px"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:background="@color/white"
                 android:gravity="center"
                 android:text="课程名称"    android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:textSize="18dp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -104,11 +104,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1px"
                 android:layout_marginRight="1px"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:background="@color/white"
                 android:gravity="center"
                 android:text="课程性质"
-                android:textSize="18dp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -121,7 +121,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:text="学分"
-                android:textSize="18dp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -134,7 +134,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:text="成绩"
-                android:textSize="18dp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -142,11 +142,11 @@
                 android:paddingTop="10dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1px"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:background="@color/white"
                 android:gravity="center"
                 android:text=" 绩点"
-                android:textSize="18dp" />
+                android:textSize="16dp" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

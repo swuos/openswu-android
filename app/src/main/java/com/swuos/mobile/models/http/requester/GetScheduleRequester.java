@@ -9,15 +9,12 @@ import com.gallops.mobile.jmvclibrary.utils.json.JsonUtil;
 import com.swuos.mobile.api.FreegattyHostRequester;
 import com.swuos.mobile.api.Route;
 import com.swuos.mobile.api.RouteEnum;
-import com.swuos.mobile.entity.AllWeeksClass;
-import com.swuos.mobile.entity.ClassItemDetail;
 import com.swuos.mobile.entity.WeekClasses;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

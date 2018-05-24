@@ -16,11 +16,11 @@ import com.gallops.mobile.jmvclibrary.http.OnResultListener;
 import com.jianyuyouhun.inject.annotation.FindViewById;
 import com.jianyuyouhun.inject.annotation.OnClick;
 import com.swuos.mobile.R;
-import com.swuos.mobile.entity.BaseInfo;
 import com.swuos.mobile.models.http.requester.GetVerificationRequester;
-import com.swuos.mobile.models.http.requester.RegisterRequester;
 import com.swuos.mobile.models.user.UserModel;
 import com.swuos.mobile.ui.tab.MainActivity;
+
+import org.json.JSONObject;
 
 public class RegisterActivity extends BaseActivity {
     @FindViewById(R.id.phonenumber_edit)
@@ -141,9 +141,9 @@ public class RegisterActivity extends BaseActivity {
     private void getVerificationCode() {
 
         showProgressDialog("正在发送");
-        GetVerificationRequester getVerificationRequester = new GetVerificationRequester(phoneEditText.getText().toString(),new OnResultListener<BaseInfo>() {
+        GetVerificationRequester getVerificationRequester = new GetVerificationRequester(phoneEditText.getText().toString(),new OnResultListener<JSONObject>() {
             @Override
-            public void onResult(int code, BaseInfo baseInfo, String msg) {
+            public void onResult(int code, JSONObject baseInfo, String msg) {
                 dismissProgressDialog();
                 if (code == ErrorCode.RESULT_DATA_OK) {
                     showToast("发送成功");

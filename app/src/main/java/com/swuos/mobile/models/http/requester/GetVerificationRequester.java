@@ -8,7 +8,6 @@ import com.gallops.mobile.jmvclibrary.http.creator.JsonBodyCreator;
 import com.swuos.mobile.api.Route;
 import com.swuos.mobile.api.RouteEnum;
 import com.swuos.mobile.api.VerificationHostRequester;
-import com.swuos.mobile.entity.BaseInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,18 +21,18 @@ import java.util.Map;
 
 @Route(RouteEnum.ROUTE_SEND_VERIFICATION_CODE)
 @BodyCreator(JsonBodyCreator.class)
-public class GetVerificationRequester extends VerificationHostRequester<BaseInfo> {
+public class GetVerificationRequester extends VerificationHostRequester<JSONObject> {
 
     String phoneNumber;
 
 
-    public GetVerificationRequester(String phoneNumber, @NonNull OnResultListener<BaseInfo> listener) {
+    public GetVerificationRequester(String phoneNumber, @NonNull OnResultListener<JSONObject> listener) {
         super(listener);
         this.phoneNumber = phoneNumber;
     }
 
     @Override
-    protected BaseInfo onDumpData(JSONObject jsonObject) throws JSONException {
+    protected JSONObject onDumpData(JSONObject jsonObject) throws JSONException {
         //registerInfo
 
         return null;

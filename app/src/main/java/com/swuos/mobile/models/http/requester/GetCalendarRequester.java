@@ -8,6 +8,7 @@ import com.gallops.mobile.jmvclibrary.http.annotation.BodyCreator;
 import com.gallops.mobile.jmvclibrary.http.annotation.RequestMethod;
 import com.gallops.mobile.jmvclibrary.http.creator.JsonBodyCreator;
 import com.swuos.mobile.api.AcHostRequester;
+import com.swuos.mobile.api.FreegattyHostRequester;
 import com.swuos.mobile.api.Route;
 import com.swuos.mobile.api.RouteEnum;
 import com.swuos.mobile.app.App;
@@ -24,26 +25,27 @@ import java.util.Map;
  * Created by wangyu on 2018/3/6.
  */
 
-@Route(RouteEnum.GET_AC_PROFILE)
+@Route(RouteEnum.ROUTE_GET_CALENDAR)
 @RequestMethod(HttpMethod.GET)
 @BodyCreator(JsonBodyCreator.class)
-public class GetAcProfileRequester extends AcHostRequester<JSONObject> {
-    private String swuId, academicYear, term;
+public class GetCalendarRequester extends FreegattyHostRequester<JSONObject> {
+    private String academicYear, term;
 
-    public GetAcProfileRequester(@NonNull OnResultListener<JSONObject> listener) {
+    public GetCalendarRequester(String academicYear, String term, @NonNull OnResultListener<JSONObject> listener) {
         super(listener);
+        this.academicYear = academicYear;
+        this.term = term;
     }
 
     @Override
     protected JSONObject onDumpData(JSONObject jsonObject) throws JSONException {
-        AccountInfo accountInfo = App.getInstance().getModel(UserModel.class).getAccountInfo();
-        accountInfo.setSwuId(jsonObject.optString("swuid"));
-        App.getInstance().getModel(UserModel.class).saveAccountInfo(accountInfo);
         return jsonObject;
     }
 
     @Override
     protected void onPutParams(@NonNull Map<String, Object> params) {
+        params.put("academicYear",academicYear);
+        params.put("term",term);
 
     }
 }

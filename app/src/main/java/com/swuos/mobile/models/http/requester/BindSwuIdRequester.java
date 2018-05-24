@@ -8,7 +8,6 @@ import com.gallops.mobile.jmvclibrary.http.creator.JsonBodyCreator;
 import com.swuos.mobile.api.AcHostRequester;
 import com.swuos.mobile.api.Route;
 import com.swuos.mobile.api.RouteEnum;
-import com.swuos.mobile.entity.BaseInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,12 +20,12 @@ import java.util.Map;
  */
 @Route(RouteEnum.ROUTE_BIND)
 @BodyCreator(JsonBodyCreator.class)
-public class BindSwuIdRequester extends AcHostRequester<BaseInfo> {
+public class BindSwuIdRequester extends AcHostRequester<JSONObject> {
 
     private String swuId;
     private String password;
 
-    public BindSwuIdRequester(String swuId, String password, @NonNull OnResultListener<BaseInfo> listener) {
+    public BindSwuIdRequester(String swuId, String password, @NonNull OnResultListener<JSONObject> listener) {
         super(listener);
         this.swuId = swuId;
         this.password = password;
@@ -34,9 +33,9 @@ public class BindSwuIdRequester extends AcHostRequester<BaseInfo> {
     }
 
     @Override
-    protected BaseInfo onDumpData(@NonNull JSONObject jsonObject) throws JSONException {
+    protected JSONObject onDumpData(@NonNull JSONObject jsonObject) throws JSONException {
         //registerInfo
-        return null;
+        return jsonObject;
     }
 
     @Override

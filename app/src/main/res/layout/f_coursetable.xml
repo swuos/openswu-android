@@ -47,19 +47,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
+                        android:gravity="center"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/schedule_weeks"
-                            android:layout_width="100dp"
-                            android:layout_height="30dp"
-                            android:clickable="true"
-                            android:drawableRight="@drawable/schedule_week_more"
-                            android:focusable="true"
-                            android:gravity="center"
-                            android:text="第 6 周"
-                            android:textColor="#ffffff"
-                            android:textSize="18sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/schedule_weeks"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center"
+                                android:text="第 6 周"
+                                android:textColor="#ffffff"
+                                android:textSize="18sp" />
+
+                            <ImageView
+                                android:id="@+id/schedule_weeks_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/schedule_week_more" />
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/schedule_years"

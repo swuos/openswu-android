@@ -22,10 +22,12 @@ import com.jianyuyouhun.inject.annotation.FindViewById;
 import com.jianyuyouhun.inject.annotation.OnClick;
 import com.swuos.mobile.R;
 import com.swuos.mobile.app.App;
-import com.swuos.mobile.entity.AllScoreItem;
+import com.swuos.mobile.entity.ScoreItem;
 import com.swuos.mobile.models.http.requester.GetScoreRequester;
 import com.swuos.mobile.models.user.UserModel;
 import com.swuos.mobile.adapter.ScoreRecycleviewAdapter;
+
+import java.util.ArrayList;
 
 import static android.widget.LinearLayout.VERTICAL;
 
@@ -74,13 +76,13 @@ public class ScoreActivity extends BaseActivity {
     }
 
     private void getScore(String academic, String term) {
-        GetScoreRequester getScoreRequester = new GetScoreRequester(userModel.getSwuId(), academic, term, new OnResultListener<AllScoreItem>() {
+        GetScoreRequester getScoreRequester = new GetScoreRequester(userModel.getSwuId(), academic, term, new OnResultListener<ArrayList<ScoreItem>>() {
             @Override
-            public void onResult(int code, AllScoreItem allScoreItem, String msg) {
+            public void onResult(int code, ArrayList<ScoreItem> allScoreItem, String msg) {
                 getHandler().post(new Runnable() {
                     @Override
                     public void run() {
-                        scoreRecycleviewAdapter.addData(allScoreItem.getArrayList());
+                        scoreRecycleviewAdapter.addData(allScoreItem);
 
                     }
                 });

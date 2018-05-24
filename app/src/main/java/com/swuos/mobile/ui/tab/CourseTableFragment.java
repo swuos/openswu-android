@@ -36,14 +36,17 @@ import com.jianyuyouhun.inject.annotation.OnClick;
 import com.swuos.mobile.R;
 import com.swuos.mobile.app.App;
 import com.swuos.mobile.app.Key;
-import com.swuos.mobile.entity.BaseInfo;
 import com.swuos.mobile.entity.WeekClasses;
 import com.swuos.mobile.models.cache.CacheModel;
 import com.swuos.mobile.models.http.requester.BindSwuIdRequester;
 import com.swuos.mobile.models.http.requester.GetAcProfileRequester;
+import com.swuos.mobile.models.http.requester.GetCalendarRequester;
 import com.swuos.mobile.models.http.requester.GetScheduleRequester;
 import com.swuos.mobile.models.user.UserModel;
 import com.swuos.mobile.widgets.WeekClassPreview;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -78,13 +81,15 @@ public class CourseTableFragment extends BaseFragment {
     LinearLayout loginedLayout;
     @FindViewById(R.id.unlogin)
     LinearLayout unloginLayout;
+    @FindViewById(R.id.schedule_weeks_icon)
+    ImageView scheduleWeeksIconImageView;
     @Model
     private CacheModel cacheModel;
     private List<WeekClasses> weeksClass;
     private String term;//当前课表所在的学期
     private String academicYear;//当前课表所在学年
-    private String tempTerm;//临时保存当前课表所在的学期
-    private String tempAcademicYear;//临时保存当前课表所在学年
+    private String tempTerm = "";//临时保存当前课表所在的学期
+    private String tempAcademicYear = "";//临时保存当前课表所在学年
     private UserModel userModel;
     private int mClazzWidth;//单个课节的宽度
     private int mClazzHeight;//单个课节的高度
@@ -131,9 +136,9 @@ public class CourseTableFragment extends BaseFragment {
     protected void onCreateView(View rootView, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         initData();
         if (TextUtils.isEmpty(userModel.getSwuId())) {
-            GetAcProfileRequester getAcProfileRequester = new GetAcProfileRequester(new OnResultListener<BaseInfo>() {
+            GetAcProfileRequester getAcProfileRequester = new GetAcProfileRequester(new OnResultListener<JSONObject>() {
                 @Override
-                public void onResult(int code, BaseInfo baseInfo, String msg) {
+                public void onResult(int code, JSONObject baseInfo, String msg) {
                     if (code == ErrorCode.RESULT_DATA_OK) {
                         if (!TextUtils.isEmpty(userModel.getSwuId())) {
                             unloginLayout.setVisibility(View.GONE);
@@ -162,9 +167,11 @@ public class CourseTableFragment extends BaseFragment {
 
     private void initView() {
         currentWeekTv.setTag(Boolean.FALSE);
-        currentWeekTv.setText("第 "+(currentSelectWeek+1)+"周");
+        currentWeekTv.setText("第 " + (currentSelectWeek + 1) + "周");
+        //设置view软解
         tableContainer.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     }
+
 
     @OnClick({R.id.schedule_weeks, R.id.schedule_weeks_im, R.id.unlogin})
     private void onClick(View view) {
@@ -198,6 +205,7 @@ public class CourseTableFragment extends BaseFragment {
 
                         }
                     }).start();
+                    scheduleWeeksIconImageView.animate().rotation(0).setDuration(300).start();
                 } else {
                     currentWeekTv.setTag(Boolean.TRUE);
                     tableMoveUp = chooseWeekContainer.getHeight();
@@ -223,6 +231,8 @@ public class CourseTableFragment extends BaseFragment {
 
                         }
                     }).start();
+                    scheduleWeeksIconImageView.animate().rotation(180).setDuration(300).start();
+
                 }
                 break;
             case R.id.schedule_weeks_im:
@@ -296,6 +306,10 @@ public class CourseTableFragment extends BaseFragment {
             contentView.findViewById(R.id.positive).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (TextUtils.isEmpty(tempAcademicYear)) {
+                        selectTermWindow.dismiss();
+                        return;
+                    }
                     academicYear = tempAcademicYear;
                     term = tempTerm;
                     cacheModel.putString(Key.ACADEMICYEAR, academicYear);
@@ -304,7 +318,7 @@ public class CourseTableFragment extends BaseFragment {
                     String swuId = App.getInstance().getModel(UserModel.class).getSwuId();
                     if (!TextUtils.isEmpty(swuId)) {
                         int startYear = Integer.parseInt(swuId.substring(2, 6));
-                        String academic="";
+                        String academic = "";
                         if (Integer.parseInt(academicYear) - startYear == 0) {
                             academic = "大一";
                         }
@@ -317,7 +331,7 @@ public class CourseTableFragment extends BaseFragment {
                         if (Integer.parseInt(academicYear) - startYear == 3) {
                             academic = "大四";
                         }
-                        schedule_years.setText(academic+ " 第"+term+"学期");
+                        schedule_years.setText(academic + " 第" + term + "学期");
 
                     }
                     selectTermWindow.dismiss();
@@ -386,9 +400,9 @@ public class CourseTableFragment extends BaseFragment {
         }
 
         showProgressDialog();
-        BindSwuIdRequester bindSwuIdRequester = new BindSwuIdRequester(swuId, swuPassword, new OnResultListener<BaseInfo>() {
+        BindSwuIdRequester bindSwuIdRequester = new BindSwuIdRequester(swuId, swuPassword, new OnResultListener<JSONObject>() {
             @Override
-            public void onResult(int code, BaseInfo baseInfo, String msg) {
+            public void onResult(int code, JSONObject baseInfo, String msg) {
                 dismissProgressDialog();
 
                 if (code == ErrorCode.RESULT_DATA_OK) {
@@ -506,10 +520,25 @@ public class CourseTableFragment extends BaseFragment {
         }
     }
 
+    //初始化显示的学期和学年
     private void initData() {
         userModel = JApp.getInstance().getModel(UserModel.class);
         academicYear = cacheModel.getString(Key.ACADEMICYEAR, getCurrtAcademicYear());
         term = cacheModel.getString(Key.TERM, getCurrentTerm());
+        GetCalendarRequester getCalendarRequester = new GetCalendarRequester(academicYear, term, new OnResultListener<JSONObject>() {
+            @Override
+            public void onResult(int code, JSONObject jsonObject, String msg) {
+                if (code == ErrorCode.RESULT_DATA_OK) {
+                    try {
+                        currentSelectWeek = jsonObject.getInt("currentWeek") - 1;
+                        trueCurrentWeek = currentSelectWeek;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        getCalendarRequester.execute();
     }
 
     private void initChoosePreviewWeeks() {
@@ -565,7 +594,7 @@ public class CourseTableFragment extends BaseFragment {
                         else
                             chooseWeekContainer.getChildAt(j).setBackground(ContextCompat.getDrawable(getContext(), R.drawable.schedule_preview__normal_bg));
                     }
-                    currentWeekTv.setText("第 "+(currentSelectWeek+1)+"周");
+                    currentWeekTv.setText("第 " + (currentSelectWeek + 1) + "周");
 
                     padingTable();
                 }
@@ -577,37 +606,6 @@ public class CourseTableFragment extends BaseFragment {
 
     private void getSchedule(boolean isForce) {
 
-//        if (weeksClass == null) {
-//            weeksClass = new AllWeeksClass();
-//            ArrayList<AllWeeksClass.WeekClasses> arrayList = new ArrayList<>();
-//            for (int k = 0; k < 20; k++) {
-//                ArrayList<ClassItemDetail> classItemDetails = new ArrayList<>();
-//                AllWeeksClass.WeekClasses weekClasses = new AllWeeksClass.WeekClasses();
-//                for (int i = 0; i < 5; i++) {
-//                    for (int j = 0; j < 3; j++) {
-//                        ClassItemDetail classItemDetail = new ClassItemDetail();
-//                        classItemDetail.setDay(i + 1);
-//                        classItemDetail.setClassRoom("38-201");
-//                        classItemDetail.setCampus("南区");
-//                        classItemDetail.setAcademicYear("2017");
-//                        classItemDetail.setTerm("1");
-//                        classItemDetail.setLessonId("2018-23-123");
-//                        classItemDetail.setLessonName("植物化学保护");
-//                        classItemDetail.setTeacher("肖伟");
-//                        classItemDetail.setStartTime(j * 3 + 1);
-//                        classItemDetail.setEndTime(j * 3 + 5);
-//                        classItemDetail.setWeek("星期三");
-//                        classItemDetails.add(classItemDetail);
-//                    }
-//                }
-//                weekClasses.setWeekItem(classItemDetails);
-//                weekClasses.setWeekSort(k + 1);
-//                arrayList.add(weekClasses);
-//            }
-//
-//            weeksClass.setWeekClasses(arrayList);
-//            cacheModel.putObject(Key.SCHEDULE, weeksClass);
-//        }
 
         if (isForce) {
             weeksClass = null;
@@ -634,7 +632,7 @@ public class CourseTableFragment extends BaseFragment {
                 }
             });
             getScheduleRequester.execute();
-        }else {
+        } else {
             initChoosePreviewWeeks();
             padingTable();
         }
