@@ -85,10 +85,10 @@ public abstract class BaseRequester<T> {
         HttpModel httpModel = getHttpModel();
         httpModel.getExecutor().execute(() -> {
             OkHttpClient client = new OkHttpClient();
-            OkHttpClient.Builder cb=new OkHttpClient.Builder();
-            Proxy proxy=new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.77.42.221",8888));
-            cb.proxy(proxy);
-            client=cb.build();
+//            OkHttpClient.Builder cb=new OkHttpClient.Builder();
+//            Proxy proxy=new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.77.42.221",8888));
+//            cb.proxy(proxy);
+//            client=cb.build();
 
             Map<String, Object> params = new HashMap<>();
             onPutParams(params);
