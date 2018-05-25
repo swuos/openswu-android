@@ -96,6 +96,7 @@ public class CourseTableFragment extends BaseFragment {
     private int currentSelectWeek = 0;//当前显示的周
     private int trueCurrentWeek = 4;//实际的当前周
     private int tableMoveUp;//周课表的预览是移动量
+    private String termStartDate = "";
     public static final int[] backgroundcolor = {
             0xFF81C1FF,
             0xFFB4D36C,
@@ -532,6 +533,9 @@ public class CourseTableFragment extends BaseFragment {
                     try {
                         currentSelectWeek = jsonObject.getInt("currentWeek") - 1;
                         trueCurrentWeek = currentSelectWeek;
+                        termStartDate = jsonObject.getString("termStartDate");
+                        currentWeekTv.setTag(Boolean.FALSE);
+                        currentWeekTv.setText("第 " + (currentSelectWeek + 1) + "周");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
