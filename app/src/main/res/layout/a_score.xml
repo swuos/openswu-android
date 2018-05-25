@@ -43,27 +43,26 @@
         android:paddingTop="10dp">
 
         <TextView
-            android:textSize="18dp"
             android:id="@+id/academic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:text="2017-2108"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="18dp" />
 
         <TextView
-            android:textSize="18dp"
             android:id="@+id/term"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:text="第1学期"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="18dp" />
 
         <TextView
-            android:textSize="18dp"
             android:id="@+id/filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,7 +70,8 @@
             android:drawableRight="@mipmap/filter"
             android:gravity=""
             android:text="筛选"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="18dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -88,63 +88,61 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginRight="1px"
                 android:layout_weight="1.5"
                 android:background="@color/white"
                 android:gravity="center"
-                android:text="课程名称"    android:paddingBottom="10dp"
+                android:paddingBottom="10dp"
                 android:paddingTop="10dp"
+                android:text="课程名称"
                 android:textSize="16dp" />
 
             <TextView
                 android:layout_width="0dp"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="1px"
+                android:layout_height="40dp"
                 android:layout_marginRight="1px"
                 android:layout_weight="1.5"
                 android:background="@color/white"
                 android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
                 android:text="课程性质"
                 android:textSize="16dp" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:layout_marginBottom="1px"
+                android:layout_height="40dp"
                 android:layout_marginRight="1px"
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
                 android:text="学分"
                 android:textSize="16dp" />
 
             <TextView
                 android:layout_width="0dp"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="1px"
+                android:layout_height="40dp"
+
                 android:layout_marginRight="1px"
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
                 android:text="成绩"
                 android:textSize="16dp" />
 
             <TextView
                 android:layout_width="0dp"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="1px"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
                 android:text=" 绩点"
                 android:textSize="16dp" />
         </LinearLayout>

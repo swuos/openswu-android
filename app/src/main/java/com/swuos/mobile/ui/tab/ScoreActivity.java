@@ -1,5 +1,7 @@
 package com.swuos.mobile.ui.tab;
 
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -10,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -17,6 +20,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.gallops.mobile.jmvclibrary.app.BaseActivity;
+import com.gallops.mobile.jmvclibrary.http.ErrorCode;
 import com.gallops.mobile.jmvclibrary.http.OnResultListener;
 import com.jianyuyouhun.inject.annotation.FindViewById;
 import com.jianyuyouhun.inject.annotation.OnClick;
@@ -79,13 +83,18 @@ public class ScoreActivity extends BaseActivity {
         GetScoreRequester getScoreRequester = new GetScoreRequester(userModel.getSwuId(), academic, term, new OnResultListener<ArrayList<ScoreItem>>() {
             @Override
             public void onResult(int code, ArrayList<ScoreItem> allScoreItem, String msg) {
-                getHandler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        scoreRecycleviewAdapter.addData(allScoreItem);
+                if (code == ErrorCode.RESULT_DATA_OK) {
+                    getHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scoreRecycleviewAdapter.addData(allScoreItem);
 
-                    }
-                });
+                        }
+                    });
+                } else {
+                    showToast(msg);
+                }
+
             }
 
 
@@ -122,6 +131,7 @@ public class ScoreActivity extends BaseActivity {
 
     private void showFilterPopuwindow() {
         if (filterPopuwindow == null) {
+            String filterContainer = "";
             FrameLayout fullFrameLayout = new FrameLayout(getContext());
             FrameLayout.LayoutParams frameLayoutLp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
             fullFrameLayout.setBackgroundColor(0x33000000);
@@ -133,13 +143,86 @@ public class ScoreActivity extends BaseActivity {
                 }
             });
 
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams((int) (ranksContainer.getWidth() *0.8), ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.gravity= Gravity.RIGHT;
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams((int) (ranksContainer.getWidth() * 0.8), ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.gravity = Gravity.RIGHT;
             View view = LayoutInflater.from(getContext()).inflate(R.layout.v_filter_score, null);
             view.setLayoutParams(layoutParams);
+            view.findViewById(R.id.major_must).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.isSelected()) {
+                        ((Button) v).setSelected(false);
+                        ((Button) v).setTextColor(0xff565656);
+                    } else {
+                        ((Button) v).setSelected(true);
+                        ((Button) v).setTextColor(0xffffffff);
+
+                    }
+
+                }
+            });
+            view.findViewById(R.id.major_option).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.isSelected()) {
+                        ((Button) v).setSelected(false);
+                        ((Button) v).setTextColor(0xff565656);
+                    } else {
+                        ((Button) v).setSelected(true);
+                        ((Button) v).setTextColor(0xffffffff);
+
+                    }
+
+
+                }
+            });
+            view.findViewById(R.id.normal_must).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.isSelected()) {
+                        ((Button) v).setSelected(false);
+                        ((Button) v).setTextColor(0xff565656);
+                    } else {
+                        ((Button) v).setSelected(true);
+                        ((Button) v).setTextColor(0xffffffff);
+
+                    }
+
+
+                }
+            });
+            view.findViewById(R.id.normal_option).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.isSelected()) {
+                        ((Button) v).setSelected(false);
+                        ((Button) v).setTextColor(0xff565656);
+                    } else {
+                        ((Button) v).setSelected(true);
+                        ((Button) v).setTextColor(0xffffffff);
+
+                    }
+
+                }
+            });
+            view.findViewById(R.id.subject_must).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.isSelected()) {
+                        ((Button) v).setSelected(false);
+                        ((Button) v).setTextColor(0xff565656);
+                    } else {
+                        ((Button) v).setSelected(true);
+                        ((Button) v).setTextColor(0xffffffff);
+
+                    }
+
+                }
+            });
             fullFrameLayout.addView(view);
             filterPopuwindow = new PopupWindow(fullFrameLayout, scoreContainer.getWidth(), scoreContainer.getHeight());
-
+            filterPopuwindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            filterPopuwindow.setFocusable(true);
         }
         filterPopuwindow.showAsDropDown(ranksContainer, 0, 0, Gravity.BOTTOM);
 

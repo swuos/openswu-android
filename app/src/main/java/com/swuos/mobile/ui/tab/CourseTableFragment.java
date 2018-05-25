@@ -526,6 +526,25 @@ public class CourseTableFragment extends BaseFragment {
         userModel = JApp.getInstance().getModel(UserModel.class);
         academicYear = cacheModel.getString(Key.ACADEMICYEAR, getCurrtAcademicYear());
         term = cacheModel.getString(Key.TERM, getCurrentTerm());
+        String swuId = App.getInstance().getModel(UserModel.class).getSwuId();
+        if (!TextUtils.isEmpty(swuId)) {
+            int startYear = Integer.parseInt(swuId.substring(2, 6));
+            String academic = "";
+            if (Integer.parseInt(academicYear) - startYear == 0) {
+                academic = "大一";
+            }
+            if (Integer.parseInt(academicYear) - startYear == 1) {
+                academic = "大二";
+            }
+            if (Integer.parseInt(academicYear) - startYear == 2) {
+                academic = "大三";
+            }
+            if (Integer.parseInt(academicYear) - startYear == 3) {
+                academic = "大四";
+            }
+            schedule_years.setText(academic + " 第" + term + "学期");
+
+        }
         GetCalendarRequester getCalendarRequester = new GetCalendarRequester(academicYear, term, new OnResultListener<JSONObject>() {
             @Override
             public void onResult(int code, JSONObject jsonObject, String msg) {
@@ -614,9 +633,10 @@ public class CourseTableFragment extends BaseFragment {
         if (isForce) {
             weeksClass = null;
         } else
+            //从缓存中获取缓存的课表数据
             weeksClass = cacheModel.getList(Key.SCHEDULE, WeekClasses.class);
 
-        if (weeksClass == null) {
+        if (weeksClass == null||weeksClass.isEmpty()) {
             showProgressDialog("正在获取");
             GetScheduleRequester getScheduleRequester = new GetScheduleRequester(userModel.getSwuId(), academicYear, term, new OnResultListener<List<WeekClasses>>() {
                 @Override

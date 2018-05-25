@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="1px"
     android:background="@color/ff9cbcff"
-
     android:orientation="horizontal">
 
     <TextView
@@ -11,72 +11,77 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="1px"
-        android:layout_weight="1"
-        android:background="@color/white"
+        android:layout_marginTop="1px"
+        android:layout_weight="1.5"
         android:ellipsize="end"
+
         android:gravity="center"
-        android:maxLines="1"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
+        android:singleLine="true"
         android:text="课程名称"
-        android:textSize="18dp" />
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/lesson_property"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1px"
         android:layout_marginRight="1px"
-        android:layout_weight="1"
-        android:background="@color/white"
+        android:layout_marginTop="1px"
+        android:layout_weight="1.5"
+
         android:ellipsize="end"
-        android:gravity="center"    android:paddingBottom="10dp"
-        android:paddingTop="10dp"
+        android:gravity="center"
         android:maxLines="1"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="课程性质"
-        android:textSize="18dp" />
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/lesson_credit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1px"    android:paddingBottom="10dp"
-        android:paddingTop="10dp"
         android:layout_marginRight="1px"
+        android:layout_marginTop="1px"
         android:layout_weight="1"
-        android:background="@color/white"
         android:ellipsize="end"
         android:gravity="center"
+
         android:maxLines="1"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="学分"
-        android:textSize="18dp" />
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/lesson_grade"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"    android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:layout_marginBottom="1px"
+        android:layout_height="wrap_content"
         android:layout_marginRight="1px"
+        android:layout_marginTop="1px"
         android:layout_weight="1"
-        android:background="@color/white"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
+
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="成绩"
-        android:textSize="18dp" />
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/lesson_point"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"    android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:layout_marginBottom="1px"
-        android:layout_weight="0.5"
-        android:background="@color/white"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1px"
+        android:layout_weight="1"
         android:ellipsize="end"
         android:gravity="center"
+
         android:maxLines="1"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text=" 绩点"
-        android:textSize="18dp" />
+        android:textSize="16dp" />
 </LinearLayout>
