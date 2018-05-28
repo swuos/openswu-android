@@ -113,13 +113,15 @@ public class MainActivity extends BaseActivity implements TabItemView.OnTabItemS
                 } else {
                     if (fragmentByTag.isDetached()) {
                         fragmentTransaction.attach(fragmentByTag);
+                    } else {
+                        fragmentTransaction.show(fragmentByTag);
                     }
                 }
             } else if (tab.isItemSelected()) {
                 tab.setItemSelected(false);
                 // 移除tab
                 if (fragmentByTag != null) {
-                    fragmentTransaction.detach(fragmentByTag);
+                    fragmentTransaction.hide(fragmentByTag);
                 }
             }
         }
