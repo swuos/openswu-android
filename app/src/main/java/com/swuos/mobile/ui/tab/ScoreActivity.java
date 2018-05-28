@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -129,9 +130,10 @@ public class ScoreActivity extends BaseActivity {
         }
     }
 
+    String filterContainer = "";
+
     private void showFilterPopuwindow() {
         if (filterPopuwindow == null) {
-            String filterContainer = "";
             FrameLayout fullFrameLayout = new FrameLayout(getContext());
             FrameLayout.LayoutParams frameLayoutLp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
             fullFrameLayout.setBackgroundColor(0x33000000);
@@ -151,10 +153,12 @@ public class ScoreActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     if (v.isSelected()) {
+                        filterContainer = filterContainer.replace("专业必修课", "");
                         ((Button) v).setSelected(false);
                         ((Button) v).setTextColor(0xff565656);
                     } else {
                         ((Button) v).setSelected(true);
+                        filterContainer = filterContainer + "专业必修课";
                         ((Button) v).setTextColor(0xffffffff);
 
                     }
@@ -165,9 +169,13 @@ public class ScoreActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     if (v.isSelected()) {
+                        filterContainer = filterContainer.replace("专业选修课", "");
+
                         ((Button) v).setSelected(false);
                         ((Button) v).setTextColor(0xff565656);
                     } else {
+                        filterContainer = filterContainer + "专业选修课";
+
                         ((Button) v).setSelected(true);
                         ((Button) v).setTextColor(0xffffffff);
 
@@ -180,9 +188,12 @@ public class ScoreActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     if (v.isSelected()) {
+                        filterContainer = filterContainer.replace("通识必修课", "");
+
                         ((Button) v).setSelected(false);
                         ((Button) v).setTextColor(0xff565656);
                     } else {
+                        filterContainer = filterContainer + "通识必修课";
                         ((Button) v).setSelected(true);
                         ((Button) v).setTextColor(0xffffffff);
 
@@ -195,9 +206,13 @@ public class ScoreActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     if (v.isSelected()) {
+                        filterContainer = filterContainer.replace("通识选修课", "");
+
                         ((Button) v).setSelected(false);
                         ((Button) v).setTextColor(0xff565656);
                     } else {
+                        filterContainer = filterContainer + "通识选修课";
+
                         ((Button) v).setSelected(true);
                         ((Button) v).setTextColor(0xffffffff);
 
@@ -209,13 +224,44 @@ public class ScoreActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     if (v.isSelected()) {
+                        filterContainer = filterContainer.replace("学科必修课", "");
+
                         ((Button) v).setSelected(false);
                         ((Button) v).setTextColor(0xff565656);
                     } else {
+                        filterContainer = filterContainer + "学科必修课";
+
                         ((Button) v).setSelected(true);
                         ((Button) v).setTextColor(0xffffffff);
 
                     }
+
+                }
+            });
+            view.findViewById(R.id.positive).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String mins = ((EditText) (view.findViewById(R.id.min_score))).getEditableText().toString();
+                    String maxs = ((EditText) (view.findViewById(R.id.max_score))).getEditableText().toString();
+                    int min = 0, max = 100;
+                    if (!TextUtils.isEmpty(mins)) {
+                        min = Integer.parseInt(mins);
+                    }
+                    if (!TextUtils.isEmpty(maxs)) {
+                        max = Integer.parseInt(maxs);
+                    }
+                    if (filterContainer.length()==0)
+                         filterContainer = "专业必修课专业选修课通识必修课通识选修课学科必修课";
+                    scoreRecycleviewAdapter.setScoreInterval(min, max);
+                    scoreRecycleviewAdapter.setSubject(filterContainer);
+                    scoreRecycleviewAdapter.changeFilter();
+                    filterPopuwindow.dismiss();
+                }
+            });
+            view.findViewById(R.id.negetive).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    filterPopuwindow.dismiss();
 
                 }
             });

@@ -110,6 +110,7 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/min_score"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -130,6 +131,8 @@
                 android:background="@color/FF565656" />
 
             <EditText
+                android:id="@+id/max_score"
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
