@@ -135,7 +135,8 @@ public class CourseTableFragment extends BaseFragment {
 
     @Override
     protected void onCreateView(View rootView, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
-        initData();
+        userModel = JApp.getInstance().getModel(UserModel.class);
+
         if (TextUtils.isEmpty(userModel.getSwuId())) {
             GetAcProfileRequester getAcProfileRequester = new GetAcProfileRequester(new OnResultListener<JSONObject>() {
                 @Override
@@ -144,6 +145,7 @@ public class CourseTableFragment extends BaseFragment {
                         if (!TextUtils.isEmpty(userModel.getSwuId())) {
                             unloginLayout.setVisibility(View.GONE);
                             loginedLayout.setVisibility(View.VISIBLE);
+                            initData();
                             setAcademic();
                             initView();
                             getSchedule(false);
@@ -156,6 +158,7 @@ public class CourseTableFragment extends BaseFragment {
             unloginLayout.setVisibility(View.VISIBLE);
             loginedLayout.setVisibility(View.GONE);
         } else {
+            initData();
             unloginLayout.setVisibility(View.GONE);
             loginedLayout.setVisibility(View.VISIBLE);
             setAcademic();
@@ -523,7 +526,6 @@ public class CourseTableFragment extends BaseFragment {
 
     //初始化显示的学期和学年
     private void initData() {
-        userModel = JApp.getInstance().getModel(UserModel.class);
         academicYear = cacheModel.getString(Key.ACADEMICYEAR, getCurrtAcademicYear());
         term = cacheModel.getString(Key.TERM, getCurrentTerm());
         String swuId = App.getInstance().getModel(UserModel.class).getSwuId();
