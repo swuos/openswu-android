@@ -3,6 +3,7 @@ package com.gallops.mobile.jmvclibrary.app;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 
 import com.gallops.mobile.jmvclibrary.BuildConfig;
 import com.gallops.mobile.jmvclibrary.app.exception.ExceptionCaughtAdapter;
