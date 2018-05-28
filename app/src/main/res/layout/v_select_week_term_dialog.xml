@@ -29,6 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/white"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -38,9 +39,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="?android:selectableItemBackground"
-                android:tag="2018" android:textColor="@color/FF565656"
-
+                android:tag="2018"
                 android:text="2018-2019"
+
+                android:textColor="@color/FF565656"
                 android:textSize="18dp" />
 
             <TextView
@@ -49,9 +51,9 @@
                 android:layout_marginTop="10dp"
                 android:background="?android:selectableItemBackground"
                 android:tag="2017"
-                android:textColor="@color/FF565656"
-
                 android:text="2017-2018"
+
+                android:textColor="@color/FF565656"
                 android:textSize="18dp" />
 
             <TextView
@@ -60,20 +62,20 @@
                 android:layout_marginTop="10dp"
                 android:background="?android:selectableItemBackground"
                 android:tag="2016"
-                android:textColor="@color/FF565656"
-
                 android:text="2016-2017"
+
+                android:textColor="@color/FF565656"
                 android:textSize="18dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/FF565656"
-
                 android:layout_marginTop="10dp"
+
                 android:background="?android:selectableItemBackground"
                 android:tag="2015"
                 android:text="2015-2016"
+                android:textColor="@color/FF565656"
                 android:textSize="18dp" />
         </LinearLayout>
 
@@ -82,6 +84,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/white"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -90,9 +93,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="?android:selectableItemBackground"
-android:textColor="@color/FF565656"
                 android:tag="1"
                 android:text="第1学期"
+                android:textColor="@color/FF565656"
                 android:textSize="18dp" />
 
             <TextView
